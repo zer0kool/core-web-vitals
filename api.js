@@ -28,6 +28,7 @@ document.querySelector('form').addEventListener('submit', function (e) {
     }
 })
 
+//TODO: structure the response
 CrUXApiUtil.query = async function (requestBody) {
     const endpointUrl = 'https://chromeuxreport.googleapis.com/v1/records:queryRecord';
     const resp = await fetch(`${endpointUrl}?key=${CrUXApiUtil.KEY}`, {
@@ -43,7 +44,7 @@ CrUXApiUtil.query = async function (requestBody) {
 };
 
 // Gather the data for example.com and display it
-
+//TODO re-build this using a template string
 getData = async () => {
     var origin = document.getElementById('search').value;
     const json = await CrUXApiUtil.query({
@@ -119,7 +120,7 @@ function labelMetricData(metrics) {
         };
     });
 }
-
+// TODO: Build this usig js6 template string
 // Create the three bars w/ a 3-column grid
 // This consumes the output from labelMetricData, not a raw API response.
 function createDescriptionAndBars(labeledBins) {
