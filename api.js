@@ -1,28 +1,29 @@
 var apiKey = "API_KEY";
 const CrUXApiUtil = {};
 CrUXApiUtil.KEY = 'AIzaSyBX3phN4IuKNtJkQrTeAL0lZL95kHUY08o';
+var app = document.querySelector('#app');
 
 document.querySelector('form').addEventListener('submit', function (e) {
     e.preventDefault();
 
     var origin = document.getElementById('search').value.toLowerCase();
     var siteName = origin.replace(/^www\./, '').split('.').slice(0, -1).join('.');
-    console.log(siteName)
 
-    var parent = document.querySelector('#app');
+    if (!siteName) { return }
     var child = document.querySelector(`#${siteName}`);
 
     // If a div inside the #root container holds a class with the username
-    if (parent.contains(child)) {
+    if (app.contains(child)) {
         // ..Then it exists as a child, let the user know.
-        var toastHTML = '<span>Data already exist on screen!</span><button class="btn-flat toast-action">Undo</button>';
+        var toastHTML = '<span>Data already exist on screen</span><button class="btn-flat toast-action">ok</button>';
         M.toast({
             html: toastHTML
         });
     } else {
         M.toast({
             html: `Building a request to the API.`,
-            classes: 'rounded'
+            classes: 'green',
+            displayLength: 600
         })
         getData();
     }
@@ -37,7 +38,12 @@ CrUXApiUtil.query = async function (requestBody) {
     });
 
     const json = await resp.json();
+    console.log(json)
     if (!resp.ok) {
+        M.toast({
+            html: `${json.error.message}`,
+            classes: 'red darken-4 white-text'
+        })
         throw new Error(json.error.message);
     }
     return json;
@@ -46,50 +52,42 @@ CrUXApiUtil.query = async function (requestBody) {
 // Gather the data for example.com and display it
 //TODO re-build this using a template string
 getData = async () => {
-    var origin = document.getElementById('search').value;
+    var origin = document.getElementById('search').value.toLowerCase();
+    var siteName = origin.replace(/^www\./, '').split('.').slice(0, -1).join('.');
     const json = await CrUXApiUtil.query({
         origin: `https://${origin}/`
     });
     console.log('CrUX API response:', json);
 
     const labeledMetrics = labelMetricData(json.record.metrics);
-
-    var siteName = origin.replace(/^www\./, '').split('.').slice(0, -1).join('.');
+    console.log(labeledMetrics)
 
     const card = document.createElement('div');
     card.classList.add('card');
     card.setAttribute('id', siteName);
-    document.getElementById('app').append(card);
+    app.append(card);
 
-    const cardHeader = document.createElement('div');
-    cardHeader.classList.add('cardHeader');
 
-    const img = document.createElement('img');
-    img.setAttribute('src', `https://${origin}/favicon.ico`);
-
-    const cardTitle = document.createElement('span');
-    cardTitle.textContent = siteName;
-
-    cardHeader.append(img, cardTitle);
+    let cardHeader = `<div class="cardHeader">
+                        <img src="https://${origin}/favicon.ico">
+                        <span>${siteName}</span>
+                     `
 
     document.getElementById('app').append(card);
-    document.getElementById(siteName).append(cardHeader);
-
+    document.getElementById(siteName).insertAdjacentHTML("afterbegin", cardHeader);
 
     // Display metric results
     for (const metric of labeledMetrics) {
-        const metricEl = document.createElement('section');
-
-        const titleEl = document.createElement('h2');
-        titleEl.textContent = metric.acronym;
-
         const [descEl, barsEl] = createDescriptionAndBars(metric.labeledBins);
-        metricEl.append(titleEl, descEl, barsEl);
-
-        document.getElementById(siteName).append(metricEl);
+        let metrics = `<section class="${metric.acronym}">
+                            <h2> ${metric.acronym} </h2>
+                        </section>
+                        `
+        document.getElementById(siteName).insertAdjacentHTML("beforeend", metrics);
+        document.querySelector(`#${siteName} .${metric.acronym}`).append(descEl)
+        document.querySelector(`#${siteName} .${metric.acronym}`).append(barsEl)
     }
 }
-
 
 function labelMetricData(metrics) {
     const nameToAcronymMap = {
@@ -120,8 +118,7 @@ function labelMetricData(metrics) {
         };
     });
 }
-// TODO: Build this usig js6 template string
-// Create the three bars w/ a 3-column grid
+
 // This consumes the output from labelMetricData, not a raw API response.
 function createDescriptionAndBars(labeledBins) {
     const descEl = document.createElement('p');

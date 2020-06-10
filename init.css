@@ -80,6 +80,13 @@ span{
     -webkit-transition: all .2s linear;
     transition: all .2s linear;
     padding: 15px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column
 
 }
 
@@ -96,6 +103,26 @@ span{
     width: 100%;
     color: #4e4e4e;
     text-align: center;
+}
+section.CLS {
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    order: 1;
+}
+section.FCP {
+    -webkit-box-ordinal-group: 3;
+    -ms-flex-order: 2;
+    order: 2;
+}
+section.FID {
+    -webkit-box-ordinal-group: 4;
+    -ms-flex-order: 3;
+    order: 3;
+}
+section.LCP {
+    -webkit-box-ordinal-group: 5;
+    -ms-flex-order: 4;
+    order: 4;
 }
 
 img {
