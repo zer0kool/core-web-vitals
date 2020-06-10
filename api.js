@@ -5,7 +5,7 @@ CrUXApiUtil.KEY = 'AIzaSyBX3phN4IuKNtJkQrTeAL0lZL95kHUY08o';
 document.querySelector('form').addEventListener('submit', function (e) {
     e.preventDefault();
 
-    var origin = document.getElementById('search').value;
+    var origin = document.getElementById('search').value.toLowerCase();
     var siteName = origin.replace(/^www\./, '').split('.').slice(0, -1).join('.');
     console.log(siteName)
 

@@ -35,6 +35,9 @@ p {
     float: right;
 }
 
+span{
+    text-transform: capitalize;
+}
 .grid-container {
     display: grid;
     grid-template-rows: 50px;
