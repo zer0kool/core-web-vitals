@@ -76,7 +76,7 @@ span{
     -webkit-box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
     box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
     border-radius: 12px;
-    overflow: hidden;
+/*    overflow: hidden;*/
     -webkit-transition: all .2s linear;
     transition: all .2s linear;
     padding: 15px;
@@ -132,4 +132,29 @@ img {
     border: 1px solid #607D8B;
     border-radius: 50%;
     padding: 5px;
+}
+
+div[data-title] {
+  position: relative;
+  -webkit-text-decoration: underline dotted;
+  text-decoration: underline dotted;
+}
+div[data-title]:hover::after,
+div[data-title]:focus::after {
+  z-index: 999;
+  content: attr(data-title);
+  position: absolute;
+  left: 50%;
+  top: -30px;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  width: auto;
+  white-space: nowrap;
+  background: #607D8B;
+  color: #fff;
+  border-radius: 2px;
+  -webkit-box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.4);
+  box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.4);
+  font-size: 16px;
+  padding: 7px 7px;
 }
