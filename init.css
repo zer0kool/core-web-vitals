@@ -137,6 +137,12 @@ span{
 .tabs .tab a {
     padding: 0 10px!important;
 }
+.tabs .tab a.active {
+    background-color: #fbfbfb;
+    color: #ee6e73;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
 .metrics {
     display: -webkit-box;
     display: -ms-flexbox;
