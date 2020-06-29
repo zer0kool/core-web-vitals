@@ -1,5 +1,30 @@
+/* The emerging W3C standard
+   that is currently Firefox-only */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #607d8b transparent;
+}
+
+/* Works on Chrome/Edge/Safari */
+*::-webkit-scrollbar {
+  height: 0px;
+  width: 4px;
+  background-color: transparent;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #607d8b;
+  border-radius: 20px;
+  border: transparent;
+}
+
 .nav-wrapper .input-field input[type=search] {
-    color: white;
+    color: transparent;
+}
+.row .col {
+    float: none!important;
 }
 
 #search:focus {
