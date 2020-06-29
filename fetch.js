@@ -80,7 +80,11 @@ function buildData(labeledMetrics, siteName) {
         let htmlBar = `
         <section class="${finalData.acronym}">
         <h2>${finalData.acronym}</h2>
-            <p>good: ${finalData.good}%, needs improvement: ${finalData.ok}%, poor: ${finalData.poor}%</p>
+        <div class="labels">
+                <span class="good"><i class="material-icons">sentiment_very_satisfied</i>${finalData.good}%</span>
+                <span class="ok"><i class="material-icons">sentiment_neutral</i>${finalData.ok}%</span>
+                <span class="poor"><i class="material-icons">sentiment_very_dissatisfied</i>${finalData.poor}%</span>
+        </div>
             <div class="grid-container" style="grid-template-columns: ${finalData.good}% ${finalData.ok}% ${finalData.poor}%;">
                 <div class="box-good" data-title="${finalData.good}% good"></div>
                 <div class="box-needs-improvement" data-title="${finalData.ok}% needs improvement"></div>
