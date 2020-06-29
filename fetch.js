@@ -57,9 +57,9 @@ function buildCard(labeledMetrics, origin) {
                 <li class="tab col s3"><a href="#${desktopId}">Desktop</a></li>
             </ul>
         </div>
-        <div id="${sumId}" class="col s12"></div>
-        <div id="${phoneId}" class="col s12"></div>
-        <div id="${desktopId}" class="col s12"></div>
+        <div id="${sumId}" class="col s12"><div class="metrics"></div></div>
+        <div id="${phoneId}" class="col s12"><div class="metrics"></div></div>
+        <div id="${desktopId}" class="col s12"><div class="metrics"></div></div>
         </div>
     `; document.getElementById('app').insertAdjacentHTML("afterbegin", card);
     labeledMetrics.forEach ( formFactor => {
@@ -86,7 +86,7 @@ function buildData(labeledMetrics, siteName) {
                 <div class="box-needs-improvement" data-title="${finalData.ok}% needs improvement"></div>
                 <div class="box-poor" data-title="${finalData.poor}% poor"></div>
         </section>
-        `; document.querySelector(`#${finalData.key}`).insertAdjacentHTML("beforeend", htmlBar);
+        `; document.querySelector(`#${finalData.key} .metrics`).insertAdjacentHTML("beforeend", htmlBar);
     });
 }
 
