@@ -4,6 +4,7 @@ const endpointUrl = 'https://chromeuxreport.googleapis.com/v1/records:queryRecor
 var url = `${endpointUrl}?key=${CrUXApiUtil.KEY}`;
 var app = document.querySelector('#app');
 var toastHTML = '<span>Data already exist on screen</span><button class="btn-flat toast-action">ok</button>';
+var noData = `<p class="nodata">No data</p>`;
 
 document.querySelector('form').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -14,39 +15,54 @@ document.querySelector('form').addEventListener('submit', function (e) {
     if (app.contains(child)) {
         M.toast({ html: toastHTML });
     } else {
-        M.toast({html: `Building a request to the API.`, classes: 'green', displayLength: 600})
+        M.toast({html: `Building a request to the API.`, classes: 'green', displayLength: 600});
         getData(origin);
     }
 })
 
-CrUXApiUtil.query = async function (requestBody) {
+CrUXApiUtil.query = async function (requestBody, formFactor) {
     const resp = await fetch(url, {method: 'POST', body: JSON.stringify(requestBody)});
-    const json = await resp.json();
-    if (resp.ok) { return json; }
-    M.toast({ html: `${json.error.message}`, classes: 'red darken-4 white-text'})
-    throw new Error(json.error.message);
+    const json = resp.json();
+    if (resp.ok) { return json; };
+    M.toast({ html: `${formFactor.formFactor}: ${json.error.message}`, classes: 'red darken-4 white-text'});
+//    throw new Error(json.error.message);
 };
 
 getData = async (origin) => {
+    document.getElementById("loading").style.display = "block";
+    const labeledMetrics = [];
+    const request = [];
     const sum = await CrUXApiUtil.query({ origin: `https://${origin}/`});
-    const phone = await CrUXApiUtil.query({ origin: `https://${origin}/`, formFactor: "PHONE"});
-    const desktop = await CrUXApiUtil.query({ origin: `https://${origin}/`, formFactor: "DESKTOP"});
-    const tablet = await CrUXApiUtil.query({ origin: `https://${origin}/`, formFactor: "TABLET"});
-    const sumMetrics = labelMetricData(sum.record.metrics, sum.record.key.formFactor);
-    const phoneMetrics = labelMetricData(phone.record.metrics, phone.record.key.formFactor);
-    const desktopMetrics = labelMetricData(desktop.record.metrics, desktop.record.key.formFactor);
-    const tabletMetrics = labelMetricData(tablet.record.metrics, tablet.record.key.formFactor);
-    const labeledMetrics = [sumMetrics, phoneMetrics, desktopMetrics, tabletMetrics]
+    const phone = await CrUXApiUtil.query({ origin: `https://${origin}/`, formFactor: "PHONE"}, {formFactor: "Phone"} );
+    const desktop = await CrUXApiUtil.query({ origin: `https://${origin}/`, formFactor: "DESKTOP"},{formFactor: "Desktop"});
+    const tablet = await CrUXApiUtil.query({ origin: `https://${origin}/`, formFactor: "TABLET"},{formFactor: "Tablet"});
+
+    // chec if data is undefined
+    if (sum !== undefined){request.push(sum)};
+    if (phone !== undefined){request.push(phone)};
+    if (desktop !== undefined){request.push(desktop)};
+    if (tablet !== undefined){request.push(tablet)};
+
+    process(request, origin);
+}
+
+function process(formFactor, origin) {
+    const labeledMetrics = [];
+    formFactor.forEach( formFactor => {
+        const validData = labelMetricData(formFactor.record.metrics, formFactor.record.key.formFactor);
+        labeledMetrics.push(validData);
+    })
     const data = buildCard(labeledMetrics, origin);
 }
 
 function buildCard(labeledMetrics, origin) {
     const favicon  = `https://${origin}/favicon.ico`
-    let siteName = origin.replace(/^www\./, '').split('.').slice(0, -1).join('.');
-    let sumId = `${siteName}SUM`
-    let phoneId = `${siteName}PHONE`
-    let desktopId = `${siteName}DESKTOP`
-    let tabletId = `${siteName}TABLET`
+    let filter = origin.replace(/^www\./, '').split('.').slice(0, -1).join('.');
+    let siteName = filter.replace('.', '-');
+    let sumId = `${siteName}SUM`;
+    let phoneId = `${siteName}PHONE`;
+    let desktopId = `${siteName}DESKTOP`;
+    let tabletId = `${siteName}TABLET`;
     let card = `
         <div class="card" id="${siteName}"><div class="cardHeader">
             <img src="${favicon}">
@@ -70,13 +86,24 @@ function buildCard(labeledMetrics, origin) {
     labeledMetrics.forEach ( formFactor => {
         buildData(formFactor, siteName);
     })
+
     var el = document.querySelectorAll('.tabs');
     var instance = M.Tabs.init(el, {});
+
+    document.getElementById("loading").style.display = "none";
+
+//    var noData = `<p class="nodata">No data</p>`;
+//    let checkMetrics = document.querySelectorAll(".metrics");
+//    checkMetrics.forEach( metrics => {
+//        if(metrics.hasChildNodes()){return}
+//        document.querySelector(`.metrics`).insertAdjacentHTML("beforeend", noData)
+//    })
+
 }
 
 function buildData(labeledMetrics, siteName) {
         labeledMetrics.forEach( metric => {
-        const finalData = {key:"", acronym:"", good:"", ok:"", poor:""}
+        var finalData = {key:"", acronym:"", good:"", ok:"", poor:""}
         finalData.key = siteName + metric.key;
         finalData.acronym = metric.acronym;
         finalData.good = metric.labeledBins[0].percentage.toFixed(2);
@@ -95,13 +122,13 @@ function buildData(labeledMetrics, siteName) {
                 <div class="box-needs-improvement" data-title="${finalData.ok}% needs improvement"></div>
                 <div class="box-poor" data-title="${finalData.poor}% poor"></div>
         </section>
-        `; document.querySelector(`#${finalData.key} .metrics`).insertAdjacentHTML("beforeend", htmlBar);
+        `;document.querySelector(`#${finalData.key} .metrics`).insertAdjacentHTML("beforeend", htmlBar);
     });
 }
 
 function labelMetricData(metrics, key) {
-    if(key === undefined){key = "SUM"}
-    console.log(key)
+    if(key === undefined){key = "SUM"};
+    console.log(key);
     const nameToAcronymMap = {
         first_contentful_paint: 'FCP',
         largest_contentful_paint: 'LCP',
@@ -127,4 +154,6 @@ function labelMetricData(metrics, key) {
     });
 }
 
+// on page load, load google site metrics as an example.
+getData('google.com');
 
