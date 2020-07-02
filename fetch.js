@@ -32,7 +32,7 @@ getData = async (origin) => {
     document.getElementById("loading").style.display = "block";
     const labeledMetrics = [];
     const request = [];
-    const sum = await CrUXApiUtil.query({ origin: `https://${origin}/`});
+    const sum = await CrUXApiUtil.query({ origin: `https://${origin}/`}, {formFactor: "Sum"});
     const phone = await CrUXApiUtil.query({ origin: `https://${origin}/`, formFactor: "PHONE"}, {formFactor: "Phone"} );
     const desktop = await CrUXApiUtil.query({ origin: `https://${origin}/`, formFactor: "DESKTOP"},{formFactor: "Desktop"});
     const tablet = await CrUXApiUtil.query({ origin: `https://${origin}/`, formFactor: "TABLET"},{formFactor: "Tablet"});
