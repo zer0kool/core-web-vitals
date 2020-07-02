@@ -58,7 +58,7 @@ function process(formFactor, origin) {
 function buildCard(labeledMetrics, origin) {
     const favicon  = `https://${origin}/favicon.ico`
     let filter = origin.replace(/^www\./, '').split('.').slice(0, -1).join('.');
-    let siteName = filter.replace('.', '-');
+    let siteName = filter.split('.').join("-")
     let sumId = `${siteName}SUM`;
     let phoneId = `${siteName}PHONE`;
     let desktopId = `${siteName}DESKTOP`;
