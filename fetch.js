@@ -31,10 +31,12 @@ getData = async (origin) => {
     const sum = await CrUXApiUtil.query({ origin: `https://${origin}/`});
     const phone = await CrUXApiUtil.query({ origin: `https://${origin}/`, formFactor: "PHONE"});
     const desktop = await CrUXApiUtil.query({ origin: `https://${origin}/`, formFactor: "DESKTOP"});
+    const tablet = await CrUXApiUtil.query({ origin: `https://${origin}/`, formFactor: "TABLET"});
     const sumMetrics = labelMetricData(sum.record.metrics, sum.record.key.formFactor);
     const phoneMetrics = labelMetricData(phone.record.metrics, phone.record.key.formFactor);
     const desktopMetrics = labelMetricData(desktop.record.metrics, desktop.record.key.formFactor);
-    const labeledMetrics = [sumMetrics, phoneMetrics, desktopMetrics]
+    const tabletMetrics = labelMetricData(tablet.record.metrics, tablet.record.key.formFactor);
+    const labeledMetrics = [sumMetrics, phoneMetrics, desktopMetrics, tabletMetrics]
     const data = buildCard(labeledMetrics, origin);
 }
 
@@ -44,6 +46,7 @@ function buildCard(labeledMetrics, origin) {
     let sumId = `${siteName}SUM`
     let phoneId = `${siteName}PHONE`
     let desktopId = `${siteName}DESKTOP`
+    let tabletId = `${siteName}TABLET`
     let card = `
         <div class="card" id="${siteName}"><div class="cardHeader">
             <img src="${favicon}">
@@ -55,11 +58,13 @@ function buildCard(labeledMetrics, origin) {
                 <li class="tab col s3"><a href="#${sumId}">Sum</a></li>
                 <li class="tab col s3"><a class="active" href="#${phoneId}">Mobile</a></li>
                 <li class="tab col s3"><a href="#${desktopId}">Desktop</a></li>
+                <li class="tab col s3"><a href="#${tabletId}">Tablet</a></li>
             </ul>
         </div>
         <div id="${sumId}" class="col s12"><div class="metrics"></div></div>
         <div id="${phoneId}" class="col s12"><div class="metrics"></div></div>
         <div id="${desktopId}" class="col s12"><div class="metrics"></div></div>
+        <div id="${tabletId}" class="col s12"><div class="metrics"></div></div>
         </div>
     `; document.getElementById('app').insertAdjacentHTML("afterbegin", card);
     labeledMetrics.forEach ( formFactor => {

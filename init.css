@@ -96,7 +96,8 @@ span{
 }
 
 .box-good {
-    background-color: hsl(197, 100%, 46%);
+    background-color: hsl(158, 85%, 41%);
+    /*background-color: hsl(197, 100%, 46%); */
 }
 
 .box-needs-improvement {
@@ -209,9 +210,9 @@ div[data-title]:focus::after {
   transform: translateX(-50%);
   width: auto;
   white-space: nowrap;
-  background: #607D8B;
+  background: hsl(197, 100%, 46%);
   color: #fff;
-  border-radius: 2px;
+  border-radius: 20px;
   -webkit-box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.4);
   box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.4);
   font-size: 16px;
