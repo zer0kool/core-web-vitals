@@ -25,7 +25,6 @@ CrUXApiUtil.query = async function (requestBody, formFactor) {
     const json = await resp.json();
     if (resp.ok) { return json; };
     M.toast({ html: `${formFactor.formFactor}: ${json.error.message}`, classes: 'red darken-4 white-text'});
-//    throw new Error(json.error.message);
 };
 
 getData = async (origin) => {
@@ -42,6 +41,7 @@ getData = async (origin) => {
     if (phone !== undefined){request.push(phone)};
     if (desktop !== undefined){request.push(desktop)};
     if (tablet !== undefined){request.push(tablet)};
+    if (!request.length){document.getElementById("loading").style.display = "none"; throw new Error(`no crux data for ${origin}`); }
 
     process(request, origin);
 }
