@@ -1,25 +1,28 @@
 /* The emerging W3C standard
    that is currently Firefox-only */
 * {
-  scrollbar-width: thin;
-  scrollbar-color: #607d8b transparent;
+    scrollbar-width: thin;
+    scrollbar-color: #607d8b transparent;
 }
 
 /* Works on Chrome/Edge/Safari */
 *::-webkit-scrollbar {
-  height: 0px;
-  width: 4px;
-  background-color: transparent;
+    height: 0px;
+    width: 4px;
+    background-color: transparent;
 }
+
 *::-webkit-scrollbar-track {
-  background: transparent;
+    background: transparent;
 }
+
 *::-webkit-scrollbar-thumb {
-  background-color: #607d8b;
-  border-radius: 20px;
-  border: transparent;
+    background-color: #607d8b;
+    border-radius: 20px;
+    border: transparent;
 }
-  body {
+
+body {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -28,13 +31,8 @@
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
     flex-direction: column;
-  }
+}
 
-  main {
-    -webkit-box-flex: 1;
-    -ms-flex: 1 0 auto;
-    flex: 1 0 auto;
-  }
 input:-internal-autofill-selected {
     -webkit-appearance: menulist-button;
     background-color: rgb(232, 240, 254) !important;
@@ -42,11 +40,46 @@ input:-internal-autofill-selected {
     color: -internal-light-dark-color(black, white) !important;
 }
 
+.info {
+    height: 300px;
+    background-color:#4285f4;
+    border-bottom: 1px solid #e2e2e2;
+}
+
+.container {
+    padding-top: 50px;
+}
+form.row {
+    display: flex;
+    align-items: center;
+}
+
+button.btn-large {
+    width: -webkit-fill-available;
+    border-radius: 10px;
+    margin-top: -8px;
+    background-color: hsl(5, 81%, 56%);
+}
+#search {
+    height: 50px;
+    background: white;
+    border-radius: 30px;
+    padding-left: 10px;
+    border: 1px solid #fbfbfb
+}
+#search:focus {
+    font-size: 24px;
+    font-weight: 400;
+    color: #3e3e3e;
+}
 .nav-wrapper .input-field input[type=search] {
     color: transparent;
 }
-.row .col {
-    float: none!important;
+
+main {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
 }
 img {
     margin-right: 10px;
@@ -55,12 +88,6 @@ img {
     border: 1px solid #607D8B;
     border-radius: 50%;
     padding: 5px;
-}
-
-#search:focus {
-    font-size: 24px;
-    font-weight: 400;
-    color: #3e3e3e;
 }
 
 #app {
@@ -87,9 +114,10 @@ h2 {
     margin-right: 30px;
 }
 
-span{
+span {
     text-transform: capitalize;
 }
+
 .grid-container {
     display: grid;
     grid-template-rows: 50px;
@@ -135,13 +163,18 @@ span{
     height: -webkit-fit-content;
     height: -moz-fit-content;
     height: fit-content;
+    min-width: 200px;
+    max-width: 375px;
 }
+}
+
 .card:hover {
     -webkit-box-shadow: 2px 8px 45px rgba(0, 0, 0, .25);
     box-shadow: 2px 8px 45px rgba(0, 0, 0, .25);
     -webkit-transform: translate3D(0, -2px, 0);
     transform: translate3D(0, -2px, 0);
 }
+
 .cardHeader {
     font-size: 3rem;
     display: block;
@@ -149,19 +182,23 @@ span{
     color: #4e4e4e;
     text-align: center;
 }
+
 .tabs {
     text-align: center;
     margin-bottom: 20px;
 }
+
 .tabs .tab a {
-    padding: 0 10px!important;
+    padding: 0 10px !important;
 }
+
 .tabs .tab a.active {
     background-color: #fbfbfb;
     color: #ee6e73;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
 }
+
 .metrics {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -171,26 +208,31 @@ span{
     -ms-flex-direction: column;
     flex-direction: column
 }
+
 section.CLS {
     -webkit-box-ordinal-group: 2;
     -ms-flex-order: 1;
     order: 1;
 }
+
 section.FCP {
     -webkit-box-ordinal-group: 3;
     -ms-flex-order: 2;
     order: 2;
 }
+
 section.FID {
     -webkit-box-ordinal-group: 4;
     -ms-flex-order: 3;
     order: 3;
 }
+
 section.LCP {
     -webkit-box-ordinal-group: 5;
     -ms-flex-order: 4;
     order: 4;
 }
+
 .labels {
     min-width: 280px;
     display: -webkit-box;
@@ -203,6 +245,7 @@ section.LCP {
     -ms-flex-align: center;
     align-items: center;
 }
+
 .labels span {
     margin: 0 5px;
     display: -webkit-box;
@@ -213,28 +256,29 @@ section.LCP {
 }
 
 div[data-title] {
-  position: relative;
-  -webkit-text-decoration: underline dotted;
-  text-decoration: underline dotted;
+    position: relative;
+    -webkit-text-decoration: underline dotted;
+    text-decoration: underline dotted;
 }
+
 div[data-title]:hover::after,
 div[data-title]:focus::after {
-  z-index: 999;
-  content: attr(data-title);
-  position: absolute;
-  left: 50%;
-  top: -30px;
-  -webkit-transform: translateX(-50%);
-  transform: translateX(-50%);
-  width: auto;
-  white-space: nowrap;
-  background: hsl(197, 100%, 46%);
-  color: #fff;
-  border-radius: 20px;
-  -webkit-box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.4);
-  box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.4);
-  font-size: 16px;
-  padding: 7px 7px;
+    z-index: 999;
+    content: attr(data-title);
+    position: absolute;
+    left: 50%;
+    top: -30px;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    width: auto;
+    white-space: nowrap;
+    background: hsl(197, 100%, 46%);
+    color: #fff;
+    border-radius: 20px;
+    -webkit-box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.4);
+    box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.4);
+    font-size: 16px;
+    padding: 7px 7px;
 }
 
 

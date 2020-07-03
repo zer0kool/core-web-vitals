@@ -18,19 +18,36 @@
     <header>
         <nav class=" light-blue darken-4">
             <div class="nav-wrapper">
-                <form>
+<!--
+                <formx>
                     <div class="input-field">
                         <input placeholder="www.example.com" id="search" type="search" required>
                         <label class="label-icon" for="search"><i class="material-icons">search</i></label>
                         <i class="material-icons">close</i>
                     </div>
-                </form>
+                </formx>
+-->
             </div>
         </nav>
     </header>
-  <div id="loading" class="progress">
-      <div class="indeterminate"></div>
-  </div>
+    <div class="info">
+        <div class="container">
+            <form class="row">
+                <div class="input-field col s12 m10">
+                  <i class="material-icons prefix">web</i>
+                  <input placeholder="www.example.com" id="search" type="search" required>
+                  <i class="material-icons">close</i>
+                  <label for="icon_prefix2">Enter a website</label>
+                </div>
+                <div class="col s12 m2">
+                    <button class="waves-effect waves-light btn-large" type="submit" name="action">Fetch</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="loading" class="progress">
+        <div class="indeterminate"></div>
+    </div>
     <main id="app"></main>
     <footer class="page-footer light-blue darken-4">
         <div class="container">
