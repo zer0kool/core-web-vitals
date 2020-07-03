@@ -41,6 +41,7 @@ input:-internal-autofill-selected {
     background-color: #dceae9;
     border-bottom: 1px solid #e2e2e2;
     text-align: center;
+    padding: 30px;
 }
 
 .container {
@@ -88,7 +89,7 @@ main {
 img {
     margin-right: 10px;
     width: 30px;
-    height: auto;
+    height: 30px;
     border: 1px solid #607D8B;
     border-radius: 50%;
     padding: 5px;
