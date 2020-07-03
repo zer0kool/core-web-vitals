@@ -65,7 +65,7 @@ function buildCard(labeledMetrics, origin) {
     let tabletId = `${siteName}TABLET`;
     let card = `
         <div class="card" id="${siteName}"><div class="cardHeader">
-            <img src="${favicon}">
+            <img alt="${siteName} logo" src="${favicon}">
             <span>${siteName}</span>
         </div>
         <div id="cardBody" class="row">
@@ -155,5 +155,5 @@ function labelMetricData(metrics, key) {
 }
 
 // on page load, load google site metrics as an example.
-getData('google.com');
+getData('www.google.com');
 

@@ -1,11 +1,8 @@
-/* The emerging W3C standard
-   that is currently Firefox-only */
 * {
     scrollbar-width: thin;
     scrollbar-color: #607d8b transparent;
 }
 
-/* Works on Chrome/Edge/Safari */
 *::-webkit-scrollbar {
     height: 0px;
     width: 4px;
@@ -41,7 +38,6 @@ input:-internal-autofill-selected {
 }
 
 .info {
-/*    height: 300px;*/
     background-color: #dceae9;
     border-bottom: 1px solid #e2e2e2;
     text-align: center;
@@ -51,8 +47,13 @@ input:-internal-autofill-selected {
     padding-top: 50px;
 }
 form.row {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
 }
 
@@ -77,9 +78,6 @@ button.btn-large {
 }
 .input-field input[type=search] ~ .mdi-navigation-close, .input-field input[type=search] ~ .material-icons {
     top: 10px;
-}
-.nav-wrapper .input-field input[type=search] {
-    color: transparent;
 }
 
 main {
@@ -146,7 +144,6 @@ span {
 
 .box-good {
     background-color: hsl(158, 85%, 41%);
-    /*background-color: hsl(197, 100%, 46%); */
 }
 
 .box-needs-improvement {
@@ -172,8 +169,6 @@ span {
     min-width: 200px;
     max-width: 375px;
 }
-}
-
 .card:hover {
     -webkit-box-shadow: 2px 8px 45px rgba(0, 0, 0, .25);
     box-shadow: 2px 8px 45px rgba(0, 0, 0, .25);
