@@ -42,7 +42,7 @@ input:-internal-autofill-selected {
 
 .info {
     height: 300px;
-    background-color:#4285f4;
+    background-color: #dceae9;
     border-bottom: 1px solid #e2e2e2;
 }
 
@@ -52,13 +52,15 @@ input:-internal-autofill-selected {
 form.row {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 button.btn-large {
     width: -webkit-fill-available;
     border-radius: 10px;
     margin-top: -8px;
-    background-color: hsl(5, 81%, 56%);
+    min-width: 100px;
+    color: black;
 }
 #search {
     height: 50px;
@@ -71,6 +73,9 @@ button.btn-large {
     font-size: 24px;
     font-weight: 400;
     color: #3e3e3e;
+}
+.input-field input[type=search] ~ .mdi-navigation-close, .input-field input[type=search] ~ .material-icons {
+    top: 10px;
 }
 .nav-wrapper .input-field input[type=search] {
     color: transparent;
