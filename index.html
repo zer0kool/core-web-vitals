@@ -2,13 +2,18 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <title>Core Web Vitals Tool</title>
+    <meta name="robots" content="index,nofollow">
+    <meta name="description" content="Query the CrUX API for metric records: field data collected over the last 28 days">
+    <meta name="keywords" content="Core Web Vitals Tool, crux API tool">
+
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!--Import materialize.css-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link type="text/css" rel="stylesheet" href=./init.css media="screen,projection" />
-
 
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,18 +23,22 @@
     <header>
         <nav class=" light-blue darken-4">
             <div class="nav-wrapper">
-
+                <a href="#!" class="brand-logo">CrUX-Tool</a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="https://web.dev/metrics/"><i class="material-icons left">developer_mode</i>More on CrUX metrics</a></li>
+                    <li><a href="https://github.com/zer0kool/core-web-vitals/issues"><i class="material-icons right">bug_report</i>Notice an issue?</a></li>
+                </ul>
             </div>
         </nav>
     </header>
     <div class="info">
-       <h3>Query the CrUX API</h3>
-       <p>field data collected over the last 28 days</p>
+        <h3>Query the CrUX API</h3>
+        <p>field data collected over the last 28 days</p>
         <div class="container">
             <form class="row">
                 <div class="input-field col s12 m10">
-                  <input placeholder="www.example.com" id="search" type="search" required>
-                  <i class="material-icons">close</i>
+                    <input placeholder="www.example.com" id="search" type="search" required>
+                    <i class="material-icons">close</i>
                 </div>
                 <div class="col s12 m2">
                     <button class="waves-effect waves-light btn-large grey lighten-5" type="submit" name="action">Fetch</button>
@@ -46,7 +55,9 @@
             <div class="row">
                 <div class="col s12">
                     <h5 class="white-text">Core Web Vitals Tool</h5>
-                    <p class="grey-text text-lighten-4">Query the CrUX API for metric records: field data collected over the last 28 days..</p>
+                    <p class="grey-text text-lighten-4">The data in the Chrome UX Report is a 28-day rolling average of aggregated metrics. This means that the data presented in the Chrome UX Report at any given time is actually data for the past 28 days aggregated together.
+                    </p>
+                    <p>This is similar to how the CrUX dataset on BigQuery aggregates monthly reports.</p>
                 </div>
             </div>
         </div>
