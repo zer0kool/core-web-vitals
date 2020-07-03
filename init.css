@@ -43,7 +43,15 @@ input:-internal-autofill-selected {
     text-align: center;
     padding: 30px;
 }
-
+.flex {
+    width: -webkit-fill-available;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+.flex h2{
+    width: 30px;
+}
 form.row {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -142,6 +150,8 @@ span {
 
 .box-good {
     background-color: hsl(158, 85%, 41%);
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
 .box-needs-improvement {
@@ -150,6 +160,8 @@ span {
 
 .box-poor {
     background-color: hsl(359, 100%, 71%);
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .card {
@@ -244,15 +256,21 @@ section.LCP {
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
+    width: -webkit-fill-available;
 }
 
 .labels span {
-    margin: 0 5px;
+    margin-left: 10px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     border-radius: 50px;
-    width: 80px;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
 }
 
 div[data-title] {
@@ -274,7 +292,7 @@ div[data-title]:focus::after {
     white-space: nowrap;
     background: hsl(197, 100%, 46%);
     color: #fff;
-    border-radius: 20px;
+    border-radius: 2px;
     -webkit-box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.4);
     box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.4);
     font-size: 16px;
