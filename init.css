@@ -44,6 +44,7 @@ input:-internal-autofill-selected {
     height: 300px;
     background-color: #dceae9;
     border-bottom: 1px solid #e2e2e2;
+    text-align: center;
 }
 
 .container {
