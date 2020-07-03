@@ -44,9 +44,6 @@ input:-internal-autofill-selected {
     padding: 30px;
 }
 
-.container {
-    padding-top: 50px;
-}
 form.row {
     display: -webkit-box;
     display: -ms-flexbox;
