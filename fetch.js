@@ -65,7 +65,7 @@ function buildCard(labeledMetrics, origin) {
     let tabletId = `${siteName}TABLET`;
     let card = `
         <div class="card" id="${siteName}"><div class="cardHeader">
-            <img alt="${siteName} logo" src="${favicon}">
+            <img aria-label="${siteName} logo" src="${favicon}">
             <span>${siteName}</span>
         </div>
         <div id="cardBody" class="row">
