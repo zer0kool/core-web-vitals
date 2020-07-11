@@ -102,7 +102,6 @@ img {
 
 #app {
     margin: auto;
-    width: 90%;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -187,11 +186,20 @@ span {
 }
 
 .cardHeader {
-    font-size: 3rem;
-    display: block;
+    font-size: 2rem;
     width: 100%;
     color: #4e4e4e;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
     text-align: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
 .tabs {
@@ -210,7 +218,9 @@ span {
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
 }
-
+#cardBody {
+    margin: 0;
+}
 .metrics {
     display: -webkit-box;
     display: -ms-flexbox;
