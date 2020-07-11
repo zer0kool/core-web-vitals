@@ -8,7 +8,7 @@ var noData = `<p class="nodata">No data</p>`;
 
 document.querySelector('form').addEventListener('submit', function (e) {
     e.preventDefault();
-    var origin = document.getElementById('search').value.toLowerCase();
+    var origin = document.getElementById('search').value.toLowerCase().replace(/^(?:https?:\/\/)/i, "").split('/')[0];;
     var siteName = origin.replace(/^www\./, '').split('.').slice(0, -1).join('.');
     if (!siteName) { return }
     var child = document.querySelector(`#${siteName}`);
