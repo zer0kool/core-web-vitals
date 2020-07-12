@@ -63,23 +63,25 @@ function buildCard(labeledMetrics, origin) {
     let desktopId = `${siteName}DESKTOP`;
     let tabletId = `${siteName}TABLET`;
     let card = `
-        <div class="card" id="${siteName}"><div class="cardHeader">
-            <img aria-label="${siteName} logo" src="${favicon}">
-            <span>${siteName}</span>
-        </div>
-        <div id="cardBody" class="row">
-        <div class="col s12">
-            <ul class="tabs">
-                <li class="tab col s3"><a href="#${sumId}">Sum</a></li>
-                <li class="tab col s3"><a class="active" href="#${phoneId}">Mobile</a></li>
-                <li class="tab col s3"><a href="#${desktopId}">Desktop</a></li>
-                <li class="tab col s3"><a href="#${tabletId}">Tablet</a></li>
-            </ul>
-        </div>
-        <div id="${sumId}" class="col s12"><div class="metrics"></div></div>
-        <div id="${phoneId}" class="col s12"><div class="metrics"></div></div>
-        <div id="${desktopId}" class="col s12"><div class="metrics"></div></div>
-        <div id="${tabletId}" class="col s12"><div class="metrics"></div></div>
+        <div class="card" id="${siteName}">
+            <span class="close">remove</span>
+            <div class="cardHeader">
+                <img aria-label="${siteName} logo" src="${favicon}">
+                <span>${siteName}</span>
+            </div>
+            <div id="cardBody" class="row">
+            <div class="col s12">
+                <ul class="tabs">
+                    <li class="tab col s3"><a href="#${sumId}">Sum</a></li>
+                    <li class="tab col s3"><a class="active" href="#${phoneId}">Mobile</a></li>
+                    <li class="tab col s3"><a href="#${desktopId}">Desktop</a></li>
+                    <li class="tab col s3"><a href="#${tabletId}">Tablet</a></li>
+                </ul>
+            </div>
+            <div id="${sumId}" class="col s12"><div class="metrics"></div></div>
+            <div id="${phoneId}" class="col s12"><div class="metrics"></div></div>
+            <div id="${desktopId}" class="col s12"><div class="metrics"></div></div>
+            <div id="${tabletId}" class="col s12"><div class="metrics"></div></div>
         </div>
     `; document.getElementById('app').insertAdjacentHTML("afterbegin", card);
     labeledMetrics.forEach ( formFactor => {
@@ -88,17 +90,18 @@ function buildCard(labeledMetrics, origin) {
 
     var el = document.querySelectorAll('.tabs');
     var instance = M.Tabs.init(el, {});
-
-    document.getElementById("loading").style.display = "none";
-
     var noData = `<p class="nodata">No data</p>`;
     let checkMetrics = document.querySelectorAll(".metrics");
     checkMetrics.forEach( metrics => {
-        let scopeId = metrics.parentNode.id
-        if(metrics.hasChildNodes()){return}
-        document.querySelector(`#${scopeId} .metrics`).insertAdjacentHTML("beforeend", noData)
+        let scopeId = metrics.parentNode.id;
+        if(metrics.hasChildNodes()){return};
+        document.querySelector(`#${scopeId} .metrics`).insertAdjacentHTML("beforeend", noData);
     })
-
+    document.getElementById("loading").style.display = "none";
+    document.querySelector(`#${siteName} .close`).onclick = function() {removeCard()};
+    function removeCard(){
+         document.querySelector(`#${siteName}`).remove();
+    }
 }
 
 function buildData(labeledMetrics, siteName) {
@@ -111,7 +114,6 @@ function buildData(labeledMetrics, siteName) {
         finalData.poor = metric.labeledBins[2].percentage.toFixed(2);
         let htmlBar = `
         <section class="${finalData.acronym}">
-
         <div class="labels">
                 <span class="good"><i class="material-icons">sentiment_very_satisfied</i>${finalData.good}%</span>
                 <span class="ok"><i class="material-icons">sentiment_neutral</i>${finalData.ok}%</span>

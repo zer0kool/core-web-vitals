@@ -184,7 +184,21 @@ span {
     -webkit-transform: translate3D(0, -2px, 0);
     transform: translate3D(0, -2px, 0);
 }
-
+span.close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: #212121;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 5px;
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+span.close:hover {
+    background-color: #ea4335;
+}
 .cardHeader {
     font-size: 2rem;
     width: 100%;
