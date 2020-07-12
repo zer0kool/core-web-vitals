@@ -87,7 +87,6 @@ function buildCard(labeledMetrics, origin) {
     labeledMetrics.forEach ( formFactor => {
         buildData(formFactor, siteName);
     })
-
     var el = document.querySelectorAll('.tabs');
     var instance = M.Tabs.init(el, {});
     var noData = `<p class="nodata">No data</p>`;
@@ -98,6 +97,7 @@ function buildCard(labeledMetrics, origin) {
         document.querySelector(`#${scopeId} .metrics`).insertAdjacentHTML("beforeend", noData);
     })
     document.getElementById("loading").style.display = "none";
+    document.getElementById('search').value = '';
     document.querySelector(`#${siteName} .close`).onclick = function() {removeCard()};
     function removeCard(){
          document.querySelector(`#${siteName}`).remove();
