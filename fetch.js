@@ -29,14 +29,13 @@ CrUXApiUtil.query = async function (requestBody, formFactor) {
 
 getData = async (origin) => {
     document.getElementById("loading").style.display = "block";
-    const labeledMetrics = [];
     const request = [];
     const sum = await CrUXApiUtil.query({ origin: `https://${origin}/`}, {formFactor: "Sum"});
     const phone = await CrUXApiUtil.query({ origin: `https://${origin}/`, formFactor: "PHONE"}, {formFactor: "Phone"} );
     const desktop = await CrUXApiUtil.query({ origin: `https://${origin}/`, formFactor: "DESKTOP"},{formFactor: "Desktop"});
     const tablet = await CrUXApiUtil.query({ origin: `https://${origin}/`, formFactor: "TABLET"},{formFactor: "Tablet"});
 
-    // chec if data is undefined
+    // check if data is undefined
     if (sum !== undefined){request.push(sum)};
     if (phone !== undefined){request.push(phone)};
     if (desktop !== undefined){request.push(desktop)};
@@ -92,12 +91,13 @@ function buildCard(labeledMetrics, origin) {
 
     document.getElementById("loading").style.display = "none";
 
-//    var noData = `<p class="nodata">No data</p>`;
-//    let checkMetrics = document.querySelectorAll(".metrics");
-//    checkMetrics.forEach( metrics => {
-//        if(metrics.hasChildNodes()){return}
-//        document.querySelector(`.metrics`).insertAdjacentHTML("beforeend", noData)
-//    })
+    var noData = `<p class="nodata">No data</p>`;
+    let checkMetrics = document.querySelectorAll(".metrics");
+    checkMetrics.forEach( metrics => {
+        let scopeId = metrics.parentNode.id
+        if(metrics.hasChildNodes()){return}
+        document.querySelector(`#${scopeId} .metrics`).insertAdjacentHTML("beforeend", noData)
+    })
 
 }
 

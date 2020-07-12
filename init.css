@@ -222,6 +222,7 @@ span {
     margin: 0;
 }
 .metrics {
+    height: 376px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
