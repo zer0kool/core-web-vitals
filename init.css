@@ -69,6 +69,7 @@ input:-internal-autofill-selected {
 }
 .flex {
     width: -webkit-fill-available;
+    width: -moz-available
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -89,6 +90,7 @@ form.row {
 
 button.btn-large {
     width: -webkit-fill-available;
+    width: -moz-available;
     border-radius: 10px;
     margin-top: -8px;
     min-width: 100px;
@@ -307,6 +309,7 @@ section.LCP {
     -ms-flex-align: center;
     align-items: center;
     width: -webkit-fill-available;
+    width: -moz-available;
 }
 
 .labels span {
@@ -355,6 +358,7 @@ div[data-title]:focus::after {
 
 .progress {
     width: -webkit-fill-available;
+    width: -moz-available;
     background-color: #ececec;
     margin: 30px;
 }
