@@ -11,6 +11,7 @@ document.querySelector('form').addEventListener('submit', function (e) {
     var origin = document.getElementById('search').value.toLowerCase().replace(/^(?:https?:\/\/)/i, "").split('/')[0];;
     var siteName = origin.replace(/^www\./, '').split('.').slice(0, -1).join('.');
     if (!siteName) { return }
+    if (siteName.match(/^\d/)) { siteName = `N${siteName}`}
     var child = document.querySelector(`#${siteName}`);
     if (app.contains(child)) {
         M.toast({ html: toastHTML });
@@ -58,6 +59,7 @@ function buildCard(labeledMetrics, origin) {
     const favicon  = `https://${origin}/favicon.ico`
     let filter = origin.replace(/^www\./, '').split('.').slice(0, -1).join('.');
     let siteName = filter.split('.').join("-")
+    if (siteName.match(/^\d/)) { siteName = `N${siteName}`}
     let sumId = `${siteName}SUM`;
     let phoneId = `${siteName}PHONE`;
     let desktopId = `${siteName}DESKTOP`;
