@@ -59,6 +59,7 @@ function buildCard(labeledMetrics, origin) {
     const favicon  = `https://${origin}/favicon.ico`
     let filter = origin.replace(/^www\./, '').split('.').slice(0, -1).join('.');
     let siteName = filter.split('.').join("-")
+    let cardTitle = filter.split('.').join("-")
     if (siteName.match(/^\d/)) { siteName = `N${siteName}`}
     let sumId = `${siteName}SUM`;
     let phoneId = `${siteName}PHONE`;
@@ -69,7 +70,7 @@ function buildCard(labeledMetrics, origin) {
             <span class="close">remove</span>
             <div class="cardHeader">
                 <img aria-label="${siteName} logo" src="${favicon}">
-                <span>${siteName}</span>
+                <span>${cardTitle}</span>
             </div>
             <div id="cardBody" class="row">
             <div class="col s12">
