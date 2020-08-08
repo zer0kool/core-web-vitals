@@ -162,4 +162,3 @@ function labelMetricData(metrics, key) {
 
 // on page load, load google site metrics as an example.
 getData('www.google.com');
-
