@@ -117,7 +117,7 @@ main {
     -ms-flex: 1 0 auto;
     flex: 1 0 auto;
 }
-img {
+.cardHeader img {
     margin-right: 10px;
     width: 30px;
     height: 30px;
