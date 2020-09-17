@@ -7,7 +7,7 @@
     },
     "collect": {
       "url": [
-        "http://localhost/"
+        "https://core-web-vitals.now.sh"
       ],
       "staticDistDir": "./public"
     }
