@@ -7,7 +7,7 @@
     },
     "collect": {
       "url": [
-        "https://localhost/"
+        "http://localhost/"
       ],
       "staticDistDir": "/"
     }
