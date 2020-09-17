@@ -1,0 +1,15 @@
+{
+  "ci": {
+    "assert": {
+      "assertions": {
+        "categories:accessibility": ["warn", { "minScore": 1 }]
+      }
+    },
+    "collect": {
+      "url": [
+        "http://localhost/"
+      ],
+      "staticDistDir": "./public"
+    }
+  }
+}
