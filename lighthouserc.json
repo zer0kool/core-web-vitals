@@ -2,7 +2,7 @@
   "ci": {
     "assert": {
       "assertions": {
-        "categories:performance": ['warn', {minScore: 1}],
+        "categories:performance": ["warn", {"minScore": 1}],
         "categories:accessibility": ["warn", { "minScore": 1 }]
       }
     },
