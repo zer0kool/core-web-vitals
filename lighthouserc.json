@@ -7,9 +7,9 @@
     },
     "collect": {
       "url": [
-        "http://localhost:8080/"
+        "index.html"
       ],
-      "staticDistDir": "./public"
+      "staticDistDir": "./"
     }
   }
 }
