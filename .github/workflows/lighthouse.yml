@@ -1,7 +1,8 @@
-name: Lighthouse
+name: Lighthouse CI
 on: [push, pull_request]
 jobs:
   CI:
+  name: Build project and run Lighthouse CI
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
