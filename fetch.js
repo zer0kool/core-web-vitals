@@ -32,10 +32,10 @@ CrUXApiUtil.query = async function (requestBody, formFactor) {
 getData = async (origin) => {
     document.getElementById("loading").style.display = "block";
     const request = [];
-    const sum = await CrUXApiUtil.query({ origin: `https://${origin}/`}, {formFactor: "Sum"});
-    const phone = await CrUXApiUtil.query({ origin: `https://${origin}/`, formFactor: "PHONE"}, {formFactor: "Phone"} );
-    const desktop = await CrUXApiUtil.query({ origin: `https://${origin}/`, formFactor: "DESKTOP"},{formFactor: "Desktop"});
-    const tablet = await CrUXApiUtil.query({ origin: `https://${origin}/`, formFactor: "TABLET"},{formFactor: "Tablet"});
+    const sum = await CrUXApiUtil.query({ url: `https://${origin}/`}, {formFactor: "Sum"});
+    const phone = await CrUXApiUtil.query({ url: `https://${origin}/`, formFactor: "PHONE"}, {formFactor: "Phone"} );
+    const desktop = await CrUXApiUtil.query({ url: `https://${origin}/`, formFactor: "DESKTOP"},{formFactor: "Desktop"});
+    const tablet = await CrUXApiUtil.query({ url: `https://${origin}/`, formFactor: "TABLET"},{formFactor: "Tablet"});
 
     // check if data is undefined
     if (sum !== undefined){request.push(sum)};
