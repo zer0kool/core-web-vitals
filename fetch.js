@@ -8,10 +8,13 @@ var noData = `<p class="nodata">No data</p>`;
 
 document.querySelector('form').addEventListener('submit', function (e) {
     e.preventDefault();
-    var origin = document.getElementById('search').value.toLowerCase().replace(/^(?:https?:\/\/)/i, "").split('/')[0];;
-    var siteName = origin.replace(/^www\./, '').split('.').slice(0, -1).join('.');
-    if (!siteName) { return }
-    if (siteName.match(/^\d/)) { siteName = `N${siteName}`}
+    debugger;
+//    var origin = document.getElementById('search').value.toLowerCase().replace(/^(?:https?:\/\/)/i, "").split('/')[0];
+    var origin = document.getElementById('search').value.toLowerCase().replace(/^(?:https?:\/\/)/i, "");
+    var siteName = origin.split('/')[0];
+//    var siteName = origin.replace(/^www\./, '').split('.').slice(0, -1).join('.');
+//    if (!siteName) { return }
+//    if (siteName.match(/^\d/)) { siteName = `N${siteName}`}
     var child = document.querySelector(`#${siteName}`);
     if (app.contains(child)) {
         M.toast({ html: toastHTML });
