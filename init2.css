@@ -47,6 +47,10 @@ body::-webkit-scrollbar-thumb {
 .dark #about .section {
   color: whitesmoke;
 }
+.dark .collapsible-header {
+    color: #00BCD4;
+    background: #1c1d1d;
+}
 blockquote.response {
     margin: 20px 0;
     padding-right: 1.5rem;
