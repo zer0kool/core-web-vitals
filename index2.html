@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Core Web Vitals Tool</title>
+  <meta name="robots" content="index,nofollow">
+  <meta name="description" content="Query the CrUX API for metric records: field data collected over the last 28 days">
+  <meta name="keywords" content="Core Web Vitals Tool, crux API tool">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="//chromeuxreport.googleapis.com">
+  <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  <link rel="dns-prefetch" href="//fonts.gstatic.com">
+  <link rel="preload" href="https://fonts.gstatic.com/s/materialicons/v53/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="init.css" media="screen,projection" />
+  <link rel="stylesheet" type="text/css" href="init2.css" media="screen,projection" />
+</head>
+
+<body>
+  <header class="hide-on-small-only">
+    <nav class="topBar">
+      <div class="nav-wrapper">
+        <ul class="right">
+          <li><a href="https://web.dev/metrics/"><i class="material-icons left">developer_mode</i>More on CrUX metrics</a></li>
+          <li><a href="https://github.com/zer0kool/core-web-vitals/issues"><i class="material-icons right">bug_report</i>Notice an issue?</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <nav class="navbar">
+    <ul class="navbar-nav">
+      <li class="logo">
+        <a href="#" class="nav-link">
+          <span class="link-text logo-text">CrUX API</span>
+          <svg aria-hidden="true" focusable="false" data-prefix="fad" data-icon="angle-double-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-inline--fa fa-angle-double-right fa-w-14 fa-5x">
+            <g class="fa-group">
+              <path fill="currentColor" d="M224 273L88.37 409a23.78 23.78 0 0 1-33.8 0L32 386.36a23.94 23.94 0 0 1 0-33.89l96.13-96.37L32 159.73a23.94 23.94 0 0 1 0-33.89l22.44-22.79a23.78 23.78 0 0 1 33.8 0L223.88 239a23.94 23.94 0 0 1 .1 34z" class="fa-secondary"></path>
+              <path fill="currentColor" d="M415.89 273L280.34 409a23.77 23.77 0 0 1-33.79 0L224 386.26a23.94 23.94 0 0 1 0-33.89L320.11 256l-96-96.47a23.94 23.94 0 0 1 0-33.89l22.52-22.59a23.77 23.77 0 0 1 33.79 0L416 239a24 24 0 0 1-.11 34z" class="fa-primary"></path>
+            </g>
+          </svg>
+        </a>
+      </li>
+      <ul id="tabs-swipe-demo" class="tabsx">
+        <li class="nav-item tab">
+          <a href="#cruxorigin" class="nav-link">
+            <i class="material-icons">important_devices</i>
+            <span class="link-text">CrUX by origin</span>
+          </a>
+        </li>
+
+        <li class="nav-item tab">
+          <a href="#cruxurl" class="nav-link">
+            <i class="material-icons">pageview</i>
+            <span class="link-text">CrUX by url</span>
+          </a>
+        </li>
+
+        <li class="nav-item tab">
+          <a href="#3" class="nav-link">
+            <i class="material-icons">eco</i>
+            <span class="link-text">About</span>
+          </a>
+        </li>
+
+        <li class="nav-item tab">
+          <a href="#4" class="nav-link">
+            <i class="material-icons">face</i>
+            <span class="link-text">Credits</span>
+          </a>
+        </li>
+      </ul>
+
+      <li class="nav-item" id="themeButton">
+        <a href="#" class="nav-link">
+          <i class="material-icons">opacity</i>
+          <span class="link-text">Change Theme</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <main>
+    <div id="cruxorigin" class="col s12">
+      <div class="info">
+        <h1>Origin Query</h1>
+        <h5>field data collected over the last 28 days</h5>
+        <div class="container">
+          <form class="row">
+            <div class="input-field col s12 m10">
+              <input aria-label="Search origin" role="search" placeholder="www.example.com" id="search" type="search" required>
+              <i class="material-icons">close</i>
+            </div>
+            <div class="col s12 m2">
+              <button class="waves-effect waves-light btn-large grey lighten-5" type="submit" name="action">Fetch</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div id="loading" class="progress">
+        <div class="indeterminate"></div>
+      </div>
+      <div class="container">
+        <div id="app"></div>
+      </div>
+    </div>
+    <div id="cruxurl" class="col s12">
+      <div class="info">
+        <h1>URL Query</h1>
+        <h5>field data collected over the last 28 days</h5>
+        <div class="container">
+          <form class="row">
+            <div class="input-field col s12 m5">
+              <i class="material-icons prefix">create</i>
+              <input id="icon_prefix" type="text" class="validate pagetype" required>
+              <label for="icon_prefix">Page Type</label>
+            </div>
+            <div class="input-field col s12 m7">
+              <i class="material-icons prefix">track_changes</i>
+              <input id="fetch" type="text" class="validate" required>
+              <label for="fetch">Url</label>
+            </div>
+<!--
+            <div class="input-field col s12 m10">
+              <input aria-label="Search origin" role="search" placeholder="www.example.com" id="search" type="search" required>
+              <i class="material-icons">close</i>
+            </div>
+-->
+            <div class="col s12 m2">
+              <button class="waves-effect waves-light btn-large grey lighten-5" type="submit" name="action">Fetch</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div id="loading" class="progress">
+        <div class="indeterminate"></div>
+      </div>
+      <div class="container">
+        <div id="app"></div>
+      </div>
+    </div>
+    <div id="3" class="col s12">3</div>
+    <div id="4" class="col s12">4</div>
+  </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script async type="text/javascript" src="./theme.js"></script>
+  <script async type="text/javascript" src="./init.js"></script>
+  <script async type="text/javascript" src="./fetchOrigin.js"></script>
+  <script async type="text/javascript" src="./fetchURL.js"></script>
+</body>
