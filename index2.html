@@ -22,7 +22,7 @@
 <body>
   <header class="hide-on-small-only">
     <nav class="topBar">
-      <div class="nav-wrapper">
+      <div class="nav-wrapper valign-wrapper right">
         <ul class="right">
           <li><a href="https://web.dev/metrics/"><i class="material-icons left">developer_mode</i>More on CrUX metrics</a></li>
           <li><a href="https://github.com/zer0kool/core-web-vitals/issues"><i class="material-icons right">bug_report</i>Notice an issue?</a></li>
@@ -59,14 +59,14 @@
         </li>
 
         <li class="nav-item tab">
-          <a href="#3" class="nav-link">
+          <a href="#about" class="nav-link">
             <i class="material-icons">eco</i>
             <span class="link-text">About</span>
           </a>
         </li>
 
         <li class="nav-item tab">
-          <a href="#4" class="nav-link">
+          <a href="#credits" class="nav-link">
             <i class="material-icons">face</i>
             <span class="link-text">Credits</span>
           </a>
@@ -85,8 +85,8 @@
   <main>
     <div id="cruxorigin" class="col s12">
       <div class="info">
-        <h1>Origin Query</h1>
-        <h5>field data collected over the last 28 days</h5>
+        <h1>CrUX by Origin</h1>
+        <h6>Visualize field data collected over the last 28 days</h6>
         <div class="container">
           <form class="row">
             <div class="input-field col s12 m10">
@@ -108,8 +108,8 @@
     </div>
     <div id="cruxurl" class="col s12">
       <div class="info">
-        <h1>URL Query</h1>
-        <h5>field data collected over the last 28 days</h5>
+        <h1>CrUX by Url</h1>
+        <h6>Visualize field data collected over the last 28 days</h6>
         <div class="container">
           <form class="row">
             <div class="input-field col s12 m5">
@@ -122,12 +122,6 @@
               <input id="fetch" type="text" class="validate" required>
               <label for="fetch">Url</label>
             </div>
-<!--
-            <div class="input-field col s12 m10">
-              <input aria-label="Search origin" role="search" placeholder="www.example.com" id="search" type="search" required>
-              <i class="material-icons">close</i>
-            </div>
--->
             <div class="col s12 m2">
               <button class="waves-effect waves-light btn-large grey lighten-5" type="submit" name="action">Fetch</button>
             </div>
@@ -141,8 +135,82 @@
         <div id="app"></div>
       </div>
     </div>
-    <div id="3" class="col s12">3</div>
-    <div id="4" class="col s12">4</div>
+    <div id="about" class="col s12">
+      <div class="container">
+        <div class="section">
+          <div class="row">
+            <div class="col s12">
+              <h5 class="center">Querying and visualizing the CrUX API</h5>
+              <p class="light">The data in the Chrome UX Report API is a 28-day rolling average of aggregated metrics. This means that the data presented in the crux tool at any given time is actually data for the past 28 days aggregated together.
+              </p>
+              <p class="light">This is similar to how the CrUX dataset on BigQuery aggregates monthly reports.</p>
+            </div>
+          </div>
+          <!--   Icon Section   -->
+          <div class="row">
+            <div class="col s12 m6">
+              <div class="icon-block">
+                <div class="center tool">
+                  <img src="https://developers.google.com/web/tools/chrome-user-experience-report/images/logo.png">
+                </div>
+                <h5 class="center">CrUX API</h5>
+
+                <p class="light">The Chrome UX Report API gives low-latency access to aggregated Real User Metrics (RUM) from the Chrome User Experience Report.</p>
+              </div>
+            </div>
+
+            <div class="col s12 m6">
+              <div class="icon-block">
+                <div class="center tool">
+                  <img class="sample" src="./sample.png">
+                </div>
+                <h5 class="center">CrUX Tool</h5>
+
+                <p class="light">The Crux tool is a web UI for querying and visualizing the CrUX API. All data metrics are aggregated together in a single card.</p>
+              </div>
+            </div>
+          </div>
+          <br>
+          <!-- QnA -->
+          <h5>Questions and Answers</h5>
+          <ul class="collapsible">
+            <li>
+              <div class="collapsible-header"><i class="material-icons">question_answer</i>I've notice and issue</div>
+              <div class="collapsible-body">
+                <blockquote class="response">To report an issue or a question in regards to the <b>CrUX API</b>. <br>
+                  <a href="https://groups.google.com/a/chromium.org/g/chrome-ux-report">Please visit the Google CrUX Community</a>
+                </blockquote>
+                <blockquote class="response">To report an issue or question in regards the <b>CrUX Tool</b>. <br>
+                  <a href="https://github.com/zer0kool/core-web-vitals/issues">Please visit the github project </a>
+                </blockquote>
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header"><i class="material-icons">question_answer</i>Missing Data</div>
+              <div class="collapsible-body">
+                <blockquote class="question">Sometimes I get noData displayed on the card</blockquote>
+                <blockquote class="response">Yes, that is intentional. When the Crux API returns a 404 for the formfactor, then the tool will render no Data under the FormFactor tab name inside the card.</blockquote>
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header"><i class="material-icons">question_answer</i>Data discrepancies</div>
+              <div class="collapsible-body">
+                <blockquote class="question">Discrepancies between CrUX API and LightHouse</blockquote>
+                <blockquote class="response">CrUX API reflects field data, while Lighthouse reflects lab data<br>
+                  <a href="https://web.dev/how-to-measure-speed/#lab-data-vs-field-data">Read more on Lab data vs field data.</a>
+                </blockquote>
+                <blockquote class="question">Discrepancies between CrUX API and PageSpeed Insights, why?</blockquote>
+                <blockquote class="response">I don't have an answer, but I have notice the discrepancies and asked the question in the CrUX Community.<br>
+                  <a href="https://groups.google.com/a/chromium.org/g/chrome-ux-report/c/TTL4HR8pCcE/m/9DKGRUp6AAAJ">Read More</a>
+                </blockquote>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <br><br>
+      </div>
+    </div>
+    <div id="credits" class="col s12">4</div>
   </main>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script async type="text/javascript" src="./theme.js"></script>

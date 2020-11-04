@@ -1,3 +1,4 @@
+/*Extra css for the updated viersion of the page*/
 :root {
   font-size: 16px;
   font-family: 'Open Sans';
@@ -40,8 +41,23 @@ body::-webkit-scrollbar-track {
 body::-webkit-scrollbar-thumb {
   background: #6649b8;
 }
-
-.info {
+.light .topBar a {
+    color: #050505;
+}
+.dark #about .section {
+  color: whitesmoke;
+}
+blockquote.response {
+    margin: 20px 0;
+    padding-right: 1.5rem;
+    border-right: 5px solid #009688;
+    text-align: right;
+    border-left: none;
+}
+blockquote.question{
+  font-weight: bold;
+}
+.info, .section {
   margin-left: 5rem;
   padding: 1rem;
 }
@@ -181,7 +197,12 @@ body::-webkit-scrollbar-thumb {
   -webkit-transition: var(--transition-speed);
   transition: var(--transition-speed);
 }
-
+.tool img {
+    height: 100px;
+}
+img.sample {
+    border-radius: 2px;
+}
 .navbar:hover .logo svg {
   -webkit-transform: rotate(-180deg);
   transform: rotate(-180deg);
@@ -215,7 +236,7 @@ body::-webkit-scrollbar-thumb {
     justify-content: center;
   }
 
-  main .info {
+  main .info, #about .section {
     margin: 0;
   }
 }
