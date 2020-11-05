@@ -1,5 +1,5 @@
 const CrUXApiUtil = {};
-CrUXApiUtil.KEY = 'AIzaSyCv-IHj-oddickRMsoI5UBAJx3Cwj-mwck';
+CrUXApiUtil.KEY = 'AIzaSyBX3phN4IuKNtJkQrTeAL0lZL95kHUY08o';
 const endpointUrl = 'https://chromeuxreport.googleapis.com/v1/records:queryRecord';
 var url = `${endpointUrl}?key=${CrUXApiUtil.KEY}`;
 var appUrl = document.querySelector('#cruxurl #app');

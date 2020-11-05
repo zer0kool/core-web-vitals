@@ -1,6 +1,5 @@
 const CrUXApiOrigin = {};
-//CrUXApiOrigin.KEY = 'AIzaSyBX3phN4IuKNtJkQrTeAL0lZL95kHUY08o'; //pro
-CrUXApiOrigin.KEY = 'AIzaSyCv-IHj-oddickRMsoI5UBAJx3Cwj-mwck';
+CrUXApiOrigin.KEY = 'AIzaSyBX3phN4IuKNtJkQrTeAL0lZL95kHUY08o';
 const endpointOrigin = 'https://chromeuxreport.googleapis.com/v1/records:queryRecord';
 var url = `${endpointOrigin}?key=${CrUXApiOrigin.KEY}`;
 var app = document.querySelector('#cruxorigin #app');
