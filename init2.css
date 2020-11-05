@@ -8,20 +8,46 @@
   --bg-secondary: #141418;
   --transition-speed: 600ms;
 }
+.dark input{
+  color: aqua;
+}
 body {
   color: black;
   background-color: white;
   margin: 0;
   padding: 0;
 }
+.dark .card{
+  color: white;
+  background: #141a1d;
+}
+.dark .card .cardHeader,
+.dark .card .tabs,
+.dark .card .tabs a{
+  color: white;
+  background-color: transparent;
+}
+.dark .tabs .tab a:focus.active {
+  background-color: transparent;
+}
 .dark .info {
-  background-color: #f3f3f3;
+  background-color: #212121;
+  color: #00BCD4;
 }
 .dark main {
   background-color: hsl(0deg 0% 17%);
 }
 .dark .card .close {
   background-color: #e91e63;
+}
+.dark .box-good {
+  background-color: hsl(158deg 85% 41% / 56%);
+}
+.dark .box-needs-improvement {
+  background-color: hsl(45deg 97% 73% / 88%);
+}
+.cardHeader img {
+  background: white;
 }
 .light .topBar {
   background-color: #eaeaea;
