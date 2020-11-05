@@ -10,7 +10,7 @@ document.querySelector('#cruxurl form').addEventListener('submit', function (e) 
     e.preventDefault();
     let origin = document.querySelector('#cruxurl #fetch').value.toLowerCase().replace(/^(?:https?:\/\/)/i, "");
     let siteName = origin.split('/')[0].replace(/^www\./, '').split('.').slice(0, -1).join('.');
-    var pageType = document.querySelector('.pagetype').value.toLowerCase();
+    var pageType = document.querySelector('.pagetype').value.toLowerCase().replace(/\s+/g, '');
     let childCard = siteName.split('.').join("-") + pageType;
     let child = document.querySelector(`#${childCard}`);
     if (appUrl.contains(child)) {
