@@ -9,7 +9,7 @@
   --transition-speed: 600ms;
 }
 .dark input{
-  color: #E91E63;
+  color: #fff;
 }
 body {
   color: black;
@@ -19,7 +19,9 @@ body {
 }
 .dark .card{
   color: #babcbc;
-  background: #1d2223;
+  background: #161818;
+  box-shadow: 2px 4px 25px rgb(0 0 0);
+  -webkit-box-shadow: 2px 4px 25px rgba(0 0 0);
 }
 .dark .card .cardHeader,
 .dark .card .tabs,
@@ -31,7 +33,7 @@ body {
   background-color: transparent;
 }
 .dark .info {
-  background-color: #212121;
+  background-color: #101212;
   color: #babcbc;
   border-bottom: none;
 }
@@ -51,7 +53,12 @@ body {
   background: white;
 }
 .light .topBar {
+  height: 80px;
   background-color: #eaeaea;
+}
+.dark .topBar {
+  height: 80px;
+  background: rgb(9 12 12);
 }
 .light .info {
   background-color: #f9f9f9;
@@ -68,7 +75,8 @@ body::-webkit-scrollbar-thumb {
 .light .topBar a {
   color: #050505;
 }
-.dark #about .section {
+.dark #about .section,
+.dark #credits {
   color: whitesmoke;
 }
 .dark .collapsible-header {
@@ -93,10 +101,6 @@ blockquote.question {
 .section {
   margin-left: 5rem;
   padding: 1rem;
-}
-.topBar {
-  height: 80px;
-  background: rgba(0, 0, 0, 0.87);
 }
 .navbar {
   position: fixed;
