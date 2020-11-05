@@ -9,7 +9,7 @@
   --transition-speed: 600ms;
 }
 .dark input{
-  color: aqua;
+  color: #E91E63;
 }
 body {
   color: black;
@@ -18,8 +18,8 @@ body {
   padding: 0;
 }
 .dark .card{
-  color: white;
-  background: #141a1d;
+  color: #babcbc;
+  background: #1d2223;
 }
 .dark .card .cardHeader,
 .dark .card .tabs,
@@ -32,10 +32,11 @@ body {
 }
 .dark .info {
   background-color: #212121;
-  color: #00BCD4;
+  color: #babcbc;
+  border-bottom: none;
 }
 .dark main {
-  background-color: hsl(0deg 0% 17%);
+  background-color: hsl(187deg 4% 9%);
 }
 .dark .card .close {
   background-color: #e91e63;
@@ -278,8 +279,8 @@ img.sample {
 .dark {
   --text-primary: #b6b6b6;
   --text-secondary: #ececec;
-  --bg-primary: #23232e;
-  --bg-secondary: #141418;
+  --bg-primary: #0b0e0f;
+  --bg-secondary: #090c0c;
 }
 .light {
   --text-primary: #1f1f1f;
