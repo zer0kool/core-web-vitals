@@ -143,6 +143,9 @@ main {
 .cardHeader span {
     cursor: pointer;
 }
+.block{
+  margin-top: 60px;
+}
 #app {
   margin: auto;
   display: -webkit-box;
@@ -294,7 +297,15 @@ span.close:hover {
 #cardBody {
   margin: 0;
 }
-
+.git.circle {
+    background-color: #161818;
+    -o-object-fit: cover;
+    object-fit: cover;
+    border: solid transparent 2px;
+    -webkit-backdrop-filter: blur(40px);
+    backdrop-filter: blur(40px);
+    background-clip: border-box;
+}
 .metrics {
   height: 376px;
   display: -webkit-box;
