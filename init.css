@@ -373,13 +373,16 @@ section.LCP {
   font-size: 18px;
 }
 
-div[data-title] {
+div[data-title],
+span[data-title]{
   position: relative;
   -webkit-text-decoration: underline dotted;
   -moz-text-decoration: underline dotted;
   text-decoration: underline dotted;
 }
 
+span[data-title]:hover::after,
+span[data-title]:focus::after,
 div[data-title]:hover::after,
 div[data-title]:focus::after {
   z-index: 999;

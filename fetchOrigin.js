@@ -1,5 +1,5 @@
 const CrUXApiOrigin = {};
-CrUXApiOrigin.KEY = 'AIzaSyBX3phN4IuKNtJkQrTeAL0lZL95kHUY08o';
+CrUXApiOrigin.KEY = 'AIzaSyCv-IHj-oddickRMsoI5UBAJx3Cwj-mwck';
 const endpointOrigin = 'https://chromeuxreport.googleapis.com/v1/records:queryRecord';
 var url = `${endpointOrigin}?key=${CrUXApiOrigin.KEY}`;
 var app = document.querySelector('#cruxorigin #app');
@@ -84,7 +84,7 @@ function buildCard(labeledMetrics, origin) {
             <span class="close">remove</span>
             <div class="cardHeader">
                 <img aria-label="${siteName} logo" src="${favicon}">
-                <span>${cardTitle}</span>
+                <span data-title="${origin}">${cardTitle}</span>
             </div>
             <div id="cardBody" class="row">
             <div class="col s12">
