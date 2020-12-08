@@ -9,7 +9,8 @@ var noData = `<p class="nodata">No data</p>`;
 document.querySelector('#cruxorigin form').addEventListener('submit', function (e) {
   e.preventDefault();
   let origin = document.querySelector('#cruxorigin #search').value.toLowerCase().replace(/^(?:https?:\/\/)/i, "").split('/')[0];;
-  let siteName = origin.replace(/^www\./, '').split('.').slice(0, -1).join('.');
+//  let siteName = origin.replace(/^www\./, '').split('.').slice(0, -1).join('.');
+  let siteName = origin.replace(/^www\./, '').split('.').join('-');
   if (!siteName) {return}
   if (siteName.match(/^\d/)) {siteName = `N${siteName}`}
   let child = document.querySelector(`#${siteName}`);
@@ -68,7 +69,8 @@ function process(formFactor, origin) {
 function buildCard(labeledMetrics, origin) {
   const favicon = `https://${origin}/favicon.ico`
   let filter = origin.replace(/^www\./, '').split('.').slice(0, -1).join('.');
-  let siteName = filter.split('.').join("-")
+  let filter2 = origin.replace(/^www\./, '').split('.').join('-');
+  let siteName = filter2.split('.').join("-")
   let cardTitle = filter.split('.').join("-")
   if (siteName.match(/^\d/)) {
     siteName = `N${siteName}`
