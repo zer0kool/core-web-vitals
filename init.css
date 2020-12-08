@@ -140,7 +140,9 @@ main {
   border-radius: 50%;
   padding: 5px;
 }
-
+.cardHeader span {
+    cursor: pointer;
+}
 #app {
   margin: auto;
   display: -webkit-box;
