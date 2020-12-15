@@ -207,8 +207,8 @@
                   <a href="https://web.dev/how-to-measure-speed/#lab-data-vs-field-data">Read more on Lab data vs field data</a>
                 </blockquote>
                 <blockquote class="question">Discrepancies between CrUX API and PageSpeed Insights, why?</blockquote>
-                <blockquote class="response">I don't have an answer, but I have noticed the discrepancies and asked the question in the CrUX Community<br>
-                  <a href="https://groups.google.com/a/chromium.org/g/chrome-ux-report/c/TTL4HR8pCcE/m/9DKGRUp6AAAJ">Read More</a>
+                <blockquote class="response">This should be resolved as a result of the recent PSI migration to the CrUX API as its source of field data.<br>
+                  <a href="https://groups.google.com/g/pagespeed-insights-discuss/c/by9-TbqdlBM/m/Ovgg_o22AAAJ">Read More</a>
                 </blockquote>
               </div>
             </li>
@@ -225,9 +225,9 @@
               <div class="collapsible-header"><i class="material-icons">question_answer</i>CrUX by URL</div>
               <div class="collapsible-body">
                 <blockquote class="question">My URL is not working on CrUX by URL, why?</blockquote>
-                <blockquote class="response">We are aware of this problem, but we cannot know exactly if the link to your website exists in the Crux dataset. I think the engineers at google who are developing the Crux API are also aware of this problem. <br><a href="https://github.com/GoogleChrome/CrUX/issues/3">Read more on CrUX origin search tool</a></blockquote>
+                <blockquote class="response">All aggregations (at either the origin or URL levels) must be publicly indexable and meet our popularity criteria. If site owners are sure that their URL is both public and popular, they should reach out to us on the<a href="https://groups.google.com/a/chromium.org/g/chrome-ux-report"> CrUX discussion forum</a> to raise a possible bug.</blockquote>
                 <blockquote class="question">How do I know what URL to query?</blockquote>
-                <blockquote class="response">We recommend that you get the list of links from your website that are most popular. Apart from being popular, they must have enough traffic so that google can obtain the metrics of your link.</blockquote>
+                <blockquote class="response">We recommend that you get the list of links from your website that are most popular. Apart from being popular, they must have enough traffic so that google can obtain the metrics of your link. Another thing I'd recommend is using the Core Web Vitals report in Search Console. They highlight groups of pages with issues and list a few example URLs exhibiting those issues. Those URLs would be good to watch as improvements are made.</blockquote>
               </div>
             </li>
           </ul>
