@@ -26,7 +26,7 @@ CrUXApiUtil.query = async function (requestBody, formFactor) {
     const json = await resp.json();
     console.log(json);
     if (resp.ok) { return json; };
-    M.toast({ html: `${formFactor.formFactor}: ${json.error.message}`, classes: 'red darken-4 white-text'});
+    M.toast({ html: `${formFactor.formFactor}: ${json.error.message}`, classes: 'red darken-4 white-text', displayLength: 480});
 };
 
 getURLData = async (origin, pageType) => {

@@ -32,7 +32,8 @@ CrUXApiOrigin.query = async function (requestBody, formFactor) {
   if (resp.ok) {return json;};
   M.toast({
     html: `${formFactor.formFactor}: ${json.error.message}`,
-    classes: 'red darken-4 white-text'
+    classes: 'red darken-4 white-text',
+    displayLength: 480
   });
 };
 
