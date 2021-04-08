@@ -255,9 +255,19 @@ img.sample {
     -ms-flex-pack: center;
     justify-content: center;
   }
+  #credits .section,
   main .info,
   #about .section {
     margin: 0;
+  }
+  main{ padding-bottom: 100px;}
+  ul#tabs-swipe-demo {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -moz-box-orient: horizontal;
+    -moz-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
   }
 }
 /* Large screens */
