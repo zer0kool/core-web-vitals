@@ -81,7 +81,15 @@ input:-internal-autofill-selected {
 }
 
 .flex h2 {
-  width: 30px;
+    width: 286px;
+    position: absolute;
+    z-index: 12;
+    background-color: #ffffffc4;
+    padding: 0 3px;
+    -webkit-backdrop-filter: blur(1px);
+    backdrop-filter: blur(1px);
+    font-size: 0.7rem;
+    margin-bottom: 0;
 }
 
 form.row {
@@ -196,7 +204,7 @@ span {
   justify-content: space-between;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  margin-bottom: 20px
+  margin-bottom: 10px
 }
 
 .box-good {
@@ -307,7 +315,7 @@ span.close:hover {
     background-clip: border-box;
 }
 .metrics {
-  height: 500px;
+  height: 450px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: -moz-box;
@@ -353,10 +361,10 @@ section.LCP {
   display: -ms-flexbox;
   display: -moz-box;
   display: flex;
-  -webkit-box-pack: end;
-  -ms-flex-pack: end;
-  -moz-box-pack: end;
-  justify-content: flex-end;
+  -webkit-box-pack: pace-between;
+  -moz-box-pack: pace-between;
+  -ms-flex-pack: pace-between;
+  justify-content: pace-between;
   -webkit-box-align: center;
   -ms-flex-align: center;
   -moz-box-align: center;
