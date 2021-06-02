@@ -78,10 +78,18 @@ input:-internal-autofill-selected {
   display: -ms-flexbox;
   display: -moz-box;
   display: flex;
+  height: 60px;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+  -webkit-box-align: end;
+  -moz-box-align: end;
+  -ms-flex-align: end;
+  align-items: flex-end;
 }
 
 .flex h2 {
-    width: 286px;
+    width: 86%;
+    margin: 0;
     position: absolute;
     z-index: 12;
     background-color: #ffffffc4;
@@ -89,7 +97,6 @@ input:-internal-autofill-selected {
     -webkit-backdrop-filter: blur(1px);
     backdrop-filter: blur(1px);
     font-size: 0.7rem;
-    margin-bottom: 0;
 }
 
 form.row {
@@ -174,12 +181,14 @@ main {
   flex-direction: row;
 }
 
+/*
 h2 {
   margin: 0;
   font-size: 1.5rem;
   line-height: 2;
   margin-right: 30px;
 }
+*/
 
 span {
   text-transform: capitalize;
@@ -198,10 +207,8 @@ span {
   display: -ms-flexbox;
   display: -moz-box;
   display: flex;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  -moz-box-pack: justify;
-  justify-content: space-between;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-bottom: 10px
