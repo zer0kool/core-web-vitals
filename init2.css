@@ -56,6 +56,10 @@ body {
   height: 80px;
   background-color: #eaeaea;
 }
+.dark .flex h2 {
+  color: white;
+  background-color: #16181875;
+}
 .dark .topBar {
   height: 80px;
   background: rgb(9 12 12);
