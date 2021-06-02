@@ -146,6 +146,7 @@ function labelMetricData(metrics, key) {
         largest_contentful_paint: 'LCP',
         first_input_delay: 'FID',
         cumulative_layout_shift: 'CLS',
+        experimental_uncapped_cumulative_layout_shift: 'CLS2',
     };
     return Object.entries(metrics).map(([metricName, metricData]) => {
         const standardBinLabels = ['good', 'needs improvement', 'poor'];
