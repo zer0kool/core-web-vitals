@@ -166,10 +166,11 @@ function labelMetricData(metrics, key) {
   };
   console.log(key);
   const nameToAcronymMap = {
-    first_contentful_paint: 'FCP',
-    largest_contentful_paint: 'LCP',
-    first_input_delay: 'FID',
-    cumulative_layout_shift: 'CLS',
+        first_contentful_paint: 'first_contentful_paint',
+        largest_contentful_paint: 'largest_contentful_paint',
+        first_input_delay: 'first_input_delay',
+        cumulative_layout_shift: 'cumulative_layout_shift',
+        experimental_uncapped_cumulative_layout_shift: 'experimental_uncapped_cumulative_layout_shift',
   };
   return Object.entries(metrics).map(([metricName, metricData]) => {
     const standardBinLabels = ['good', 'needs improvement', 'poor'];
