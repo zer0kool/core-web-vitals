@@ -151,7 +151,7 @@ function labelMetricData(metrics, key) {
         const labeledBins = metricBins.map((bin, i) => {
             return {
                 label: standardBinLabels[i],
-                percentage: bin.density * 100,
+                percentage: bin.density ? bin.density * 100 : 0,
                 ...bin,
             };
         });
