@@ -84,6 +84,7 @@ input:-internal-autofill-selected {
 
 .flex h2 {
     width: -webkit-fill-available;
+		width: -moz-available;
     margin: 0;
     position: absolute;
     z-index: 12;
