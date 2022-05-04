@@ -171,6 +171,8 @@ function labelMetricData(metrics, key) {
     first_input_delay: 'FID',
     cumulative_layout_shift: 'CLS',
     experimental_responsiveness: 'Responsiveness',
+    experimental_interaction_to_next_paint: 'interaction_to_next_paint',
+    eexperimental_time_to_first_byte: 'TTFB',
   };
   return Object.entries(metrics).map(([metricName, metricData]) => {
     const standardBinLabels = ['good', 'needs improvement', 'poor'];
