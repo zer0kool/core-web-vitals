@@ -166,13 +166,12 @@ function labelMetricData(metrics, key) {
   };
   console.log(key);
   const nameToAcronymMap = {
-    first_contentful_paint: 'FCP',
-    largest_contentful_paint: 'LCP',
-    first_input_delay: 'FID',
-    cumulative_layout_shift: 'CLS',
-    experimental_responsiveness: 'experimental_responsiveness',
-		experimental_interaction_to_next_paint: 'experimental_interaction_to_next_paint',
-    experimental_time_to_first_byte: 'experimental_time_to_first_byte',
+    first_contentful_paint: 'First Contentful Paint (FCP)',
+    largest_contentful_paint: 'Largest Contentful Paint (LCP)',
+    first_input_delay: 'First Input Delay (FID)',
+    cumulative_layout_shift: 'Cumulative Layout Shift (CLS)',
+		experimental_interaction_to_next_paint: 'experimental Interaction to Next Paint (INP)',
+    experimental_time_to_first_byte: 'experimental Time to First Byte (TTFB)',
   };
   return Object.entries(metrics).map(([metricName, metricData]) => {
     const standardBinLabels = ['good', 'needs improvement', 'poor'];
