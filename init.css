@@ -343,6 +343,16 @@ section.LCP {
   -ms-flex-order: 4;
   order: 4;
 }
+section.INP {
+  -webkit-box-ordinal-group: 6;
+      -ms-flex-order: 5;
+          order: 5;
+}
+section.TTFB {
+  -webkit-box-ordinal-group: 7;
+      -ms-flex-order: 6;
+          order: 6;
+}
 
 .labels {
   display: -webkit-box;

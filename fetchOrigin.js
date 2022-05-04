@@ -139,6 +139,7 @@ function buildData(labeledMetrics, siteName) {
     }
     finalData.key = siteName + metric.key;
     finalData.acronym = metric.acronym;
+    finalData.name = metric.name;
     finalData.good = metric.labeledBins[0].percentage.toFixed(2);
     finalData.ok = metric.labeledBins[1].percentage.toFixed(2);
     finalData.poor = metric.labeledBins[2].percentage.toFixed(2);
@@ -149,7 +150,7 @@ function buildData(labeledMetrics, siteName) {
                 <span class="ok"><i class="material-icons">sentiment_neutral</i>${finalData.ok}%</span>
                 <span class="poor"><i class="material-icons">sentiment_very_dissatisfied</i>${finalData.poor}%</span>
         </div>
-        <div class="flex"><h2>${finalData.acronym}</h2>
+        <div class="flex"><h2>${finalData.name}</h2>
         <div class="grid-container" style="grid-template-columns: ${finalData.good}% ${finalData.ok}% ${finalData.poor}%;">
                 <div class="box-good" data-title="${finalData.good}% good"></div>
                 <div class="box-needs-improvement" data-title="${finalData.ok}% needs improvement"></div>
@@ -165,13 +166,21 @@ function labelMetricData(metrics, key) {
     key = "SUM"
   };
   console.log(key);
-  const nameToAcronymMap = {
+  const nameToFullNameMap = {
     first_contentful_paint: 'First Contentful Paint (FCP)',
     largest_contentful_paint: 'Largest Contentful Paint (LCP)',
     first_input_delay: 'First Input Delay (FID)',
     cumulative_layout_shift: 'Cumulative Layout Shift (CLS)',
 		experimental_interaction_to_next_paint: 'experimental Interaction to Next Paint (INP)',
     experimental_time_to_first_byte: 'experimental Time to First Byte (TTFB)',
+  };
+	const nameToAcronymMap = {
+    first_contentful_paint: 'FCP',
+    largest_contentful_paint: 'LCP',
+    first_input_delay: 'FID',
+    cumulative_layout_shift: 'CLS',
+		experimental_interaction_to_next_paint: 'INP',
+    experimental_time_to_first_byte: 'TTFB',
   };
   return Object.entries(metrics).map(([metricName, metricData]) => {
     const standardBinLabels = ['good', 'needs improvement', 'poor'];
@@ -186,7 +195,7 @@ function labelMetricData(metrics, key) {
     return {
       key: key,
       acronym: nameToAcronymMap[metricName],
-      name: metricName,
+      name: nameToFullNameMap[metricName],
       labeledBins,
     };
   });
