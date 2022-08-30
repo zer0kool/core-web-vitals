@@ -87,7 +87,7 @@ input:-internal-autofill-selected {
 		width: -moz-available;
     margin: 0;
     position: absolute;
-    z-index: 12;
+    z-index: 2;
     background-color: #ffffffc4;
     padding: 0 3px;
     -webkit-backdrop-filter: blur(1px);
@@ -244,18 +244,44 @@ span {
   transform: translate3D(0, -2px, 0);
 }
 
+i.activator.material-icons.right:hover {
+    background-color: #1a2327;
+    color: #ffffff;
+}
+i.activator.material-icons.right {
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 50px;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	padding: 10px;
+	border-top-right-radius: 12px;
+	border-bottom-left-radius: 15px;
+	background-color: #303d44;
+	color: #e8e8e8;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	font-size: 16px;
+	cursor: pointer;
+}
 span.close {
-  position: absolute;
-  right: 0;
-  top: 0;
-  background-color: #2b2b2b;
-  color: #e8e8e8;
-  font-size: 16px;
-  font-weight: 600;
-  padding: 5px;
-  border-top-right-radius: 12px;
-  border-bottom-left-radius: 12px;
-  cursor: pointer;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-color: #2b2b2b;
+    color: #e8e8e8;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 5px;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
 }
 
 span.close:hover {
