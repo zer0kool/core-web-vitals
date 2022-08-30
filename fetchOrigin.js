@@ -1,5 +1,6 @@
 const CrUXApiOrigin = {};
-CrUXApiOrigin.KEY = 'AIzaSyCv-IHj-oddickRMsoI5UBAJx3Cwj-mwck';
+//CrUXApiOrigin.KEY = 'AIzaSyCv-IHj-oddickRMsoI5UBAJx3Cwj-mwck';
+CrUXApiOrigin.KEY = 'AIzaSyABFb0DrX8sAZ3867SAjpimUP-lxZ6yjuA';
 const endpointOrigin = 'https://chromeuxreport.googleapis.com/v1/records:queryRecord';
 var url = `${endpointOrigin}?key=${CrUXApiOrigin.KEY}`;
 var app = document.querySelector('#cruxorigin #app');
@@ -40,10 +41,11 @@ CrUXApiOrigin.query = async function (requestBody, formFactor) {
 getOriginData = async (origin) => {
   document.querySelector("#cruxorigin #loading").style.display = "block";
   const request = [];
-  const sum = await CrUXApiOrigin.query({origin: `https://${origin}/`}, {formFactor: "Sum"});
-  const phone = await CrUXApiOrigin.query({origin: `https://${origin}/`,formFactor: "PHONE"}, {formFactor: "Phone"});
-  const desktop = await CrUXApiOrigin.query({origin: `https://${origin}/`,formFactor: "DESKTOP"}, {formFactor: "Desktop"});
-  const tablet = await CrUXApiOrigin.query({origin: `https://${origin}/`,formFactor: "TABLET"}, {formFactor: "Tablet"});
+
+	const sum = await CrUXApiOrigin.query({origin: `https://${origin}/`, effectiveConnectionType: ""}, {formFactor: "Sum"});
+  const phone = await CrUXApiOrigin.query({origin: `https://${origin}/`,formFactor: "PHONE", effectiveConnectionType: ""}, {formFactor: "Phone"});
+  const desktop = await CrUXApiOrigin.query({origin: `https://${origin}/`,formFactor: "DESKTOP", effectiveConnectionType: ""}, {formFactor: "Desktop"});
+  const tablet = await CrUXApiOrigin.query({origin: `https://${origin}/`,formFactor: "TABLET", effectiveConnectionType: ""}, {formFactor: "Tablet"});
 
   // check if data is undefined
   if (sum !== undefined) {request.push(sum)};
@@ -82,9 +84,9 @@ function buildCard(labeledMetrics, origin) {
   let tabletId = `${siteName}TABLET`;
   let card = `
         <div class="card originData" id="${siteName}">
-            <span class="close">remove</span>
+						<i class="activator material-icons right">call_to_action</i>
             <div class="cardHeader">
-                <img aria-label="${siteName} logo" src="${favicon}">
+                <img class="activator" aria-label="${siteName} logo" src="${favicon}">
                 <span data-title="${origin}">${cardTitle}</span>
             </div>
             <div id="cardBody" class="row">
@@ -101,6 +103,32 @@ function buildCard(labeledMetrics, origin) {
             <div id="${desktopId}" class="col s12"><div class="metrics"></div></div>
             <div id="${tabletId}" class="col s12"><div class="metrics"></div></div>
         </div>
+			  <div class="card-reveal">
+					<span class="close">remove card</span>
+					<span class="card-title grey-text text-darken-4">Crux settings<i class="material-icons right">close</i></span>
+					<p>If the effective connection type is unspecified, then aggregated data over all effective connection types will be returned.</p>
+
+					<!-- 3G connectivity -->
+					<p>Filter 3G connection bucket</p>
+					<div class="switch">
+						<label>
+							Off
+							<input type="checkbox">
+							<span class="lever"></span>
+							On
+						</label>
+					</div>
+					<!-- 4G connectivity -->
+					<p>Filter 4G connection bucket</p>
+					<div class="switch">
+						<label>
+							Off
+							<input type="checkbox">
+							<span class="lever"></span>
+							On
+						</label>
+					</div>
+				</div>
     `;
   document.querySelector('#cruxorigin #app').insertAdjacentHTML("afterbegin", card);
   labeledMetrics.forEach(formFactor => {

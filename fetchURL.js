@@ -1,5 +1,6 @@
 const CrUXApiUtil = {};
-CrUXApiUtil.KEY = 'AIzaSyCmKGAAlWrPWC8-hin3sJclK8A8Kcb1zLs';
+CrUXApiUtil.KEY = 'AIzaSyABFb0DrX8sAZ3867SAjpimUP-lxZ6yjuA';
+//CrUXApiUtil.KEY = 'AIzaSyCmKGAAlWrPWC8-hin3sJclK8A8Kcb1zLs';
 const endpointUrl = 'https://chromeuxreport.googleapis.com/v1/records:queryRecord';
 var url = `${endpointUrl}?key=${CrUXApiUtil.KEY}`;
 var appUrl = document.querySelector('#cruxurl #app');
@@ -32,10 +33,10 @@ CrUXApiUtil.query = async function (requestBody, formFactor) {
 getURLData = async (origin, pageType) => {
     document.querySelector("#cruxurl #loading").style.display = "block";
     const request = [];
-    const sum = await CrUXApiUtil.query({ url: `https://${origin}`}, {formFactor: "Sum"});
-    const phone = await CrUXApiUtil.query({ url: `https://${origin}`, formFactor: "PHONE"}, {formFactor: "Phone"} );
-    const desktop = await CrUXApiUtil.query({ url: `https://${origin}`, formFactor: "DESKTOP"},{formFactor: "Desktop"});
-    const tablet = await CrUXApiUtil.query({ url: `https://${origin}`, formFactor: "TABLET"},{formFactor: "Tablet"});
+    const sum = await CrUXApiUtil.query({ url: `https://${origin}`, effectiveConnectionType: ""}, {formFactor: "Sum"});
+    const phone = await CrUXApiUtil.query({ url: `https://${origin}`, formFactor: "PHONE", effectiveConnectionType: ""}, {formFactor: "Phone"} );
+    const desktop = await CrUXApiUtil.query({ url: `https://${origin}`, formFactor: "DESKTOP", effectiveConnectionType: ""},{formFactor: "Desktop"});
+    const tablet = await CrUXApiUtil.query({ url: `https://${origin}`, formFactor: "TABLET", effectiveConnectionType: ""},{formFactor: "Tablet"});
 
     // check if data is undefined
     if (sum !== undefined){request.push(sum)};
@@ -69,7 +70,7 @@ function buildUrlCardData(labeledMetrics, origin, pageType) {
     let tabletId = `${siteName}TABLET`;
     let card = `
         <div class="card urlData" id="${siteName}">
-            <span class="close">remove</span>
+            <i class="activator material-icons right">call_to_action</i>
             <div class="cardHeader">
                 <img aria-label="${siteName} logo" src="${favicon}">
                 <span>${cardTitle}</span>
@@ -88,6 +89,31 @@ function buildUrlCardData(labeledMetrics, origin, pageType) {
             <div id="${desktopId}" class="col s12"><div class="metrics"></div></div>
             <div id="${tabletId}" class="col s12"><div class="metrics"></div></div>
         </div>
+			  <div class="card-reveal">
+					<span class="close">remove card</span>
+					<span class="card-title grey-text text-darken-4">Crux settings<i class="material-icons right">close</i></span>
+					<p>If the effective connection type is unspecified, then aggregated data over all effective connection types will be returned.</p>
+					<!-- 3G connectivity -->
+					<p>Filter 3G connection bucket</p>
+					<div class="switch">
+						<label>
+							Off
+							<input type="checkbox">
+							<span class="lever"></span>
+							On
+						</label>
+					</div>
+					<!-- 4G connectivity -->
+					<p>Filter 4G connection bucket</p>
+					<div class="switch">
+						<label>
+							Off
+							<input type="checkbox">
+							<span class="lever"></span>
+							On
+						</label>
+					</div>
+				</div>
     `;
     document.querySelector('#cruxurl #app').insertAdjacentHTML("afterbegin", card);
     labeledMetrics.forEach ( formFactor => {
