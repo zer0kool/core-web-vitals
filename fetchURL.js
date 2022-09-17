@@ -128,6 +128,7 @@ function buildUrlCardData(labeledMetrics, origin, pageType) {
     checkMetrics.forEach( metrics => {
         let scopeId = metrics.parentNode.id;
         if(metrics.hasChildNodes()){return};
+					// This can return a null we need a safety net here. rv9.5.2022 @alex
         document.querySelector(`#cruxurl #${scopeId} .metrics`).insertAdjacentHTML("beforeend", noData);
     })
 

@@ -6,6 +6,7 @@ var url = `${endpointOrigin}?key=${CrUXApiOrigin.KEY}`;
 var app = document.querySelector('#cruxorigin #app');
 var toastHTML = '<span>Data already exist on screen</span><button class="btn-flat toast-action">ok</button>';
 var noData = `<p class="nodata">No data</p>`;
+var networks = ['3G', '4G'];
 
 document.querySelector('#cruxorigin form').addEventListener('submit', function (e) {
   e.preventDefault();
@@ -38,14 +39,14 @@ CrUXApiOrigin.query = async function (requestBody, formFactor) {
   });
 };
 
-getOriginData = async (origin) => {
+getOriginData = async (origin, network) => {
   document.querySelector("#cruxorigin #loading").style.display = "block";
   const request = [];
-
-	const sum = await CrUXApiOrigin.query({origin: `https://${origin}/`, effectiveConnectionType: ""}, {formFactor: "Sum"});
-  const phone = await CrUXApiOrigin.query({origin: `https://${origin}/`,formFactor: "PHONE", effectiveConnectionType: ""}, {formFactor: "Phone"});
-  const desktop = await CrUXApiOrigin.query({origin: `https://${origin}/`,formFactor: "DESKTOP", effectiveConnectionType: ""}, {formFactor: "Desktop"});
-  const tablet = await CrUXApiOrigin.query({origin: `https://${origin}/`,formFactor: "TABLET", effectiveConnectionType: ""}, {formFactor: "Tablet"});
+	network = network ?? "";
+	const sum = await CrUXApiOrigin.query({origin: `https://${origin}/`, effectiveConnectionType: `${network}`}, {formFactor: "Sum"});
+  const phone = await CrUXApiOrigin.query({origin: `https://${origin}/`,formFactor: "PHONE", effectiveConnectionType: `${network}`}, {formFactor: "Phone"});
+  const desktop = await CrUXApiOrigin.query({origin: `https://${origin}/`,formFactor: "DESKTOP", effectiveConnectionType: `${network}`}, {formFactor: "Desktop"});
+  const tablet = await CrUXApiOrigin.query({origin: `https://${origin}/`,formFactor: "TABLET", effectiveConnectionType: `${network}`}, {formFactor: "Tablet"});
 
   // check if data is undefined
   if (sum !== undefined) {request.push(sum)};
@@ -89,7 +90,7 @@ function buildCard(labeledMetrics, origin) {
                 <img class="activator" aria-label="${siteName} logo" src="${favicon}">
                 <span data-title="${origin}">${cardTitle}</span>
             </div>
-            <div id="cardBody" class="row">
+         <div id="cardBody" class="row">
             <div class="col s12">
                 <ul class="tabs">
                     <li class="tab col s3"><a href="#${sumId}">Sum</a></li>
@@ -110,7 +111,7 @@ function buildCard(labeledMetrics, origin) {
 
 					<!-- 3G connectivity -->
 					<p>Filter 3G connection bucket</p>
-					<div class="switch">
+					<div class="switch n3g">
 						<label>
 							Off
 							<input type="checkbox">
@@ -120,7 +121,7 @@ function buildCard(labeledMetrics, origin) {
 					</div>
 					<!-- 4G connectivity -->
 					<p>Filter 4G connection bucket</p>
-					<div class="switch">
+					<div class="switch n4g">
 						<label>
 							Off
 							<input type="checkbox">
@@ -143,17 +144,37 @@ function buildCard(labeledMetrics, origin) {
     if (metrics.hasChildNodes()) {
       return
     };
+		// This can return a null we need a safety net here. rv9.5.2022 @alex
     document.querySelector(`#cruxorigin #${scopeId} .metrics`).insertAdjacentHTML("beforeend", noData);
   })
+
+	// toggles and other func
   document.querySelector("#cruxorigin #loading").style.display = "none";
   document.getElementById('search').value = '';
-  document.querySelector(`#cruxorigin #${siteName} .close`).onclick = function () {
-    removeCard()
-  };
 
-  function removeCard() {
-    document.querySelector(`#cruxorigin #${siteName}`).remove();
+	//Action: fetch 3g stats
+
+	document.querySelector(`#cruxorigin #${siteName} .n3g input`).onclick = function () {n3g()};
+  function n3g() {
+//  	debugger;
+		let status_3g = document.querySelector("#google-com > div.card-reveal > div.switch.n3g > label > input[type=checkbox]").checked
+  	console.log(`is3GEnabled: ${status_3g}`)
+//		if(status_3g) {getOriginData('www.google.com', '3G');}
   }
+
+	//Action: fetch 4g stats
+	document.querySelector(`#cruxorigin #${siteName} .n4g input`).onclick = function () {n4g()};
+  function n4g() {
+		let status_4g = document.querySelector("#google-com > div.card-reveal > div.switch.n4g > label > input[type=checkbox]").checked
+		if (status_4g) { console.log("fetch 4g")}
+		console.log(`is4GEnabled: ${status_4g}`)
+	}
+
+	// Action: remove card
+  document.querySelector(`#cruxorigin #${siteName} .close`).onclick = function () {removeCard()};
+  function removeCard() {document.querySelector(`#cruxorigin #${siteName}`).remove();}
+
+
 }
 
 function buildData(labeledMetrics, siteName) {
