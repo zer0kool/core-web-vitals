@@ -453,3 +453,13 @@ div[data-title]:focus::after {
 .progress .indeterminate {
   background-color: #E91E63;
 }
+
+span.networkType {
+    font-size: 12px;
+    margin: 0 auto;
+    text-transform: none;
+    text-align: center;
+    display: block;
+}
+#network { display: none}
+#network.active { display: block}

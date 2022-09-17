@@ -67,43 +67,47 @@ function process(formFactor, origin) {
     const validData = labelMetricData(formFactor.record.metrics, formFactor.record.key.formFactor);
     labeledMetrics.push(validData);
   })
-  const data = buildCard(labeledMetrics, origin);
+	let network = formFactor[0].record.key.effectiveConnectionType;
+  const data = buildCard(labeledMetrics, origin, network);
 }
 
-function buildCard(labeledMetrics, origin) {
-  const favicon = `https://${origin}/favicon.ico`
+	function buildCard(labeledMetrics, origin, network) {
+	network = network ?? "default";
+ 	const favicon  = `https://${origin}/favicon.ico`;
   let filter = origin.replace(/^www\./, '').split('.').slice(0, -1).join('.');
   let filter2 = origin.replace(/^www\./, '').split('.').join('-');
-  let siteName = filter2.split('.').join("-")
-  let cardTitle = filter.split('.').join("-")
-  if (siteName.match(/^\d/)) {
-    siteName = `N${siteName}`
-  }
-  let sumId = `${siteName}SUM`;
-  let phoneId = `${siteName}PHONE`;
-  let desktopId = `${siteName}DESKTOP`;
-  let tabletId = `${siteName}TABLET`;
-  let card = `
+  let siteName = filter2.split('.').join("-");
+  let cardTitle = filter.split('.').join("-");
+  if (siteName.match(/^\d/)) {siteName = `N${siteName}`};
+  let sumId = `${siteName}SUM${network}`;
+  let phoneId = `${siteName}PHONE${network}`;
+  let desktopId = `${siteName}DESKTOP${network}`;
+  let tabletId = `${siteName}TABLET${network}`;
+	if (network === "default") {
+  	let card = `
         <div class="card originData" id="${siteName}">
 						<i class="activator material-icons right">call_to_action</i>
             <div class="cardHeader">
                 <img class="activator" aria-label="${siteName} logo" src="${favicon}">
                 <span data-title="${origin}">${cardTitle}</span>
             </div>
-         <div id="cardBody" class="row">
-            <div class="col s12">
-                <ul class="tabs">
-                    <li class="tab col s3"><a href="#${sumId}">Sum</a></li>
-                    <li class="tab col s3"><a class="active" href="#${phoneId}">Mobile</a></li>
-                    <li class="tab col s3"><a href="#${desktopId}">Desktop</a></li>
-                    <li class="tab col s3"><a href="#${tabletId}">Tablet</a></li>
-                </ul>
-            </div>
-            <div id="${sumId}" class="col s12"><div class="metrics"></div></div>
-            <div id="${phoneId}" class="col s12"><div class="metrics"></div></div>
-            <div id="${desktopId}" class="col s12"><div class="metrics"></div></div>
-            <div id="${tabletId}" class="col s12"><div class="metrics"></div></div>
-        </div>
+						<div id="cardBody">
+							 <div id="network" class="${network} row active">
+							<span class="networkType">effective connection type is unspecified</span>
+									<div class="col s12">
+											<ul class="tabs">
+													<li class="tab col s3"><a href="#${sumId}">Sum</a></li>
+													<li class="tab col s3"><a class="active" href="#${phoneId}">Mobile</a></li>
+													<li class="tab col s3"><a href="#${desktopId}">Desktop</a></li>
+													<li class="tab col s3"><a href="#${tabletId}">Tablet</a></li>
+											</ul>
+									</div>
+									<div id="${sumId}" class="col s12"><div class="metrics"></div></div>
+									<div id="${phoneId}" class="col s12"><div class="metrics"></div></div>
+									<div id="${desktopId}" class="col s12"><div class="metrics"></div></div>
+									<div id="${tabletId}" class="col s12"><div class="metrics"></div></div>
+							</div>
+						</div>
 			  <div class="card-reveal">
 					<span class="close">remove card</span>
 					<span class="card-title grey-text text-darken-4">Crux settings<i class="material-icons right">close</i></span>
@@ -131,53 +135,78 @@ function buildCard(labeledMetrics, origin) {
 					</div>
 				</div>
     `;
-  document.querySelector('#cruxorigin #app').insertAdjacentHTML("afterbegin", card);
-  labeledMetrics.forEach(formFactor => {
-    buildData(formFactor, siteName);
-  })
-  let originTabs = document.querySelectorAll('.originData .tabs');
-  let instance = M.Tabs.init(originTabs, {});
-  let noData = `<p class="nodata">No data</p>`;
-  let checkMetrics = document.querySelectorAll("#cruxorigin .metrics");
-  checkMetrics.forEach(metrics => {
-    let scopeId = metrics.parentNode.id;
-    if (metrics.hasChildNodes()) {
-      return
-    };
+
+		document.querySelector('#cruxorigin #app').insertAdjacentHTML("afterbegin", card);
+
+		// Action: remove card
+		document.querySelector(`#cruxorigin #${siteName} .close`).onclick = function () {removeCard()};
+		function removeCard() {document.querySelector(`#cruxorigin #${siteName}`).remove();}
+
+	}else{
+		let networkDATA = `
+							<div id="network" class="${network} row">
+							<span class="networkType">effective connection type is ${network}</span>
+									<div class="col s12">
+											<ul class="tabs">
+													<li class="tab col s3"><a href="#${sumId}">Sum</a></li>
+													<li class="tab col s3"><a class="active" href="#${phoneId}">Mobile</a></li>
+													<li class="tab col s3"><a href="#${desktopId}">Desktop</a></li>
+													<li class="tab col s3"><a href="#${tabletId}">Tablet</a></li>
+											</ul>
+									</div>
+									<div id="${sumId}" class="col s12"><div class="metrics"></div></div>
+									<div id="${phoneId}" class="col s12"><div class="metrics"></div></div>
+									<div id="${desktopId}" class="col s12"><div class="metrics"></div></div>
+									<div id="${tabletId}" class="col s12"><div class="metrics"></div></div>
+							</div>
+						`;
+		document.querySelector(`#cruxorigin #${siteName} #cardBody`).insertAdjacentHTML("afterbegin", networkDATA);
+	}
+	labeledMetrics.forEach(formFactor => {buildData(formFactor, siteName, network);})
+	let originTabs = document.querySelectorAll('.originData .tabs');
+	let instance = M.Tabs.init(originTabs, {});
+	let noData = `<p class="nodata">No data</p>`;
+	let checkMetrics = document.querySelectorAll("#cruxorigin .metrics");
+	checkMetrics.forEach(metrics => {
+	let scopeId = metrics.parentNode.id;
+	if (metrics.hasChildNodes()) {return};
 		// This can return a null we need a safety net here. rv9.5.2022 @alex
-    document.querySelector(`#cruxorigin #${scopeId} .metrics`).insertAdjacentHTML("beforeend", noData);
+//		debugger;
+		document.querySelector(`#cruxorigin #${scopeId} .metrics`).insertAdjacentHTML("beforeend", noData);
   })
 
-	// toggles and other func
-  document.querySelector("#cruxorigin #loading").style.display = "none";
-  document.getElementById('search').value = '';
 
 	//Action: fetch 3g stats
-
 	document.querySelector(`#cruxorigin #${siteName} .n3g input`).onclick = function () {n3g()};
   function n3g() {
 //  	debugger;
 		let status_3g = document.querySelector("#google-com > div.card-reveal > div.switch.n3g > label > input[type=checkbox]").checked
   	console.log(`is3GEnabled: ${status_3g}`)
-//		if(status_3g) {getOriginData('www.google.com', '3G');}
+		if(status_3g) {getOriginData(`${origin}`, '3G');}
   }
 
 	//Action: fetch 4g stats
 	document.querySelector(`#cruxorigin #${siteName} .n4g input`).onclick = function () {n4g()};
   function n4g() {
 		let status_4g = document.querySelector("#google-com > div.card-reveal > div.switch.n4g > label > input[type=checkbox]").checked
-		if (status_4g) { console.log("fetch 4g")}
+		if (status_4g) {
+			// check if no data exist
+			// if no data exist, then we request data from api
+			//  check if any other #networks row are active
+			// if any other row is active, we disable and activate the current request
+
+			getOriginData(`${origin}`, '4G');
+		}
 		console.log(`is4GEnabled: ${status_4g}`)
 	}
 
-	// Action: remove card
-  document.querySelector(`#cruxorigin #${siteName} .close`).onclick = function () {removeCard()};
-  function removeCard() {document.querySelector(`#cruxorigin #${siteName}`).remove();}
 
-
+		// toggles and other func
+		document.querySelector("#cruxorigin #loading").style.display = "none";
+		document.getElementById('search').value = '';
 }
 
-function buildData(labeledMetrics, siteName) {
+function buildData(labeledMetrics, siteName, network) {
   labeledMetrics.forEach(metric => {
     var finalData = {
       key: "",
@@ -186,7 +215,7 @@ function buildData(labeledMetrics, siteName) {
       ok: "",
       poor: ""
     }
-    finalData.key = siteName + metric.key;
+    finalData.key = siteName + metric.key + network;
     finalData.acronym = metric.acronym;
     finalData.name = metric.name;
     finalData.good = metric.labeledBins[0].percentage.toFixed(2);
@@ -252,3 +281,4 @@ function labelMetricData(metrics, key) {
 
 // on page load, load google site metrics as an example.
 getOriginData('www.google.com');
+
