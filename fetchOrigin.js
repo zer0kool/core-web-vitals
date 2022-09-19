@@ -92,7 +92,7 @@ function process(formFactor, origin) {
                 <span data-title="${origin}">${cardTitle}</span>
             </div>
 						<div id="cardBody">
-							 <div id="network" class="${network} row active">
+							 <div id="network" data-type="${network}" class="${network} row active">
 							<span class="networkType">effective connection type is unspecified</span>
 									<div class="col s12">
 											<ul class="tabs">
@@ -144,7 +144,7 @@ function process(formFactor, origin) {
 
 	}else{
 		let networkDATA = `
-							<div id="network" class="${network} row">
+							<div id="network"  data-type="${network}" class="${network} row">
 							<span class="networkType">effective connection type is ${network}</span>
 									<div class="col s12">
 											<ul class="tabs">
@@ -176,21 +176,35 @@ function process(formFactor, origin) {
   })
 
 
+		let network_settings = {
+			networkRows: document.querySelectorAll(`#cruxorigin #${siteName} #network`),
+			networkData: function(network){
+				let cardBody = document.querySelector(`#cruxorigin #${siteName}`);
+				let netData = document.querySelector(`#cruxorigin #${siteName} div[data-type="${network}"]`);
+				return {exits: cardBody.contains(netData), element: netData};
+			},
+		}
+
+
 	//Action: fetch 3g stats
 	document.querySelector(`#cruxorigin #${siteName} .n3g input`).onclick = function () {n3g()};
   function n3g() {
 //  	debugger;
 		let status_3g = document.querySelector("#google-com > div.card-reveal > div.switch.n3g > label > input[type=checkbox]").checked
-  	console.log(`is3GEnabled: ${status_3g}`)
-		if(status_3g) {getOriginData(`${origin}`, '3G');}
+  	let _Data = network_settings.networkData('3G');
+		if (status_3g && !_Data.exits) {getOriginData(`${origin}`, '3G');}
   }
+
+
 
 	//Action: fetch 4g stats
 	document.querySelector(`#cruxorigin #${siteName} .n4g input`).onclick = function () {n4g()};
   function n4g() {
-		let status_4g = document.querySelector("#google-com > div.card-reveal > div.switch.n4g > label > input[type=checkbox]").checked
-		if (status_4g) {
+		let status_4g = document.querySelector("#google-com > div.card-reveal > div.switch.n4g > label > input[type=checkbox]").checked;
+		let _Data = network_settings.networkData('4G');
+		if (status_4g && !_Data.exits) {
 			// check if no data exist
+//debugger;
 			// if no data exist, then we request data from api
 			//  check if any other #networks row are active
 			// if any other row is active, we disable and activate the current request
