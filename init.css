@@ -461,5 +461,5 @@ span.networkType {
     text-align: center;
     display: block;
 }
-#network { display: none}
-#network.active { display: block}
+
+.active { display: block}
