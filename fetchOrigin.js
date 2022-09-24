@@ -92,7 +92,7 @@ function process(formFactor, origin) {
                 <span data-title="${origin}">${cardTitle}</span>
             </div>
 						<div id="cardBody">
-							 <div id="network" data-type="${network}" class="${network} row active">
+							<div id="network" data-type="${network}" class="${network} row active">
 							<span class="networkType">effective connection type is unspecified</span>
 									<div class="col s12">
 											<ul class="tabs">
@@ -144,7 +144,7 @@ function process(formFactor, origin) {
 
 	}else{
 		let networkDATA = `
-							<div id="network"  data-type="${network}" class="${network} row">
+							<div id="network"  data-type="${network}" class="${network} row active">
 							<span class="networkType">effective connection type is ${network}</span>
 									<div class="col s12">
 											<ul class="tabs">
@@ -176,23 +176,50 @@ function process(formFactor, origin) {
   })
 
 
-		let network_settings = {
+		const network_settings = {
 			networkRows: document.querySelectorAll(`#cruxorigin #${siteName} #network`),
 			networkData: function(network){
 				let cardBody = document.querySelector(`#cruxorigin #${siteName}`);
 				let netData = document.querySelector(`#cruxorigin #${siteName} div[data-type="${network}"]`);
 				return {exits: cardBody.contains(netData), element: netData};
 			},
+			networkToggleEnable: function(network){
+				let el = document.querySelector(`#cruxorigin #${siteName} div[data-type="${network}"]`);
+				el.classList.add('active');
+				if (el.classList.contains('hide')) {el.classList.remove('hide')}
+
+			},
+			networkToggleDisable: function(network){
+				document.querySelector(`#cruxorigin #${siteName} div[data-type="${network}"]`).classList.remove('active');
+				document.querySelector(`#cruxorigin #${siteName} div[data-type="${network}"]`).classList.add('hide');
+			},
+			networkActiveRows: function() {
+				let activeRows = document.querySelectorAll(`#cruxorigin #${siteName} #cardBody > .active`);
+				activeRows.forEach(row => {row.classList.remove('active'); row.classList.add('hide')})
+			},
+			setDefault: function(network) {
+				document.querySelector(`#cruxorigin #${siteName} div[data-type="${network}"]`).classList.add('active');
+				document.querySelector(`#cruxorigin #${siteName} div[data-type="${network}"]`).classList.remove('hide');
+			}
 		}
 
 
 	//Action: fetch 3g stats
 	document.querySelector(`#cruxorigin #${siteName} .n3g input`).onclick = function () {n3g()};
   function n3g() {
-//  	debugger;
-		let status_3g = document.querySelector("#google-com > div.card-reveal > div.switch.n3g > label > input[type=checkbox]").checked
   	let _Data = network_settings.networkData('3G');
-		if (status_3g && !_Data.exits) {getOriginData(`${origin}`, '3G');}
+		let status_3g = document.querySelector(`#cruxorigin #${siteName} > div.card-reveal > div.switch.n3g > label > input[type=checkbox]`).checked;
+		let status_4g = document.querySelector(`#cruxorigin #${siteName} > div.card-reveal > div.switch.n4g > label > input[type=checkbox]`);
+		if (!status_3g && !status_4g.checked) {network_settings.networkToggleDisable('3G'); network_settings.setDefault('default') }
+		if (status_3g && status_4g.checked) { status_4g.checked = false}
+		if (status_3g && !_Data.exits) {
+			network_settings.networkActiveRows();
+			getOriginData(`${origin}`, '3G');
+		}
+		if (status_3g && _Data.exits){
+			network_settings.networkActiveRows();
+			network_settings.networkToggleEnable('3G');
+		}
   }
 
 
@@ -200,18 +227,21 @@ function process(formFactor, origin) {
 	//Action: fetch 4g stats
 	document.querySelector(`#cruxorigin #${siteName} .n4g input`).onclick = function () {n4g()};
   function n4g() {
-		let status_4g = document.querySelector("#google-com > div.card-reveal > div.switch.n4g > label > input[type=checkbox]").checked;
 		let _Data = network_settings.networkData('4G');
+		let status_3g = document.querySelector(`#cruxorigin #${siteName} > div.card-reveal > div.switch.n3g > label > input[type=checkbox]`);
+		let status_4g = document.querySelector(`#cruxorigin #${siteName} > div.card-reveal > div.switch.n4g > label > input[type=checkbox]`).checked;
+		if (!status_4g && !status_3g.checked) {network_settings.networkToggleDisable('4G'); network_settings.setDefault('default') }
+		if (status_4g && status_3g.checked) { status_3g.checked = false };
 		if (status_4g && !_Data.exits) {
-			// check if no data exist
-//debugger;
-			// if no data exist, then we request data from api
-			//  check if any other #networks row are active
-			// if any other row is active, we disable and activate the current request
-
+			network_settings.networkActiveRows();
 			getOriginData(`${origin}`, '4G');
+			status_3g = false;
 		}
-		console.log(`is4GEnabled: ${status_4g}`)
+		if (status_4g && _Data.exits){
+			network_settings.networkActiveRows();
+			network_settings.networkToggleEnable('4G');
+			status_3g = false;
+		}
 	}
 
 
