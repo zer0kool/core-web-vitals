@@ -98,7 +98,7 @@ function buildUrlCardData(labeledMetrics, origin, pageType) {
 					<div class="switch">
 						<label>
 							Off
-							<input type="checkbox">
+							<input type="checkbox" disabled>
 							<span class="lever"></span>
 							On
 						</label>
@@ -108,7 +108,7 @@ function buildUrlCardData(labeledMetrics, origin, pageType) {
 					<div class="switch">
 						<label>
 							Off
-							<input type="checkbox">
+							<input type="checkbox" disabled>
 							<span class="lever"></span>
 							On
 						</label>
