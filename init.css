@@ -67,7 +67,12 @@ input:-internal-autofill-selected {
   text-align: center;
   padding: 30px;
 }
-
+.loadingWrap {
+    height: 60px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
 .flex {
   width: -webkit-fill-available;
   width: -moz-available;
@@ -235,6 +240,7 @@ span {
   height: fit-content;
   min-width: 200px;
   max-width: 375px;
+	width: 375px;
 }
 
 .card:hover {
@@ -325,6 +331,8 @@ span.close:hover {
 
 #cardBody {
   margin: 0;
+  width: 100%;
+  min-height: 650px;
 }
 .git.circle {
     background-color: #161818;
