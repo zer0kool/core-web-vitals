@@ -324,5 +324,6 @@ function labelMetricData(metrics, key) {
 }
 
 // on page load, load google site metrics as an example.
-getOriginData('www.google.com');
+//getOriginData('www.google.com');
+scheduler.postTask(getOriginData('www.google.com'), {priority: 'user-blocking'});
 
