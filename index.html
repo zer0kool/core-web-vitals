@@ -28,9 +28,9 @@
   <link rel="dns-prefetch" href="//fonts.googleapis.com">
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
   <link rel="preload" href="https://fonts.gstatic.com/s/materialicons/v53/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" fetchpriority="high">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap"/>
-  <link rel="stylesheet" type="text/css" href="init.css" media="screen,projection" />
+  <link rel="stylesheet" as="font" type="text/css" href="init.css" media="screen,projection" />
   <link rel="stylesheet" type="text/css" href="init2.css" media="screen,projection" />
 </head>
 
@@ -256,20 +256,20 @@
     </div>
     <div id="credits" class="col s12"> <br><br>
       <div class="section center">
-        <img decoding="async" loading="lazy" width="280" height="50" src="./wompmobile.png">
+        <img decoding="async" loading="lazy" width="280" height="50" src="./wompmobile.png" fetchpriority="low">
         <h5>CrUX Tool: Query and visualize the CrUX API</h5>
         <p>Created by <a alt="Alex Github" href="https://github.com/zer0kool">Alejandro Loaiza</a> and maintained by the Quality Lab Engineers at WompMobile. </p>
 
         <div class="block">
           <div class="center tool">
-            <img decoding="async" loading="lazy" src="https://developers.google.com/web/tools/chrome-user-experience-report/images/logo.png">
+            <img decoding="async" loading="lazy" src="https://developers.google.com/web/tools/chrome-user-experience-report/images/logo.png" fetchpriority="low">
           </div>
           <h5>Data source: Chrome UX Report API</h5>
           <p>Check out <a alt="Crux API" href="https://web.dev/chrome-ux-report-api/">Rick Viscomi article</a> and learn how to use the Chrome UX Report API to get easy, RESTful access to real-user experience data across millions of websites. </p>
         </div>
         <div class="block">
           <div class="center tool">
-            <img class="git circle" decoding="async" loading="lazy" src="https://githubuniverse.com/assets/img/GitHub-invertocat.svg">
+            <img class="git circle" decoding="async" loading="lazy" src="https://githubuniverse.com/assets/img/GitHub-invertocat.svg" fetchpriority="low">
           </div>
           <h5>Github Community: Thank you!</h5>
           <p>The CrUX tool serves the community and reporting bugs or providing constructive feedback is considered a contribution. The CrUX tool gets better because of you.</p>
@@ -285,8 +285,8 @@
     </div>
   </main>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <script async type="text/javascript" src="./theme.js"></script>
-  <script async type="text/javascript" src="./init.js"></script>
+  <script async type="text/javascript" src="./theme.js" fetchpriority="low"></script>
+  <script async type="text/javascript" src="./init.js" fetchpriority="low"></script>
   <script async type="text/javascript" src="./fetchOrigin.js"></script>
-  <script async type="text/javascript" src="./fetchURL.js"></script>
+  <script async type="text/javascript" src="./fetchURL.js" fetchpriority="low"></script>
 </body>
