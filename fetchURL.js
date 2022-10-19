@@ -205,5 +205,5 @@ function labelMetricData(metrics, key) {
 }
 
 // on page load, load google site metrics as an example.
-//getURLData('www.google.com', 'Google');
-scheduler.postTask(getURLData('www.google.com', 'Google'), {priority: 'background'});
+getURLData('www.google.com', 'Google');
+//scheduler.postTask(getURLData('www.google.com', 'Google'), {priority: 'background'});
