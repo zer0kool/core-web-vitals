@@ -83,6 +83,7 @@ function process(formFactor, origin) {
   let phoneId = `${siteName}PHONE${network}`;
   let desktopId = `${siteName}DESKTOP${network}`;
   let tabletId = `${siteName}TABLET${network}`;
+  let date = Date();
 	if (network === "default") {
   	let card = `
         <div class="card originData" id="${siteName}">
@@ -107,6 +108,7 @@ function process(formFactor, origin) {
 									<div id="${desktopId}" class="col s12"><div class="metrics"></div></div>
 									<div id="${tabletId}" class="col s12"><div class="metrics"></div></div>
 							</div>
+							<span class="date">${date}</span>
 						</div>
 			  <div class="card-reveal">
 					<span class="close">remove card</span>

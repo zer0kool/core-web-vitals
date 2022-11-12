@@ -114,6 +114,12 @@ form.row {
   flex-wrap: wrap;
 }
 
+span.date {
+  font-size: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 button.btn-large {
   width: -webkit-fill-available;
   width: -moz-available;
