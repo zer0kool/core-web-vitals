@@ -68,6 +68,7 @@ function buildUrlCardData(labeledMetrics, origin, pageType) {
     let phoneId = `${siteName}PHONE`;
     let desktopId = `${siteName}DESKTOP`;
     let tabletId = `${siteName}TABLET`;
+    let date = Date(); 
     let card = `
         <div class="card urlData" id="${siteName}">
             <i class="activator material-icons right">call_to_action</i>
