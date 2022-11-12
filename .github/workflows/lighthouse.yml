@@ -1,17 +1,12 @@
-name: Lighthouse CI
-on: [push, pull_request]
+name: Lighthouse
+on: push
 jobs:
-  CI:
-    name: Build project and run Lighthouse CI
+  lighthouse:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Checkout submodules
-        uses: textbook/git-checkout-submodule-action@master
-
-      - name: Run Lighthouse CI
+      - uses: actions/checkout@v3
+      - name: Run Lighthouse on urls and validate with lighthouserc
         uses: treosh/lighthouse-ci-action@v9
         with:
-          configPath: "./lighthouserc.json"
+          urls: 'https://crux.wompmobile.com/'
+          configPath: './lighthouserc.json'
