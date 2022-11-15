@@ -109,7 +109,9 @@ function process(formFactor, origin) {
 									<div id="${desktopId}" class="col s12"><div class="metrics"></div></div>
 									<div id="${tabletId}" class="col s12"><div class="metrics"></div></div>
 							</div>
-							<span class="date">${date}</span>
+							<span class="date">
+							period date: ${dates.first.month}-${dates.first.day}-${dates.first.year} to ${dates.last.month}-${dates.last.day}-${dates.last.year}
+							</span>
 						</div>
 			  <div class="card-reveal">
 					<span class="close">remove card</span>
