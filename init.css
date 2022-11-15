@@ -477,3 +477,15 @@ span.networkType {
 }
 
 .active { display: block}
+
+.periodDate {
+  padding: 5px;
+  border-radius: 2px;
+  border-left: 5px solid #ffc107;
+}
+.periodDate span {
+  font-weight: 600;
+}
+.periodDate p {
+  margin: 0;
+}

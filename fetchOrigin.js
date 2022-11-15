@@ -67,11 +67,13 @@ function process(formFactor, origin) {
     const validData = labelMetricData(formFactor.record.metrics, formFactor.record.key.formFactor);
     labeledMetrics.push(validData);
   })
+  debugger;
 	let network = formFactor[0].record.key.effectiveConnectionType;
-  const data = buildCard(labeledMetrics, origin, network);
+	let dates = {first: formFactor[0].record.collectionPeriod.firstDate , last: formFactor[0].record.collectionPeriod.lastDate};
+  	const data = buildCard(labeledMetrics, origin, network, dates);
 }
 
-	function buildCard(labeledMetrics, origin, network) {
+	function buildCard(labeledMetrics, origin, network, dates) {
 	network = network ?? "default";
  	const favicon  = `https://${origin}/favicon.ico`;
   let filter = origin.replace(/^www\./, '').split('.').slice(0, -1).join('.');
@@ -114,6 +116,12 @@ function process(formFactor, origin) {
 					<span class="close">remove card</span>
 					<span class="card-title grey-text text-darken-4">Crux settings<i class="material-icons right">close</i></span>
 					<p>If the effective connection type is unspecified, then aggregated data over all effective connection types will be returned.</p>
+
+					<div class="periodDate"><p>
+					The aggregated data on this card is from </p>
+						<span class="firstDate">${dates.first.month}-${dates.first.day}-${dates.first.year}</span> to 
+						<span class="lastDate">${dates.last.month}-${dates.last.day}-${dates.last.year}</span>
+					</div>
 
 					<!-- 3G connectivity -->
 					<p>Filter 3G connection bucket</p>
