@@ -67,7 +67,6 @@ function process(formFactor, origin) {
     const validData = labelMetricData(formFactor.record.metrics, formFactor.record.key.formFactor);
     labeledMetrics.push(validData);
   })
-  debugger;
 	let network = formFactor[0].record.key.effectiveConnectionType;
 	let dates = {first: formFactor[0].record.collectionPeriod.firstDate , last: formFactor[0].record.collectionPeriod.lastDate};
   	const data = buildCard(labeledMetrics, origin, network, dates);
