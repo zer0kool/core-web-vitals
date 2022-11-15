@@ -115,10 +115,11 @@ form.row {
 }
 
 span.date {
-  font-size: 10px;
+  font-size: 12px;
   width: 100%;
   display: flex;
   justify-content: center;
+  text-transform: none;
 }
 button.btn-large {
   width: -webkit-fill-available;
