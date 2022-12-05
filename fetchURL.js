@@ -6,6 +6,7 @@ var url = `${endpointUrl}?key=${CrUXApiUtil.KEY}`;
 var appUrl = document.querySelector('#cruxurl #app');
 var toastHTML = '<span>Data already exist on screen</span><button class="btn-flat toast-action">ok</button>';
 var noData = `<p class="nodata">No data</p>`;
+var networks = ['3G', '4G'];
 
 document.querySelector('#cruxurl form').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -30,13 +31,14 @@ CrUXApiUtil.query = async function (requestBody, formFactor) {
     M.toast({ html: `${formFactor.formFactor}: ${json.error.message}`, classes: 'red darken-4 white-text', displayLength: 480});
 };
 
-getURLData = async (origin, pageType) => {
+getURLData = async (origin, pageType, network) => {
     document.querySelector("#cruxurl #loading").style.display = "block";
     const request = [];
-    const sum = await CrUXApiUtil.query({ url: `https://${origin}`, effectiveConnectionType: ""}, {formFactor: "Sum"});
-    const phone = await CrUXApiUtil.query({ url: `https://${origin}`, formFactor: "PHONE", effectiveConnectionType: ""}, {formFactor: "Phone"} );
-    const desktop = await CrUXApiUtil.query({ url: `https://${origin}`, formFactor: "DESKTOP", effectiveConnectionType: ""},{formFactor: "Desktop"});
-    const tablet = await CrUXApiUtil.query({ url: `https://${origin}`, formFactor: "TABLET", effectiveConnectionType: ""},{formFactor: "Tablet"});
+		network = network ?? "";
+    const sum = await CrUXApiUtil.query({ url: `https://${origin}`, effectiveConnectionType: `${network}`}, {formFactor: "Sum"});
+    const phone = await CrUXApiUtil.query({ url: `https://${origin}`, formFactor: "PHONE", effectiveConnectionType: `${network}`}, {formFactor: "Phone"} );
+    const desktop = await CrUXApiUtil.query({ url: `https://${origin}`, formFactor: "DESKTOP", effectiveConnectionType: `${network}`},{formFactor: "Desktop"});
+    const tablet = await CrUXApiUtil.query({ url: `https://${origin}`, formFactor: "TABLET", effectiveConnectionType: `${network}`},{formFactor: "Tablet"});
 
     // check if data is undefined
     if (sum !== undefined){request.push(sum)};
@@ -51,13 +53,17 @@ getURLData = async (origin, pageType) => {
 function processURLData(formFactor, origin, pageType) {
     const labeledMetrics = [];
     formFactor.forEach( formFactor => {
-        const validData = labelMetricData(formFactor.record.metrics, formFactor.record.key.formFactor);
+    		const validData = labelMetricData(formFactor.record.metrics, formFactor.record.key.formFactor);
         labeledMetrics.push(validData);
     })
-    const data = buildUrlCardData(labeledMetrics, origin, pageType);
+	debugger;
+		let network = formFactor[0].record.key.effectiveConnectionType;
+		let dates = {first: formFactor[0].record.collectionPeriod.firstDate , last: formFactor[0].record.collectionPeriod.lastDate};
+    const data = buildUrlCardData(labeledMetrics, origin, pageType, network, dates);
 }
 
-function buildUrlCardData(labeledMetrics, origin, pageType) {
+function buildUrlCardData(labeledMetrics, origin, pageType, network, dates) {
+		network = network ?? "default";
     const favicon  = `https://${origin}/favicon.ico`;
     let filter = origin.split('/')[0].replace(/^www\./, '').split('.').slice(0, -1).join('.');
     let pageName = filter.split('.').join("-")
@@ -69,54 +75,94 @@ function buildUrlCardData(labeledMetrics, origin, pageType) {
     let desktopId = `${siteName}DESKTOP`;
     let tabletId = `${siteName}TABLET`;
     let date = Date(); 
-    let card = `
-        <div class="card urlData" id="${siteName}">
-            <i class="activator material-icons right">call_to_action</i>
-            <div class="cardHeader">
-                <img aria-label="${siteName} logo" src="${favicon}">
-                <span>${cardTitle}</span>
-            </div>
-            <div id="cardBody" class="row">
-            <div class="col s12">
-                <ul class="tabs">
-                    <li class="tab col s3"><a href="#${sumId}">Sum</a></li>
-                    <li class="tab col s3"><a class="active" href="#${phoneId}">Mobile</a></li>
-                    <li class="tab col s3"><a href="#${desktopId}">Desktop</a></li>
-                    <li class="tab col s3"><a href="#${tabletId}">Tablet</a></li>
-                </ul>
-            </div>
-            <div id="${sumId}" class="col s12"><div class="metrics"></div></div>
-            <div id="${phoneId}" class="col s12"><div class="metrics"></div></div>
-            <div id="${desktopId}" class="col s12"><div class="metrics"></div></div>
-            <div id="${tabletId}" class="col s12"><div class="metrics"></div></div>
-        </div>
-			  <div class="card-reveal">
-					<span class="close">remove card</span>
-					<span class="card-title grey-text text-darken-4">Crux settings<i class="material-icons right">close</i></span>
-					<p>If the effective connection type is unspecified, then aggregated data over all effective connection types will be returned.</p>
-					<!-- 3G connectivity -->
-					<p>Filter 3G connection bucket</p>
-					<div class="switch">
-						<label>
-							Off
-							<input type="checkbox" disabled>
-							<span class="lever"></span>
-							On
-						</label>
+		if (network === "default") {
+			let card = `
+					<div class="card urlData" id="${siteName}">
+							<i class="activator material-icons right">call_to_action</i>
+							<div class="cardHeader">
+									<img class="activator" aria-label="${siteName} logo" src="${favicon}">
+									<span data-title="${origin}">${cardTitle}</span>
+							</div>
+							<div id="cardBody">
+								<div id="network" data-type="${network}" class="${network} row active">
+								<span class="networkType">effective connection type is unspecified</span>
+										<div class="col s12">
+												<ul class="tabs">
+														<li class="tab col s3"><a href="#${sumId}">Sum</a></li>
+														<li class="tab col s3"><a class="active" href="#${phoneId}">Mobile</a></li>
+														<li class="tab col s3"><a href="#${desktopId}">Desktop</a></li>
+														<li class="tab col s3"><a href="#${tabletId}">Tablet</a></li>
+												</ul>
+										</div>
+										<div id="${sumId}" class="col s12"><div class="metrics"></div></div>
+										<div id="${phoneId}" class="col s12"><div class="metrics"></div></div>
+										<div id="${desktopId}" class="col s12"><div class="metrics"></div></div>
+										<div id="${tabletId}" class="col s12"><div class="metrics"></div></div>
+								</div>
+								<span class="date">
+								collection period: ${dates.first.month}-${dates.first.day}-${dates.first.year} to ${dates.last.month}-${dates.last.day}-${dates.last.year}
+								</span>
+							</div>
+					<div class="card-reveal">
+						<span class="close">remove card</span>
+						<span class="card-title grey-text text-darken-4">Crux settings<i class="material-icons right">close</i></span>
+						<p>If the effective connection type is unspecified, then aggregated data over all effective connection types will be returned.</p>
+
+						<div class="periodDate"><p>
+						The aggregated data on this card is from </p>
+							<span class="firstDate">${dates.first.month}-${dates.first.day}-${dates.first.year}</span> to
+							<span class="lastDate">${dates.last.month}-${dates.last.day}-${dates.last.year}</span>
+						</div>
+
+						<!-- 3G connectivity -->
+						<p>Filter 3G connection bucket</p>
+						<div class="switch n3g">
+							<label>
+								Off
+								<input data-card="${siteName}" type="checkbox">
+								<span class="lever"></span>
+								On
+							</label>
+						</div>
+						<!-- 4G connectivity -->
+						<p>Filter 4G connection bucket</p>
+						<div class="switch n4g">
+							<label>
+								Off
+								<input data-card="${siteName}" type="checkbox">
+								<span class="lever"></span>
+								On
+							</label>
+						</div>
 					</div>
-					<!-- 4G connectivity -->
-					<p>Filter 4G connection bucket</p>
-					<div class="switch">
-						<label>
-							Off
-							<input type="checkbox" disabled>
-							<span class="lever"></span>
-							On
-						</label>
-					</div>
-				</div>
-    `;
-    document.querySelector('#cruxurl #app').insertAdjacentHTML("afterbegin", card);
+			`;
+
+			document.querySelector('#cruxurl #app').insertAdjacentHTML("afterbegin", card);
+
+			// Action: remove card
+			document.querySelector(`#cruxurl #${siteName} .close`).onclick = function () {removeCard()};
+			function removeCard() {document.querySelector(`#cruxurl #${siteName}`).remove();}
+
+		}else{ debugger;
+			let networkDATA = `
+								<div id="network"  data-type="${network}" class="${network} row active">
+								<span class="networkType">effective connection type is ${network}</span>
+										<div class="col s12">
+												<ul class="tabs">
+														<li class="tab col s3"><a href="#${sumId}">Sum</a></li>
+														<li class="tab col s3"><a class="active" href="#${phoneId}">Mobile</a></li>
+														<li class="tab col s3"><a href="#${desktopId}">Desktop</a></li>
+														<li class="tab col s3"><a href="#${tabletId}">Tablet</a></li>
+												</ul>
+										</div>
+										<div id="${sumId}" class="col s12"><div class="metrics"></div></div>
+										<div id="${phoneId}" class="col s12"><div class="metrics"></div></div>
+										<div id="${desktopId}" class="col s12"><div class="metrics"></div></div>
+										<div id="${tabletId}" class="col s12"><div class="metrics"></div></div>
+								</div>
+							`;
+			document.querySelector(`#cruxurl #${siteName} #cardBody`).insertAdjacentHTML("afterbegin", networkDATA);
+		}
     labeledMetrics.forEach ( formFactor => {
         buildURLData(formFactor, siteName);
     })
@@ -133,12 +179,101 @@ function buildUrlCardData(labeledMetrics, origin, pageType) {
         document.querySelector(`#cruxurl #${scopeId} .metrics`).insertAdjacentHTML("beforeend", noData);
     })
 
+		const network_settings = {
+			networkRows: document.querySelectorAll(`#cruxurl #${siteName} #network`),
+			networkData: function (network) {
+				let cardBody = document.querySelector(`#cruxurl #${siteName}`);
+				let netData = document.querySelector(`#cruxurl #${siteName} div[data-type="${network}"]`);
+				return {
+					exits: cardBody.contains(netData),
+					element: netData
+				};
+			},
+			networkToggleEnable: function (network) {
+				let el = document.querySelector(`#cruxurl #${siteName} div[data-type="${network}"]`);
+				el.classList.add('active');
+				if (el.classList.contains('hide')) {
+					el.classList.remove('hide')
+				}
+
+			},
+			networkToggleDisable: function (network) {
+				document.querySelector(`#cruxurl #${siteName} div[data-type="${network}"]`).classList.remove('active');
+				document.querySelector(`#cruxurl #${siteName} div[data-type="${network}"]`).classList.add('hide');
+			},
+			networkActiveRows: function () {
+				let activeRows = document.querySelectorAll(`#cruxurl #${siteName} #cardBody > .active`);
+				activeRows.forEach(row => {
+					row.classList.remove('active');
+					row.classList.add('hide')
+				})
+			},
+			setDefault: function (network) {
+				document.querySelector(`#cruxurl #${siteName} div[data-type="${network}"]`).classList.add('active');
+				document.querySelector(`#cruxurl #${siteName} div[data-type="${network}"]`).classList.remove('hide');
+			}
+		}
+
+
+		//Action: fetch 3g stats
+		document.querySelector(`#cruxurl #${siteName} .n3g input`).onclick = function () { debugger;
+			n3g(this.dataset.card)
+		};
+
+		function n3g(card) {
+			debugger;
+			let _Data = network_settings.networkData('3G');
+			let status_3g = document.querySelector(`#cruxurl #${siteName} > div.card-reveal > div.switch.n3g > label > input[type=checkbox]`).checked;
+			let status_4g = document.querySelector(`#cruxurl #${siteName} > div.card-reveal > div.switch.n4g > label > input[type=checkbox]`);
+			if (!status_3g && !status_4g.checked) {
+				network_settings.networkToggleDisable('3G');
+				network_settings.setDefault('default')
+			}
+			if (status_3g && status_4g.checked) {
+				status_4g.checked = false
+			}
+			if (status_3g && !_Data.exits) {
+				network_settings.networkActiveRows();
+				getURLData(`${origin}`,pageType, '3G');
+			}
+			if (status_3g && _Data.exits) {
+				network_settings.networkActiveRows();
+				network_settings.networkToggleEnable('3G');
+			}
+		}
+
+
+
+		//Action: fetch 4g stats
+		document.querySelector(`#cruxurl #${siteName} .n4g input`).onclick = function () {
+			n4g(this.dataset.card)
+		};
+
+		function n4g(card) {
+			let _Data = network_settings.networkData('4G');
+			let status_3g = document.querySelector(`#cruxurl #${siteName} > div.card-reveal > div.switch.n3g > label > input[type=checkbox]`);
+			let status_4g = document.querySelector(`#cruxurl #${siteName} > div.card-reveal > div.switch.n4g > label > input[type=checkbox]`).checked;
+			if (!status_4g && !status_3g.checked) {
+				network_settings.networkToggleDisable('4G');
+				network_settings.setDefault('default')
+			}
+			if (status_4g && status_3g.checked) {
+				status_3g.checked = false
+			};
+			if (status_4g && !_Data.exits) {
+				network_settings.networkActiveRows();
+				getURLData(`${origin}`,pageType, '4G');
+				status_3g = false;
+			}
+			if (status_4g && _Data.exits) {
+				network_settings.networkActiveRows();
+				network_settings.networkToggleEnable('4G');
+				status_3g = false;
+			}
+		}
+
     document.querySelector("#cruxurl #loading").style.display = "none";
     document.getElementById('search').value = '';
-    document.querySelector(`#cruxurl #${siteName} .close`).onclick = function() {removeCard()};
-    function removeCard(){
-         document.querySelector(`#cruxurl #${siteName}`).remove();
-    }
 }
 
 function buildURLData(labeledMetrics, siteName) {
