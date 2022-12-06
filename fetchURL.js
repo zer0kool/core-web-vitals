@@ -56,7 +56,7 @@ function processURLData(formFactor, origin, pageType) {
     		const validData = labelMetricData(formFactor.record.metrics, formFactor.record.key.formFactor);
         labeledMetrics.push(validData);
     })
-	debugger;
+
 		let network = formFactor[0].record.key.effectiveConnectionType;
 		let dates = {first: formFactor[0].record.collectionPeriod.firstDate , last: formFactor[0].record.collectionPeriod.lastDate};
     const data = buildUrlCardData(labeledMetrics, origin, pageType, network, dates);
@@ -70,10 +70,10 @@ function buildUrlCardData(labeledMetrics, origin, pageType, network, dates) {
     let cardTitle = pageType;
     let siteName = pageName+pageType;
     if (siteName.match(/^\d/)) { siteName = `N${siteName}`}
-    let sumId = `${siteName}SUM`;
-    let phoneId = `${siteName}PHONE`;
-    let desktopId = `${siteName}DESKTOP`;
-    let tabletId = `${siteName}TABLET`;
+		let sumId = `${siteName}SUM${network}`;
+		let phoneId = `${siteName}PHONE${network}`;
+		let desktopId = `${siteName}DESKTOP${network}`;
+		let tabletId = `${siteName}TABLET${network}`;
     let date = Date(); 
 		if (network === "default") {
 			let card = `
@@ -143,7 +143,7 @@ function buildUrlCardData(labeledMetrics, origin, pageType, network, dates) {
 			document.querySelector(`#cruxurl #${siteName} .close`).onclick = function () {removeCard()};
 			function removeCard() {document.querySelector(`#cruxurl #${siteName}`).remove();}
 
-		}else{ debugger;
+		}else{
 			let networkDATA = `
 								<div id="network"  data-type="${network}" class="${network} row active">
 								<span class="networkType">effective connection type is ${network}</span>
@@ -164,7 +164,7 @@ function buildUrlCardData(labeledMetrics, origin, pageType, network, dates) {
 			document.querySelector(`#cruxurl #${siteName} #cardBody`).insertAdjacentHTML("afterbegin", networkDATA);
 		}
     labeledMetrics.forEach ( formFactor => {
-        buildURLData(formFactor, siteName);
+        buildURLData(formFactor, siteName, network);
     })
     let urlTabs = document.querySelectorAll('.urlData .tabs');
     M.Tabs.init(urlTabs, {});
@@ -216,12 +216,11 @@ function buildUrlCardData(labeledMetrics, origin, pageType, network, dates) {
 
 
 		//Action: fetch 3g stats
-		document.querySelector(`#cruxurl #${siteName} .n3g input`).onclick = function () { debugger;
-			n3g(this.dataset.card)
+		document.querySelector(`#cruxurl #${siteName} .n3g input`).onclick = function () {
+			n3g()
 		};
 
-		function n3g(card) {
-			debugger;
+		function n3g() {
 			let _Data = network_settings.networkData('3G');
 			let status_3g = document.querySelector(`#cruxurl #${siteName} > div.card-reveal > div.switch.n3g > label > input[type=checkbox]`).checked;
 			let status_4g = document.querySelector(`#cruxurl #${siteName} > div.card-reveal > div.switch.n4g > label > input[type=checkbox]`);
@@ -246,10 +245,10 @@ function buildUrlCardData(labeledMetrics, origin, pageType, network, dates) {
 
 		//Action: fetch 4g stats
 		document.querySelector(`#cruxurl #${siteName} .n4g input`).onclick = function () {
-			n4g(this.dataset.card)
+			n4g()
 		};
 
-		function n4g(card) {
+		function n4g() {
 			let _Data = network_settings.networkData('4G');
 			let status_3g = document.querySelector(`#cruxurl #${siteName} > div.card-reveal > div.switch.n3g > label > input[type=checkbox]`);
 			let status_4g = document.querySelector(`#cruxurl #${siteName} > div.card-reveal > div.switch.n4g > label > input[type=checkbox]`).checked;
@@ -276,10 +275,10 @@ function buildUrlCardData(labeledMetrics, origin, pageType, network, dates) {
     document.getElementById('search').value = '';
 }
 
-function buildURLData(labeledMetrics, siteName) {
+function buildURLData(labeledMetrics, siteName, network) {
         labeledMetrics.forEach( metric => {
         var finalData = {key:"", acronym:"", good:"", ok:"", poor:""}
-        finalData.key = siteName + metric.key;
+        finalData.key = siteName + metric.key + network;
         finalData.acronym = metric.acronym;
         finalData.name = metric.name;
         finalData.good = metric.labeledBins[0].percentage.toFixed(2);
