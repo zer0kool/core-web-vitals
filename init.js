@@ -8,3 +8,6 @@ M.Collapsible.init(elems, {});
 
 var mobileMenu = document.querySelector('.fixed-action-btn');
 M.FloatingActionButton.init(mobileMenu, {})
+
+var slide = document.querySelectorAll('.modal');
+M.Modal.init(slide, {});

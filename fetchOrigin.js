@@ -161,6 +161,11 @@ function buildCard(labeledMetrics, origin, network, dates) {
 						On
 					</label>
 				</div>
+				<div class="history"> 
+					<div class="center container"> 
+						<a class="btn modal-trigger loadHistory" href="#modal1"> Load Historical Data </a> 
+					</div> 
+				</div>
 			</div>
 		</div>
 		`;
@@ -285,6 +290,11 @@ function buildCard(labeledMetrics, origin, network, dates) {
 	// toggles and other func
 	document.querySelector("#cruxorigin #loading").style.display = "none";
 	document.getElementById('search').value = '';
+
+	document.querySelector(`#cruxorigin #${siteName} .loadHistory`).addEventListener('click', function() { 
+		// code to run when button is clicked 
+		console.log(` test:: #${siteName}`)
+	});
 }
 
 function buildData(labeledMetrics, siteName, network) {
@@ -368,3 +378,210 @@ function labelMetricData(metrics, key) {
 getOriginData('www.google.com');
 //scheduler.postTask(getOriginData('www.google.com'), {priority: 'user-blocking'});
 
+
+am5.ready(function() {
+
+	// Create root element
+	// https://www.amcharts.com/docs/v5/getting-started/#Root_element
+	var root = am5.Root.new("chartdiv");
+	
+	
+	// Set themes
+	// https://www.amcharts.com/docs/v5/concepts/themes/
+	root.setThemes([
+	  am5themes_Animated.new(root)
+	]);
+	
+	
+	// Create chart
+	// https://www.amcharts.com/docs/v5/charts/xy-chart/
+	var chart = root.container.children.push(am5xy.XYChart.new(root, {
+	  panX: true,
+	  panY: true,
+	  wheelX: "panX",
+	  wheelY: "zoomX",
+	  layout: root.verticalLayout,
+	  pinchZoomX:true
+	}));
+	
+	
+	// Add cursor
+	// https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
+	var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
+	  behavior: "none"
+	}));
+	cursor.lineY.set("visible", false);
+	
+	
+	// The data
+	var data = [{
+	  "year": "1994",
+	  "good": 1587,
+	  "Need Improvement": 650,
+	  "bad": 121
+	}, {
+	  "year": "1995",
+	  "good": 1567,
+	  "Need Improvement": 683,
+	  "bad": 146
+	}, {
+	  "year": "1996",
+	  "good": 1617,
+	  "Need Improvement": 691,
+	  "bad": 138
+	}, {
+	  "year": "1997",
+	  "good": 1630,
+	  "Need Improvement": 642,
+	  "bad": 127
+	}, {
+	  "year": "1998",
+	  "good": 1660,
+	  "Need Improvement": 699,
+	  "bad": 105
+	}, {
+	  "year": "1999",
+	  "good": 1683,
+	  "Need Improvement": 721,
+	  "bad": 109
+	}, {
+	  "year": "2000",
+	  "good": 1691,
+	  "Need Improvement": 737,
+	  "bad": 112
+	}, {
+	  "year": "2001",
+	  "good": 1298,
+	  "Need Improvement": 680,
+	  "bad": 101
+	}, {
+	  "year": "2002",
+	  "good": 1275,
+	  "Need Improvement": 664,
+	  "bad": 97
+	}, {
+	  "year": "2003",
+	  "good": 1246,
+	  "Need Improvement": 648,
+	  "bad": 93
+	}, {
+	  "year": "2004",
+	  "good": 1318,
+	  "Need Improvement": 697,
+	  "bad": 111
+	}, {
+	  "year": "2005",
+	  "good": 1213,
+	  "Need Improvement": 633,
+	  "bad": 87
+	}, {
+	  "year": "2006",
+	  "good": 1199,
+	  "Need Improvement": 621,
+	  "bad": 79
+	}, {
+	  "year": "2007",
+	  "good": 1110,
+	  "Need Improvement": 210,
+	  "bad": 81
+	}, {
+	  "year": "2008",
+	  "good": 1165,
+	  "Need Improvement": 232,
+	  "bad": 75
+	}, {
+	  "year": "2009",
+	  "good": 1145,
+	  "Need Improvement": 219,
+	  "bad": 88
+	}, {
+	  "year": "2010",
+	  "good": 1163,
+	  "Need Improvement": 201,
+	  "bad": 82
+	}, {
+	  "year": "2011",
+	  "good": 1180,
+	  "Need Improvement": 285,
+	  "bad": 87
+	}, {
+	  "year": "2012",
+	  "good": 1159,
+	  "Need Improvement": 277,
+	  "bad": 71
+	}];
+	
+	
+	// Create axes
+	// https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+	var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+	  categoryField: "year",
+	  startLocation: 0.5,
+	  endLocation: 0.5,
+	  renderer: am5xy.AxisRendererX.new(root, {}),
+	  tooltip: am5.Tooltip.new(root, {})
+	}));
+	
+	xAxis.data.setAll(data);
+	
+	var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+	  min: 0,
+	  max: 100,
+	  calculateTotals: true,
+	  numberFormat: "#'%'",
+	  renderer: am5xy.AxisRendererY.new(root, {})
+	}));
+	
+	// Add series
+	// https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+	function createSeries(name, field) {
+	  var series = chart.series.push(am5xy.LineSeries.new(root, {
+		name: name,
+		stacked: true,
+		xAxis: xAxis,
+		yAxis: yAxis,
+		valueYField: field,
+		categoryXField: "year",
+		valueYShow: "valueYTotalPercent",
+		legendValueText: "{valueY}",
+		tooltip: am5.Tooltip.new(root, {
+		  pointerOrientation: "horizontal",
+		  labelText: "[bold]{name}[/]\n{categoryX}: {valueYTotalPercent.formatNumber('#.0')}% ({valueY})"
+		})
+	  }));
+	
+	  series.fills.template.setAll({
+		fillOpacity: 0.5,
+		visible: true
+	  });
+	
+	  series.data.setAll(data);
+	  series.appear(1000);
+	}
+	
+	createSeries("good", "good");
+	createSeries("Need Improvement", "Need Improvement");
+	createSeries("bad", "bad");
+	
+	// Add scrollbar
+	// https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
+	chart.set("scrollbarX", am5.Scrollbar.new(root, {
+	  orientation: "horizontal"
+	}));
+	
+	
+	// Add legend
+	// https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
+	var legend = chart.children.push(am5.Legend.new(root, {
+	  centerX: am5.p50,
+	  x: am5.p50
+	}));
+	
+	legend.data.setAll(chart.series.values);
+	
+	
+	// Make stuff animate on load
+	// https://www.amcharts.com/docs/v5/concepts/animations/
+	chart.appear(1000, 100);
+	
+	}); // end am5.ready()

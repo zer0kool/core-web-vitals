@@ -494,3 +494,15 @@ span.networkType {
 .periodDate p {
   margin: 0;
 }
+
+.history {
+  margin: 30px 0;
+}
+#chartdiv {
+  width: 100%;
+  height: 500px;
+}
+
+.modal.bottom-sheet {
+  max-height: 75%;
+}
