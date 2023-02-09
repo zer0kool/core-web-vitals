@@ -483,6 +483,10 @@ span.networkType {
   padding: 5px;
   border-radius: 2px;
   border-left: 5px solid #ffc107;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
 }
 .periodDate span {
   font-weight: 600;
