@@ -26,7 +26,7 @@ document.querySelector('#cruxurl form').addEventListener('submit', function (e) 
 CrUXApiUtil.query = async function (requestBody, formFactor) {
 	const resp = await fetch(url, { method: 'POST', body: JSON.stringify(requestBody) });
 	const json = await resp.json();
-	console.log(json);
+	// console.log(json);
 	if (resp.ok) { return json; };
 	M.toast({ html: `${formFactor.formFactor}: ${json.error.message}`, classes: 'red darken-4 white-text', displayLength: 480 });
 };

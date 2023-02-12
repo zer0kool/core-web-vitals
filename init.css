@@ -506,3 +506,31 @@ span.networkType {
 .modal.bottom-sheet {
   max-height: 100%;
 }
+
+.history .center.container {
+  display: grid;
+  gap: 1rem;
+}
+div#HistoryApp {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+h4 {
+  text-transform: capitalize;
+}
+
+#cruxModals .modal .modal-footer {
+  position: sticky;
+  bottom: 0;
+  display: block;
+  z-index: 2;
+}
+
+a.btn.modal-trigger.loadDeck {
+  background-color: #2196f3;
+}
+
+a.btn.modal-trigger.loadHistory{
+    background-color: hsl(158, 85%, 41%);
+}
