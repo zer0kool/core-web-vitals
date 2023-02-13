@@ -533,3 +533,6 @@ a.btn.modal-trigger.loadDeck {
 a.btn.modal-trigger.loadHistory{
     background-color: hsl(158, 85%, 41%);
 }
+.card .card-reveal {
+  font-size: .937rem;
+}
