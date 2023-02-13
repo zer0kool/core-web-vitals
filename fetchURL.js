@@ -327,7 +327,7 @@ function buildURLData(labeledMetrics, siteName, network) {
 
 function labelMetricData(metrics, key) {
 	if (key === undefined) { key = "SUM" };
-	console.log(key);
+	// console.log(key);
 	const nameToFullNameMap = {
 		first_contentful_paint: 'First Contentful Paint (FCP)',
 		largest_contentful_paint: 'Largest Contentful Paint (LCP)',

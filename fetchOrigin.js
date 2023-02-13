@@ -60,7 +60,7 @@ getOriginData = async (origin, network) => {
 		document.querySelector("#cruxorigin #loading").style.display = "none";
 		throw new Error(`no crux data for ${origin}`);
 	}
-	console.log(request)
+	// console.log(request)
 	process(request, origin);
 }
 
@@ -70,7 +70,7 @@ function process(formFactor, origin) {
 		const validData = labelMetricData(formFactor.record.metrics, formFactor.record.key.formFactor);
 		labeledMetrics.push(validData);
 	})
-	console.log(labeledMetrics)
+	// console.log(labeledMetrics)
 	let network = formFactor[0].record.key.effectiveConnectionType;
 	let dates = { first: formFactor[0].record.collectionPeriod.firstDate, last: formFactor[0].record.collectionPeriod.lastDate };
 	const data = buildCard(labeledMetrics, origin, network, dates);
@@ -351,7 +351,7 @@ function labelMetricData(metrics, key) {
 	if (key === undefined) {
 		key = "SUM"
 	};
-	console.log(key);
+	// console.log(key);
 	const nameToFullNameMap = {
 		first_contentful_paint: 'First Contentful Paint (FCP)',
 		largest_contentful_paint: 'Largest Contentful Paint (LCP)',

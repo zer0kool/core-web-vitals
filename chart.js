@@ -8,7 +8,7 @@ let enpointURL = `${enpointHistory}?key=${CrUXApiHistory.KEY}`;
 CrUXApiHistory.query = async function (requestBody, formFactor) {
     const resp = await fetch(enpointURL, { method: 'POST', body: JSON.stringify(requestBody) });
     const json = await resp.json();
-    console.log(json);
+    // console.log(json);
     if (resp.ok) { return json; };
     M.toast({ html: `${formFactor.formFactor}: ${json.error.message}`, classes: 'red darken-4 white-text' });
 };
@@ -209,12 +209,12 @@ function buildObjectData(entries) {
                 },
                 "collectionPeriod": item.record.collectionPeriods[i]
             }
-            console.log(cardObject)
+            // console.log(cardObject)
             newRequestToProcess.push(cardObject)
         }
         // process(newRequestToProcess, origin);
     })
-    console.log(newRequestToProcess);
+    // console.log(newRequestToProcess);
 
     const groupCards = arr => {
         let result = {};
@@ -231,7 +231,7 @@ function buildObjectData(entries) {
     
         return Object.values(result); //return a new array with all values of the grouped objects 				  
     }
-    console.log(groupCards(newRequestToProcess))
+    // console.log(groupCards(newRequestToProcess))
     let cards = groupCards(newRequestToProcess)
     
     cards.forEach(item => {
@@ -249,7 +249,7 @@ function processd(formFactor, origin) {
         const validData = labelMetricDatax(formFactor.metrics, formFactor.key.formFactor, formFactor.key.cardIndex);
         labeledMetrics.push(validData);
     })
-    console.log(labeledMetrics)
+    // console.log(labeledMetrics)
     let network = "";
     // debugger;
     let dates = { first: formFactor[0].collectionPeriod.firstDate, last: formFactor[0].collectionPeriod.lastDate };
@@ -344,7 +344,7 @@ function labelMetricDatax(metrics, key, index) {
     if (key === undefined) {
         key = "SUM"
     };
-    console.log(key);
+    // console.log(key);
     const nameToFullNameMap = {
         first_contentful_paint: 'First Contentful Paint (FCP)',
         largest_contentful_paint: 'Largest Contentful Paint (LCP)',
