@@ -13,16 +13,16 @@ CrUXApiHistory.query = async function (requestBody, formFactor) {
     M.toast({ html: `${formFactor.formFactor}: ${json.error.message}`, classes: 'red darken-4 white-text' });
 };
 
-getHistoricalData = async (origin) => {
+getHistoricalData = async (historyOrigin) => {
     // document.getElementById("loading").style.display = "block";
-    buildModal(origin);
-    const request = await [];
+    buildModal(historyOrigin);
+    const request = [];
 
     // Fix the code bellow to wait for all the 3 request
-    const requests = [
-        CrUXApiHistory.query({ url: `https://${origin}/` }, { formFactor: "Sum" }),
-        CrUXApiHistory.query({ url: `https://${origin}/`, formFactor: "Phone" }, { formFactor: "Phone" }),
-        CrUXApiHistory.query({ url: `https://${origin}/`, formFactor: "Desktop" }, { formFactor: "Desktop" })
+    const requests = await [
+        CrUXApiHistory.query({ origin: `https://${historyOrigin}/` }, { formFactor: "Sum" }),
+        CrUXApiHistory.query({ origin: `https://${historyOrigin}/`, formFactor: "Phone" }, { formFactor: "Phone" }),
+        CrUXApiHistory.query({ origin: `https://${historyOrigin}/`, formFactor: "Desktop" }, { formFactor: "Desktop" })
     ];
 
     Promise.all(requests).then((results) => {
@@ -35,16 +35,15 @@ getHistoricalData = async (origin) => {
         if (phone !== undefined) { request.push(phone) };
         if (desktop !== undefined) { request.push(desktop) };
 
-        buildObjectData(request)
+        buildObjectData(request, historyOrigin)
     });
-
-
 }
 
-function buildModal(origin){
-    // need to clean origin 
+
+function buildModal(historyOrigin){
+    // need to clean historyOrigin
     // debugger;
-    let domainName = origin.replace(/^https?:\/\//, '').split('.')[1]
+    let domainName = historyOrigin.replace(/^https?:\/\//, '').split('.')[1]
 
     let modalHTML = `
     <div id="${domainName}Modal" class="modal bottom-sheet">
@@ -65,7 +64,7 @@ function buildModal(origin){
 
 }
 
-function buildObjectData(entries) {
+function buildObjectData(entries, historyOrigin) {
 
     // debugger;
     let newRequestToProcess = []
@@ -77,7 +76,7 @@ function buildObjectData(entries) {
                 "key": {
                     "cardIndex": i,
                     "formFactor": item.record.key?.formFactor,
-                    "origin": item.record.key.url
+                    "origin": item.record.key.origin
                 },
                 "metrics": {
                     "first_contentful_paint": {
@@ -212,7 +211,7 @@ function buildObjectData(entries) {
             // console.log(cardObject)
             newRequestToProcess.push(cardObject)
         }
-        // process(newRequestToProcess, origin);
+        // process(newRequestToProcess, historyOrigin);
     })
     // console.log(newRequestToProcess);
 
@@ -235,14 +234,13 @@ function buildObjectData(entries) {
     let cards = groupCards(newRequestToProcess)
     
     cards.forEach(item => {
-        processd(item, origin)
+        processd(item, historyOrigin)
     })
     
 }
 
 
-function processd(formFactor, origin) {
-    // debugger;
+function processd(formFactor, historyOrigin) {
     const labeledMetrics = [];
     formFactor.forEach(formFactor => {
         // debugger;
@@ -251,17 +249,17 @@ function processd(formFactor, origin) {
     })
     // console.log(labeledMetrics)
     let network = "";
-    // debugger;
+     debugger;
     let dates = { first: formFactor[0].collectionPeriod.firstDate, last: formFactor[0].collectionPeriod.lastDate };
     const data = buildCard1(labeledMetrics, formFactor[0].key.origin, dates);
 }
 
 
-function buildCard1(labeledMetrics, origin, dates) {
+function buildCard1(labeledMetrics, historyOrigin, dates) {
     // debugger;
-    const favicon = `${origin}favicon.ico`
-    origin = origin.replace(/^(?:https?:\/\/)/i, "").split('/')[0];
-    let filter = origin.replace(/^www\./, '').split('.').slice(0, -1).join('.');
+    const favicon = `${historyOrigin}favicon.ico`
+    historyOrigin = historyOrigin.replace(/^(?:https?:\/\/)/i, "").split('/')[0];
+    let filter = historyOrigin.replace(/^www\./, '').split('.').slice(0, -1).join('.');
     let siteName = filter.split('.').join("-");
     let cardTitle = filter.split('.').join("-");
     if (siteName.match(/^\d/)) { siteName = `N${siteName}` }
@@ -384,8 +382,8 @@ function labelMetricDatax(metrics, key, index) {
 
 
 
-
-
+//getHistoricalData('www.google.com');
+//getHistoricalData('www.google.com');
 
 
 am5.ready(function () {
