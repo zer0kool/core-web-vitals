@@ -494,9 +494,8 @@ span.networkType {
 .periodDate p {
   margin: 0;
 }
-
 .history {
-  margin: 30px 0;
+  margin: 50px 0 30px;
 }
 #chartdiv {
   width: 100%;

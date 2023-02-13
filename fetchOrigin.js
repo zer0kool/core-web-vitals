@@ -138,39 +138,41 @@ function buildCard(labeledMetrics, origin, network, dates) {
 					all effective connection types will be returned.
 				</p>
 		
+				
+				<!-- 3G connectivity -->
+				<p>Filter 3G connection bucket</p>
+				<div class="switch n3g">
+				<label>
+				Off
+				<input type="checkbox" />
+				<span class="lever"></span>
+				On
+				</label>
+				</div>
+				<!-- 4G connectivity -->
+				<p>Filter 4G connection bucket</p>
+				<div class="switch n4g">
+				<label>
+				Off
+				<input type="checkbox" />
+				<span class="lever"></span>
+				On
+				</label>
+				</div>
+
+				<div class="history"> 
+					<p>Below, you can view historical data for ${origin}. This provides a time series of web performance data which updates weekly and allows you to view up to 6 months of history with 25 data cards spaced out over each week. </p>
+					<div class="center container"> 
+						<a data-origin="${origin}" class="btn modal-trigger loadHistory" href="#modal1"> Load Historical Chart </a> 
+						<a data-origin="${origin}" class="btn modal-trigger loadDeck" href="#${domainName}Modal"> Load Deck of Cards </a> 
+					</div> 
+				</div>
+
 				<div class="periodDate">
 					<p>The aggregated data on this card is from</p>
 					<span class="firstDate">${dates.first.month}-${dates.first.day}-${dates.first.year}</span>
 					to
 					<span class="lastDate">${dates.last.month}-${dates.last.day}-${dates.last.year}</span>
-				</div>
-		
-				<!-- 3G connectivity -->
-				<p>Filter 3G connection bucket</p>
-				<div class="switch n3g">
-					<label>
-						Off
-						<input type="checkbox" />
-						<span class="lever"></span>
-						On
-					</label>
-				</div>
-				<!-- 4G connectivity -->
-				<p>Filter 4G connection bucket</p>
-				<div class="switch n4g">
-					<label>
-						Off
-						<input type="checkbox" />
-						<span class="lever"></span>
-						On
-					</label>
-				</div>
-				<div class="history"> 
-				<p> </p>
-					<div class="center container"> 
-						<a data-origin="${origin}" class="btn modal-trigger loadHistory" href="#modal1"> Load Historical Chart </a> 
-						<a data-origin="${origin}" class="btn modal-trigger loadDeck" href="#${domainName}Modal"> Load Deck of Cards </a> 
-					</div> 
 				</div>
 			</div>
 		</div>
