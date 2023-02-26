@@ -61,8 +61,7 @@ function buildModal(historyOrigin){
     <div id="${domainName}Chart" class="modal bottom-sheet">
     <div class="modal-content">
         <h4>${domainName} Charts</h4>
-        <p>This data for ${domainName} is updated on a weekly basis, allowing you to view up to 6 months of history in
-            25 data cards that are spaced out over the course of a week.</p>
+        <p>This datasets for ${domainName} is updated weekly, providing up to 6 months of historical data that can be broken down by phone, desktop, and total metrics.</p>
         <!-- HTML -->
         <div id="chartdiv" class="row">
             <div class="col s12">
@@ -508,7 +507,7 @@ async function sortCartData(chartData) {
     for (const metricData of chartData.chart) {
 
         let charttemplate = `
-        <div class="col s12 m6 l4">
+        <div class="col s12 m6 l4 chart">
             <p>${metricData.metric}-${chartData.formFactor}</p>
             <div id="${metricData.metric}-${chartData.formFactor}" style="width: 100%; height: 500px"></div>
         

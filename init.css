@@ -540,3 +540,15 @@ div#chartdiv {
   flex-wrap: wrap;
   justify-content: space-around;
 }
+
+div#chartdiv p {
+  text-align: center;
+  margin-bottom: -10px;
+}
+
+.chart {
+  margin-bottom: 50px;
+}
+#chartModals .modal-content {
+  background-color: white;
+}
