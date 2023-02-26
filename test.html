@@ -14,3 +14,29 @@
         </div>
     </div>
 </section>
+
+
+
+<div id="${domainName}Chart" class="modal bottom-sheet">
+    <div class="modal-content">
+        <h4>${domainName} Charts</h4>
+        <p>This data for ${domainName} is updated on a weekly basis, allowing you to view up to 6 months of history in
+            25 data cards that are spaced out over the course of a week.</p>
+        <!-- HTML -->
+        <div id="chartdiv" class="row">
+            <div class="col s12">
+                <ul class="tabs">
+                    <li class="tab col s4"><a href="SUMChart">Sum</a></li>
+                    <li class="tab col s4"><a class="active" href="PHONEChart">Mobile</a></li>
+                    <li class="tab col s4"><a href="DESKTOPChart">Desktop</a></li>
+                </ul>
+            </div>
+            <div id="SUMChart" class="col s12"></div>
+            <div id="PHONEChart" class="col s12"></div>
+            <div id="DESKTOPChart" class="col s12"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close Deck</a>
+    </div>
+</div>

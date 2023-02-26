@@ -1,43 +1,41 @@
+
 const CrUXApiHistory = {};
 CrUXApiHistory.KEY = 'AIzaSyCv-IHj-oddickRMsoI5UBAJx3Cwj-mwck';
 const enpointHistory = 'https://chromeuxreport.googleapis.com/v1/records:queryHistoryRecord';
 let enpointURL = `${enpointHistory}?key=${CrUXApiHistory.KEY}`;
 
 
-
 CrUXApiHistory.query = async function (requestBody, formFactor) {
     const resp = await fetch(enpointURL, { method: 'POST', body: JSON.stringify(requestBody) });
     const json = await resp.json();
-    // console.log(json);
+    console.log(json);
     if (resp.ok) { return json; };
     M.toast({ html: `${formFactor.formFactor}: ${json.error.message}`, classes: 'red darken-4 white-text' });
 };
 
+
 getHistoricalData = async (historyOrigin) => {
-    // document.getElementById("loading").style.display = "block";
     buildModal(historyOrigin);
-    const request = [];
 
-    // Fix the code bellow to wait for all the 3 request
-    const requests = await [
-        CrUXApiHistory.query({ origin: `https://${historyOrigin}/` }, { formFactor: "Sum" }),
-        CrUXApiHistory.query({ origin: `https://${historyOrigin}/`, formFactor: "Phone" }, { formFactor: "Phone" }),
-        CrUXApiHistory.query({ origin: `https://${historyOrigin}/`, formFactor: "Desktop" }, { formFactor: "Desktop" })
+    const request = await [];
+
+    // Fix the code below to wait for all the 3 requests
+    const requests = [
+      CrUXApiHistory.query({ origin: `https://${historyOrigin}/` }, { formFactor: "Sum" }),
+      CrUXApiHistory.query({ origin: `https://${historyOrigin}/`, formFactor: "Phone" }, { formFactor: "Phone" }),
+      CrUXApiHistory.query({ origin: `https://${historyOrigin}/`, formFactor: "Desktop" }, { formFactor: "Desktop" })
     ];
-
-    Promise.all(requests).then((results) => {
-        const sum = results[0];
-        const phone = results[1];
-        const desktop = results[2];
-
-        // check if data is undefined and push into request array if not undefined 		    	
-        if (sum !== undefined) { request.push(sum) };
-        if (phone !== undefined) { request.push(phone) };
-        if (desktop !== undefined) { request.push(desktop) };
-
-        buildObjectData(request, historyOrigin)
-    });
-}
+  
+    for (let i = 0; i < requests.length; i++) {
+      const result = await requests[i];
+      if (result !== undefined) {
+        request.push(result);
+      }
+    }
+  
+    await buildObjectData(request, historyOrigin);
+    formChartData(request);
+  };
 
 
 function buildModal(historyOrigin){
@@ -58,18 +56,54 @@ function buildModal(historyOrigin){
     </div>
     </div>
     `;
+
+    let chartHTML = `
+    <div id="${domainName}Chart" class="modal bottom-sheet">
+    <div class="modal-content">
+        <h4>${domainName} Charts</h4>
+        <p>This data for ${domainName} is updated on a weekly basis, allowing you to view up to 6 months of history in
+            25 data cards that are spaced out over the course of a week.</p>
+        <!-- HTML -->
+        <div id="chartdiv" class="row">
+            <div class="col s12">
+                <ul class="tabs">
+                    <li class="tab col s4"><a href="#${domainName}SUMChart">Sum</a></li>
+                    <li class="tab col s4"><a class="active" href="#${domainName}PHONEChart">Mobile</a></li>
+                    <li class="tab col s4"><a href="#${domainName}DESKTOPChart">Desktop</a></li>
+                </ul>
+            </div>
+            <div id="${domainName}SUMChart" class="col s12"></div>
+            <div id="${domainName}PHONEChart" class="col s12"></div>
+            <div id="${domainName}DESKTOPChart" class="col s12"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close Deck</a>
+    </div>
+</div>
+    `
+
+
     document.getElementById('cruxModals').insertAdjacentHTML("afterbegin", modalHTML);
     var modalTrigger = document.querySelectorAll('#cruxModals .modal');
     M.Modal.init(modalTrigger, {});
+
+    document.getElementById('chartModals').insertAdjacentHTML("afterbegin", chartHTML);
+    var chartTrigger = document.querySelectorAll('#chartModals .modal');
+    M.Modal.init(chartTrigger, {});
+
+    var chartTabs = document.querySelectorAll('#chartModals .tabs');
+    // M.Tabs.init(chartTabs, {});
+    let instance = M.Tabs.init(chartTabs, {});
 
 }
 
 function buildObjectData(entries, historyOrigin) {
 
-    // debugger;
     let newRequestToProcess = []
+
     entries.forEach(item => {
-        // debugger;
+
         const newObject = {};
         for (let i = 0; i < 25; i++) {
             let cardObject = {
@@ -208,55 +242,73 @@ function buildObjectData(entries, historyOrigin) {
                 },
                 "collectionPeriod": item.record.collectionPeriods[i]
             }
+
+            let chartObjectData =  {
+                "formFactor": item.record.key?.formFactor,
+                "data": {
+                    "week": i,
+                    "good": item.record.metrics.first_contentful_paint.histogramTimeseries[0].densities[i],
+                    "Need Improvement": item.record.metrics.first_contentful_paint.histogramTimeseries[1].densities[i],
+                    "bad": item.record.metrics.first_contentful_paint.histogramTimeseries[2].densities[i]
+                }
+            }
+
+        
+
+
             // console.log(cardObject)
             newRequestToProcess.push(cardObject)
         }
-        // process(newRequestToProcess, historyOrigin);
+
     })
     // console.log(newRequestToProcess);
-
+    
     const groupCards = arr => {
         let result = {};
-    
-        for(let i=0; i<arr.length;i++){
-            const cardIndexValue = arr[i].key.cardIndex; 
-    
+
+        for (let i = 0; i < arr.length; i++) {
+            const cardIndexValue = arr[i].key.cardIndex;
+
             if (result[cardIndexValue] === undefined) //if the key is not present in the object, create an array and add it to the object 
                 result[cardIndexValue] = [arr[i]];
             else //else push the objects into existing subarray  
-                result[cardIndexValue].push(arr[i]); 
-    
+                result[cardIndexValue].push(arr[i]);
+
         }
-    
+
         return Object.values(result); //return a new array with all values of the grouped objects 				  
     }
-    // console.log(groupCards(newRequestToProcess))
+
     let cards = groupCards(newRequestToProcess)
-    
+
+
+    // console.log(cards)
     cards.forEach(item => {
         processd(item, historyOrigin)
     })
     
+    // formChartData(entries);
 }
 
 
 function processd(formFactor, historyOrigin) {
     const labeledMetrics = [];
     formFactor.forEach(formFactor => {
-        // debugger;
+
         const validData = labelMetricDatax(formFactor.metrics, formFactor.key.formFactor, formFactor.key.cardIndex);
         labeledMetrics.push(validData);
     })
     // console.log(labeledMetrics)
     let network = "";
-     debugger;
+
     let dates = { first: formFactor[0].collectionPeriod.firstDate, last: formFactor[0].collectionPeriod.lastDate };
     const data = buildCard1(labeledMetrics, formFactor[0].key.origin, dates);
+
 }
 
 
 function buildCard1(labeledMetrics, historyOrigin, dates) {
-    // debugger;
+
     const favicon = `${historyOrigin}favicon.ico`
     historyOrigin = historyOrigin.replace(/^(?:https?:\/\/)/i, "").split('/')[0];
     let filter = historyOrigin.replace(/^www\./, '').split('.').slice(0, -1).join('.');
@@ -294,8 +346,8 @@ function buildCard1(labeledMetrics, historyOrigin, dates) {
     labeledMetrics.forEach(formFactor => {
         buildData1(formFactor, siteName);
     })
-    var el = document.querySelectorAll('.tabs');
-    var instance = M.Tabs.init(el, {});
+    var el = document.querySelectorAll('#cruxModals .tabs');
+    let instance = M.Tabs.init(el, {});
     var noData = `<p class="nodata">No data</p>`;
     let checkMetrics = document.querySelectorAll(".metrics");
     checkMetrics.forEach(metrics => {
@@ -382,213 +434,177 @@ function labelMetricDatax(metrics, key, index) {
 
 
 
-//getHistoricalData('www.google.com');
-//getHistoricalData('www.google.com');
+function formChartData(apiResponse) {
+
+    apiResponse.forEach(bucket => {
+
+        let formFactor = bucket.record.key.formFactor ?? "SUM"
+        let dataStructure = {
+            "site": bucket.record.key.origin,
+            "formFactor": formFactor,
+            "chart": [
+                {
+                    "metric": "first_contentful_paint",
+                    "data": []
+                },
+                {
+                    "metric": "first_input_delay",
+                    "data": []
+                },
+                {
+                    "metric": "largest_contentful_paint",
+                    "data": []
+                },
+                {
+                    "metric": "cumulative_layout_shift",
+                    "data": []
+                },
+                {
+                    "metric": "experimental_interaction_to_next_paint",
+                    "data": []
+                },
+                {
+                    "metric": "experimental_time_to_first_byte",
+                    "data": []
+                }]
+        }
+
+        for (let chart of dataStructure.chart) {
+            let teemo = [];
+            for (let i = 0; i < 25; i++) {
+                let metricObj = {
+                    "week": i,
+                    "good": bucket.record.metrics[chart.metric].histogramTimeseries[0].densities[i],
+                    "Need Improvement": bucket.record.metrics[chart.metric].histogramTimeseries[1].densities[i],
+                    "bad": bucket.record.metrics[chart.metric].histogramTimeseries[2].densities[i]
+                };
+                teemo.push(metricObj)
+            }
+
+            chart.data.push(teemo);
+        }
+
+        console.log(dataStructure)
+        sortCartData(dataStructure)
+
+    })
+}
 
 
-am5.ready(function () {
-
-    // Create root element
-    // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-    var root = am5.Root.new("chartdiv");
+// gets the charts ready. 
+am5.ready()
 
 
-    // Set themes
-    // https://www.amcharts.com/docs/v5/concepts/themes/
-    root.setThemes([
-        am5themes_Animated.new(root)
-    ]);
 
+async function sortCartData(chartData) {
+    try {
+        // debugger
+    let domainName = chartData.site.replace(/^https?:\/\//, '').split('.')[1]
+      const chartDiv = document.querySelector(`#${domainName}Chart #chartdiv #${domainName}${chartData.formFactor}Chart`);
+      const charts = [];
 
-    // Create chart
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/
-    var chart = root.container.children.push(am5xy.XYChart.new(root, {
-        panX: true,
-        panY: true,
-        wheelX: "panX",
-        wheelY: "zoomX",
-        layout: root.verticalLayout,
-        pinchZoomX: true
-    }));
+    //   root.container.children.clear();
+    
+    for (const metricData of chartData.chart) {
 
+        let charttemplate = `
+        <div class="col s12 m6 l4">
+            <p>${metricData.metric}-${chartData.formFactor}</p>
+            <div id="${metricData.metric}-${chartData.formFactor}" style="width: 100%; height: 500px"></div>
+        
+        </div>
+        `
+        chartDiv.insertAdjacentHTML("afterbegin", charttemplate);
+        
+        const root = am5.Root.new(`${metricData.metric}-${chartData.formFactor}`);
 
-    // Add cursor
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
-    var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
-        behavior: "none"
-    }));
-    cursor.lineY.set("visible", false);
-
-
-    // The data
-    var data = [{
-        "year": "1994",
-        "good": 1587,
-        "Need Improvement": 650,
-        "bad": 121
-    }, {
-        "year": "1995",
-        "good": 1567,
-        "Need Improvement": 683,
-        "bad": 146
-    }, {
-        "year": "1996",
-        "good": 1617,
-        "Need Improvement": 691,
-        "bad": 138
-    }, {
-        "year": "1997",
-        "good": 1630,
-        "Need Improvement": 642,
-        "bad": 127
-    }, {
-        "year": "1998",
-        "good": 1660,
-        "Need Improvement": 699,
-        "bad": 105
-    }, {
-        "year": "1999",
-        "good": 1683,
-        "Need Improvement": 721,
-        "bad": 109
-    }, {
-        "year": "2000",
-        "good": 1691,
-        "Need Improvement": 737,
-        "bad": 112
-    }, {
-        "year": "2001",
-        "good": 1298,
-        "Need Improvement": 680,
-        "bad": 101
-    }, {
-        "year": "2002",
-        "good": 1275,
-        "Need Improvement": 664,
-        "bad": 97
-    }, {
-        "year": "2003",
-        "good": 1246,
-        "Need Improvement": 648,
-        "bad": 93
-    }, {
-        "year": "2004",
-        "good": 1318,
-        "Need Improvement": 697,
-        "bad": 111
-    }, {
-        "year": "2005",
-        "good": 1213,
-        "Need Improvement": 633,
-        "bad": 87
-    }, {
-        "year": "2006",
-        "good": 1199,
-        "Need Improvement": 621,
-        "bad": 79
-    }, {
-        "year": "2007",
-        "good": 1110,
-        "Need Improvement": 210,
-        "bad": 81
-    }, {
-        "year": "2008",
-        "good": 1165,
-        "Need Improvement": 232,
-        "bad": 75
-    }, {
-        "year": "2009",
-        "good": 1145,
-        "Need Improvement": 219,
-        "bad": 88
-    }, {
-        "year": "2010",
-        "good": 1163,
-        "Need Improvement": 201,
-        "bad": 82
-    }, {
-        "year": "2011",
-        "good": 1180,
-        "Need Improvement": 285,
-        "bad": 87
-    }, {
-        "year": "2012",
-        "good": 1159,
-        "Need Improvement": 277,
-        "bad": 71
-    }];
-
-
-    // Create axes
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
-    var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-        categoryField: "year",
-        startLocation: 0.5,
-        endLocation: 0.5,
-        renderer: am5xy.AxisRendererX.new(root, {}),
-        tooltip: am5.Tooltip.new(root, {})
-    }));
-
-    xAxis.data.setAll(data);
-
-    var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-        min: 0,
-        max: 100,
-        calculateTotals: true,
-        numberFormat: "#'%'",
-        renderer: am5xy.AxisRendererY.new(root, {})
-    }));
-
-    // Add series
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-    function createSeries(name, field) {
-        var series = chart.series.push(am5xy.LineSeries.new(root, {
-            name: name,
-            stacked: true,
-            xAxis: xAxis,
-            yAxis: yAxis,
-            valueYField: field,
-            categoryXField: "year",
-            valueYShow: "valueYTotalPercent",
-            legendValueText: "{valueY}",
-            tooltip: am5.Tooltip.new(root, {
+        root.fps = 10;
+  
+        const chart = root.container.children.push(
+          am5xy.XYChart.new(root, {
+            layout: root.verticalLayout,
+            pinchZoomX: false,
+          })
+        );
+  
+        const cursor = chart.set("cursor", am5xy.XYCursor.new(root, { behavior: "none" }));
+        cursor.lineY.set("visible", false);
+  
+        const data = metricData.data[0];
+  
+        const xAxis = chart.xAxes.push(
+          am5xy.CategoryAxis.new(root, {
+            categoryField: "week",
+            startLocation: 0.5,
+            endLocation: 0.5,
+            renderer: am5xy.AxisRendererX.new(root, {}),
+            tooltip: am5.Tooltip.new(root, {}),
+          })
+        );
+        xAxis.data.setAll(data);
+  
+        const yAxis = chart.yAxes.push(
+          am5xy.ValueAxis.new(root, {
+            min: 0,
+            max: 100,
+            calculateTotals: true,
+            numberFormat: "#'%'",
+            renderer: am5xy.AxisRendererY.new(root, {}),
+          })
+        );
+  
+        function createSeries(name, field, color) {
+          const series = chart.series.push(
+            am5xy.LineSeries.new(root, {
+              name: name,
+              fill: am5.color(color),
+              stacked: true,
+              xAxis: xAxis,
+              yAxis: yAxis,
+              valueYField: field,
+              categoryXField: "week",
+              valueYShow: "valueYTotalPercent",
+              legendValueText: "{valueY}",
+              tooltip: am5.Tooltip.new(root, {
                 pointerOrientation: "horizontal",
-                labelText: "[bold]{name}[/]\n{categoryX}: {valueYTotalPercent.formatNumber('#.0')}% ({valueY})"
+                labelText: "[bold]{name}[/]\nWeek {categoryX}: {valueYTotalPercent.formatNumber('#.0')}% ({valueY})",
+              }),
             })
-        }));
-
-        series.fills.template.setAll({
+          );
+  
+          series.fills.template.setAll({
             fillOpacity: 0.5,
-            visible: true
-        });
+            visible: true,
+          });
+  
+          series.data.setAll(data);
+          series.appear(1000);
+        }
+        let green = 0x10c180;
+        let yellow = 0xfddc77;
+        let red = 0xff0000;
 
-        series.data.setAll(data);
-        series.appear(1000);
+        createSeries("Good", "good", green);
+        createSeries("Need improvements", "Need Improvement", yellow);
+        createSeries("Bad", "bad", red);
+
+        chart.set("scrollbarX", am5.Scrollbar.new(root, { orientation: "horizontal" }));
+        
+        const legend = chart.children.push(am5.Legend.new(root, { centerX: am5.p50, x: am5.p50 }));
+        legend.data.setAll(chart.series.values);
+        
+        charts.push(chart);
+        // root.container.children.clear();
     }
+    
+    charts.forEach((chart) => {
+        chart.paddingRight = 20;
+    });
+  
+    // root.dispose();
+      return charts;
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
-    createSeries("good", "good");
-    createSeries("Need Improvement", "Need Improvement");
-    createSeries("bad", "bad");
-
-    // Add scrollbar
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
-    chart.set("scrollbarX", am5.Scrollbar.new(root, {
-        orientation: "horizontal"
-    }));
-
-
-    // Add legend
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
-    var legend = chart.children.push(am5.Legend.new(root, {
-        centerX: am5.p50,
-        x: am5.p50
-    }));
-
-    legend.data.setAll(chart.series.values);
-
-
-    // Make stuff animate on load
-    // https://www.amcharts.com/docs/v5/concepts/animations/
-    chart.appear(1000, 100);
-
-}); // end am5.ready()

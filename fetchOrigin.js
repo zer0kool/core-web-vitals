@@ -163,7 +163,7 @@ function buildCard(labeledMetrics, origin, network, dates) {
 				<div class="history"> 
 					<p>Below, you can view historical data for ${origin}. This provides a time series of web performance data which updates weekly and allows you to view up to 6 months of history with 25 data cards spaced out over each week. </p>
 					<div class="center container"> 
-						<a data-origin="${origin}" class="btn modal-trigger loadHistory" href="#modal1"> Load Historical Chart </a> 
+						<a data-origin="${origin}" class="btn modal-trigger loadHistory" href="#${domainName}Chart"> Load Historical Chart </a> 
 						<a data-origin="${origin}" class="btn modal-trigger loadDeck" href="#${domainName}Modal"> Load Deck of Cards </a> 
 					</div> 
 				</div>
@@ -391,5 +391,5 @@ function labelMetricData(metrics, key) {
 getOriginData('www.google.com');
 //scheduler.postTask(getOriginData('www.google.com'), {priority: 'user-blocking'});
 
-// Experimental 
-getHistoricalData('www.google.com');
+  // Experimental 
+  getHistoricalData('www.google.com');
