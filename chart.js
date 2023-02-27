@@ -33,7 +33,7 @@ getHistoricalData = async (historyOrigin) => {
       }
     }
   
-    await buildObjectData(request, historyOrigin);
+//    await buildObjectData(request, historyOrigin);
     formChartData(request);
   };
 
@@ -501,8 +501,6 @@ async function sortCartData(chartData) {
     let domainName = chartData.site.replace(/^https?:\/\//, '').split('.')[1]
       const chartDiv = document.querySelector(`#${domainName}Chart #chartdiv #${domainName}${chartData.formFactor}Chart`);
       const charts = [];
-
-    //   root.container.children.clear();
     
     for (const metricData of chartData.chart) {
 
@@ -528,8 +526,15 @@ async function sortCartData(chartData) {
   
         const cursor = chart.set("cursor", am5xy.XYCursor.new(root, { behavior: "none" }));
         cursor.lineY.set("visible", false);
+
+			function reverseArray(data) {
+					data.sort(function (a, b) {
+							return b.week - a.week;
+					});
+					return data;
+			}
   
-        const data = metricData.data[0];
+        const data = reverseArray(metricData.data[0]);
   
         const xAxis = chart.xAxes.push(
           am5xy.CategoryAxis.new(root, {
