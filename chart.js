@@ -473,9 +473,9 @@ function formChartData(apiResponse) {
             for (let i = 0; i < 25; i++) {
                 let metricObj = {
                     "week": i,
-                    "good": bucket.record.metrics[chart.metric].histogramTimeseries[0].densities[i],
-                    "Need Improvement": bucket.record.metrics[chart.metric].histogramTimeseries[1].densities[i],
-                    "bad": bucket.record.metrics[chart.metric].histogramTimeseries[2].densities[i]
+                    "good": bucket.record.metrics[chart.metric].histogramTimeseries[0].densities[i] * 100,
+                    "Need Improvement": bucket.record.metrics[chart.metric].histogramTimeseries[1].densities[i] * 100,
+                    "bad": bucket.record.metrics[chart.metric].histogramTimeseries[2].densities[i] * 100
                 };
                 teemo.push(metricObj)
             }
@@ -527,14 +527,14 @@ async function sortCartData(chartData) {
         const cursor = chart.set("cursor", am5xy.XYCursor.new(root, { behavior: "none" }));
         cursor.lineY.set("visible", false);
 
-			function reverseArray(data) {
-					data.sort(function (a, b) {
-							return b.week - a.week;
-					});
-					return data;
-			}
+//			function reverseArray(data) {
+//					data.sort(function (a, b) {
+//							return b.week - a.week;
+//					});
+//					return data;
+//			}
   
-        const data = reverseArray(metricData.data[0]);
+        const data = metricData.data[0];
   
         const xAxis = chart.xAxes.push(
           am5xy.CategoryAxis.new(root, {
