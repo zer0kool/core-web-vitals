@@ -491,9 +491,7 @@ function formChartData(apiResponse) {
 
 
 // gets the charts ready. 
-am5.ready()
-
-
+//am5.ready()
 
 async function sortCartData(chartData) {
     try {
@@ -526,13 +524,6 @@ async function sortCartData(chartData) {
   
         const cursor = chart.set("cursor", am5xy.XYCursor.new(root, { behavior: "none" }));
         cursor.lineY.set("visible", false);
-
-//			function reverseArray(data) {
-//					data.sort(function (a, b) {
-//							return b.week - a.week;
-//					});
-//					return data;
-//			}
   
         const data = metricData.data[0];
   
