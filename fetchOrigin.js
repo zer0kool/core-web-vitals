@@ -34,7 +34,7 @@ document.querySelector('#cruxorigin form').addEventListener('submit', function (
 CrUXApiOrigin.query = async function (requestBody, formFactor) {
 	const resp = await fetch(url, { method: 'POST', body: JSON.stringify(requestBody) });
 	const json = await resp.json();
-	 console.log("origin \n" +json);
+//	 console.log("origin \n" +json);
 	if (resp.ok) { return json; };
 	M.toast({
 		html: `${formFactor.formFactor}: ${json.error.message}`,
