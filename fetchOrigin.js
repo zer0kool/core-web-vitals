@@ -25,15 +25,16 @@ document.querySelector('#cruxorigin form').addEventListener('submit', function (
 			classes: 'green',
 			displayLength: 600
 		});
-		getOriginData(origin);
-		getHistoricalData(origin);
+		getOriginData(origin).then( results => {
+			getHistoricalData(origin);
+		})
 	}
 })
 
 CrUXApiOrigin.query = async function (requestBody, formFactor) {
 	const resp = await fetch(url, { method: 'POST', body: JSON.stringify(requestBody) });
 	const json = await resp.json();
-	// console.log(json);
+	 console.log("origin \n" +json);
 	if (resp.ok) { return json; };
 	M.toast({
 		html: `${formFactor.formFactor}: ${json.error.message}`,
@@ -388,8 +389,6 @@ function labelMetricData(metrics, key) {
 }
 
 // on page load, load google site metrics as an example.
-getOriginData('www.google.com');
-//scheduler.postTask(getOriginData('www.google.com'), {priority: 'user-blocking'});
-
-  // Experimental 
-  getHistoricalData('www.google.com');
+getOriginData('www.google.com').then(results => {
+		getHistoricalData('www.google.com');
+})

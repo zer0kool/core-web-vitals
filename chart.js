@@ -33,7 +33,7 @@ getHistoricalData = async (historyOrigin) => {
       }
     }
   
-//    await buildObjectData(request, historyOrigin);
+    await buildObjectData(request, historyOrigin);
     formChartData(request);
   };
 
@@ -490,9 +490,6 @@ function formChartData(apiResponse) {
 }
 
 
-// gets the charts ready. 
-//am5.ready()
-
 async function sortCartData(chartData) {
     try {
         // debugger
@@ -589,9 +586,8 @@ async function sortCartData(chartData) {
         legend.data.setAll(chart.series.values);
         
         charts.push(chart);
-        // root.container.children.clear();
     }
-    
+
     charts.forEach((chart) => {
         chart.paddingRight = 20;
     });
