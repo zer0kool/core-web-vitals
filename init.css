@@ -117,8 +117,12 @@ form.row {
 span.date {
   font-size: 12px;
   width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   text-transform: none;
 }
 button.btn-large {
@@ -509,15 +513,21 @@ span.networkType {
   gap: 1rem;
 }
 div#HistoryApp {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 h4 {
   text-transform: capitalize;
 }
 
 #cruxModals .modal .modal-footer {
+  position: -webkit-sticky;
   position: sticky;
   bottom: 0;
   display: block;
@@ -536,9 +546,13 @@ a.btn.modal-trigger.loadHistory{
 }
 
 div#chartdiv {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
 }
 
 div#chartdiv p {
@@ -551,4 +565,17 @@ div#chartdiv p {
 }
 #chartModals .modal-content {
   background-color: white;
+}
+
+.tabs .indicator {
+    background-color: #42a5f5;
+}
+.tabs .tab a.active {
+    background-color: #ffffff;
+    color: #006cc2;
+}
+
+.tabs .tab a:focus, .tabs .tab a:focus.active {
+    background-color: #bbdefb14;
+    outline: none;
 }
