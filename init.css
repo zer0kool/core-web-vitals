@@ -526,6 +526,7 @@ h4 {
   text-transform: capitalize;
 }
 
+#chartModals .modal .modal-footer,
 #cruxModals .modal .modal-footer {
   position: -webkit-sticky;
   position: sticky;
