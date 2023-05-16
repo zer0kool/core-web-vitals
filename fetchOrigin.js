@@ -358,7 +358,7 @@ function labelMetricData(metrics, key) {
 		largest_contentful_paint: 'Largest Contentful Paint (LCP)',
 		first_input_delay: 'First Input Delay (FID)',
 		cumulative_layout_shift: 'Cumulative Layout Shift (CLS)',
-		experimental_interaction_to_next_paint: 'experimental Interaction to Next Paint (INP)',
+		interaction_to_next_paint: 'Interaction to Next Paint (INP)',
 		experimental_time_to_first_byte: 'experimental Time to First Byte (TTFB)',
 	};
 	const nameToAcronymMap = {
@@ -366,7 +366,7 @@ function labelMetricData(metrics, key) {
 		largest_contentful_paint: 'LCP',
 		first_input_delay: 'FID',
 		cumulative_layout_shift: 'CLS',
-		experimental_interaction_to_next_paint: 'INP',
+		interaction_to_next_paint: 'INP',
 		experimental_time_to_first_byte: 'TTFB',
 	};
 	return Object.entries(metrics).map(([metricName, metricData]) => {

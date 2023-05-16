@@ -579,3 +579,7 @@ div#chartdiv p {
     background-color: #bbdefb14;
     outline: none;
 }
+
+section.undefined {
+    display: none;
+}
