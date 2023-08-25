@@ -196,25 +196,25 @@ function buildObjectData(entries, historyOrigin) {
                             "p75": item.record.metrics.cumulative_layout_shift.percentilesTimeseries.p75s[i]
                         }
                     },
-                    "experimental_interaction_to_next_paint": {
+                    "interaction_to_next_paint": {
                         "histogram": [
                             {
                                 "start": 0,
                                 "end": 200,
-                                "density": item.record.metrics.experimental_interaction_to_next_paint.histogramTimeseries[0].densities[i]
+                                "density": item.record.metrics.interaction_to_next_paint.histogramTimeseries[0].densities[i]
                             },
                             {
                                 "start": 200,
                                 "end": 500,
-                                "density": item.record.metrics.experimental_interaction_to_next_paint.histogramTimeseries[1].densities[i]
+                                "density": item.record.metrics.interaction_to_next_paint.histogramTimeseries[1].densities[i]
                             },
                             {
                                 "start": 500,
-                                "density": item.record.metrics.experimental_interaction_to_next_paint.histogramTimeseries[2].densities[i]
+                                "density": item.record.metrics.interaction_to_next_paint.histogramTimeseries[2].densities[i]
                             }
                         ],
                         "percentiles": {
-                            "p75": item.record.metrics.experimental_interaction_to_next_paint.percentilesTimeseries.p75s[i]
+                            "p75": item.record.metrics.interaction_to_next_paint.percentilesTimeseries.p75s[i]
                         }
                     },
                     "experimental_time_to_first_byte": {
@@ -399,7 +399,7 @@ function labelMetricDatax(metrics, key, index) {
         largest_contentful_paint: 'Largest Contentful Paint (LCP)',
         first_input_delay: 'First Input Delay (FID)',
         cumulative_layout_shift: 'Cumulative Layout Shift (CLS)',
-        experimental_interaction_to_next_paint: 'experimental Interaction to Next Paint (INP)',
+        interaction_to_next_paint: 'experimental Interaction to Next Paint (INP)',
         experimental_time_to_first_byte: 'experimental Time to First Byte (TTFB)',
     };
     const nameToAcronymMap = {
@@ -407,7 +407,7 @@ function labelMetricDatax(metrics, key, index) {
         largest_contentful_paint: 'LCP',
         first_input_delay: 'FID',
         cumulative_layout_shift: 'CLS',
-        experimental_interaction_to_next_paint: 'INP',
+        interaction_to_next_paint: 'INP',
         experimental_time_to_first_byte: 'TTFB',
     };
     return Object.entries(metrics).map(([metricName, metricData]) => {
@@ -459,7 +459,7 @@ function formChartData(apiResponse) {
                     "data": []
                 },
                 {
-                    "metric": "experimental_interaction_to_next_paint",
+                    "metric": "interaction_to_next_paint",
                     "data": []
                 },
                 {
