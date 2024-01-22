@@ -34,7 +34,7 @@ document.querySelector('#cruxorigin form').addEventListener('submit', function (
 CrUXApiOrigin.query = async function (requestBody, formFactor) {
 	const resp = await fetch(url, { method: 'POST', body: JSON.stringify(requestBody) });
 	const json = await resp.json();
-//	 console.log("origin \n" +json);
+	 console.log("origin \n" +json);
 	if (resp.ok) { return json; };
 	M.toast({
 		html: `${formFactor.formFactor}: ${json.error.message}`,
@@ -61,7 +61,7 @@ getOriginData = async (origin, network) => {
 		document.querySelector("#cruxorigin #loading").style.display = "none";
 		throw new Error(`no crux data for ${origin}`);
 	}
-	// console.log(request)
+	console.log(request)
 	process(request, origin);
 }
 
@@ -71,7 +71,7 @@ function process(formFactor, origin) {
 		const validData = labelMetricData(formFactor.record.metrics, formFactor.record.key.formFactor);
 		labeledMetrics.push(validData);
 	})
-	// console.log(labeledMetrics)
+	console.log(labeledMetrics)
 	let network = formFactor[0].record.key.effectiveConnectionType;
 	let dates = { first: formFactor[0].record.collectionPeriod.firstDate, last: formFactor[0].record.collectionPeriod.lastDate };
 	const data = buildCard(labeledMetrics, origin, network, dates);
@@ -349,10 +349,11 @@ function buildData(labeledMetrics, siteName, network) {
 }
 
 function labelMetricData(metrics, key) {
+	if ("form_factors" in metrics ) {delete metrics["form_factors"]}
 	if (key === undefined) {
 		key = "SUM"
 	};
-	// console.log(key);
+	console.log(key);
 	const nameToFullNameMap = {
 		first_contentful_paint: 'First Contentful Paint (FCP)',
 		largest_contentful_paint: 'Largest Contentful Paint (LCP)',
@@ -372,20 +373,24 @@ function labelMetricData(metrics, key) {
 	return Object.entries(metrics).map(([metricName, metricData]) => {
 		const standardBinLabels = ['good', 'needs improvement', 'poor'];
 		const metricBins = metricData.histogram;
-		const labeledBins = metricBins.map((bin, i) => {
-			return {
-				label: standardBinLabels[i],
-				percentage: bin.density ? bin.density * 100 : 0,
-				...bin,
-			};
-		});
+	  
+		// Check if metricBins is defined before using map
+		const labeledBins = metricBins ? metricBins.map((bin, i) => {
+		  return {
+			label: standardBinLabels[i],
+			percentage: bin.density ? bin.density * 100 : 0,
+			...bin,
+		  };
+		}) : [];
+	  
 		return {
-			key: key,
-			acronym: nameToAcronymMap[metricName],
-			name: nameToFullNameMap[metricName],
-			labeledBins,
+		  key: key,
+		  acronym: nameToAcronymMap[metricName],
+		  name: nameToFullNameMap[metricName],
+		  labeledBins,
 		};
-	});
+	  });
+	  
 }
 
 // on page load, load google site metrics as an example.

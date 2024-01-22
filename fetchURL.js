@@ -326,6 +326,7 @@ function buildURLData(labeledMetrics, siteName, network) {
 }
 
 function labelMetricData(metrics, key) {
+	if ("form_factors" in metrics ) {delete metrics["form_factors"]}
 	if (key === undefined) { key = "SUM" };
 	// console.log(key);
 	const nameToFullNameMap = {
