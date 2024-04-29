@@ -326,9 +326,10 @@ function buildURLData(labeledMetrics, siteName, network) {
 }
 
 function labelMetricData(metrics, key) {
-	if ("form_factors" in metrics ) {delete metrics["form_factors"]}
-	if (key === undefined) { key = "SUM" };
-	// console.log(key);
+    	if ("form_factors" in metrics ) {delete metrics["form_factors"]}
+	if ("navigation_types" in metrics ) {delete metrics["navigation_types"]}
+	if (key === undefined) {key = "SUM"};
+	
 	const nameToFullNameMap = {
 		first_contentful_paint: 'First Contentful Paint (FCP)',
 		largest_contentful_paint: 'Largest Contentful Paint (LCP)',
