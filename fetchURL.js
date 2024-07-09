@@ -326,8 +326,9 @@ function buildURLData(labeledMetrics, siteName, network) {
 }
 
 function labelMetricData(metrics, key) {
-    	if ("form_factors" in metrics ) {delete metrics["form_factors"]}
-	if ("navigation_types" in metrics ) {delete metrics["navigation_types"]}
+    	if ("form_factors" in metrics ) {delete metrics["form_factors"]};
+	if ("navigation_types" in metrics ) {delete metrics["navigation_types"]};
+	if ("round_trip_time" in metrics ) {delete metrics["round_trip_time"]};
 	if (key === undefined) {key = "SUM"};
 	
 	const nameToFullNameMap = {
