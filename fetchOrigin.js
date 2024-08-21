@@ -144,6 +144,10 @@ function generateIds(siteName, network) {
 	};
 }
 
+function formatDate(date) {
+	return new Date(`${date.year}-${date.month}-${date.day}`).toLocaleString('default', { month: 'long' }) + ` ${date.day}, ${date.year}`;
+}
+
 function createDefaultCard(cardTitle, favicon, siteName, sumId, phoneId, desktopId, tabletId, dates, origin, domainName) {
 	return `
 		<div class="card originData" id="${siteName}">
@@ -154,10 +158,10 @@ function createDefaultCard(cardTitle, favicon, siteName, sumId, phoneId, desktop
 			</div>
 			<div id="cardBody">
 				<div id="network" data-type="default" class="default row active">
-					<span class="networkType">effective connection type is unspecified</span>
+					<span class="networkType">Effective connection type: unspecified</span>
 					<div class="col s12">
 						<ul class="tabs">
-							<li class="tab col s3"><a href="#${sumId}">Sum</a></li>
+							<li class="tab col s3"><a href="#${sumId}">Overall</a></li>
 							<li class="tab col s3"><a class="active" href="#${phoneId}">Mobile</a></li>
 							<li class="tab col s3"><a href="#${desktopId}">Desktop</a></li>
 							<li class="tab col s3"><a href="#${tabletId}">Tablet</a></li>
@@ -168,23 +172,23 @@ function createDefaultCard(cardTitle, favicon, siteName, sumId, phoneId, desktop
 					<div id="${desktopId}" class="col s12"><div class="metrics"></div></div>
 					<div id="${tabletId}" class="col s12"><div class="metrics"></div></div>
 				</div>
-				<span class="date">collection period: ${dates.first.month}-${dates.first.day}-${dates.first.year} to ${dates.last.month}-${dates.last.day}-${dates.last.year}</span>
+				<span class="date">Aggregated from ${formatDate(dates.first)} to ${formatDate(dates.last)}</span>
 			</div>
 			<div class="card-reveal">
-				<span class="close">remove card</span>
-				<span class="card-title grey-text text-darken-4">Crux settings<i class="material-icons right">close</i></span>
-				<p>If the effective connection type is unspecified, then aggregated data over all effective connection types will be returned.</p>
+				<span class="close">Remove this card</span>
+				<span class="card-title grey-text text-darken-4">CRUX Settings<i class="material-icons right">close</i></span>
+				<p>When the effective connection type is unspecified, aggregated data from all connection types will be displayed for a comprehensive overview.</p>
 				${createNetworkFilters()}
 				<div class="history"> 
-					<p>Below, you can view historical data for ${origin}. This provides a time series of web performance data which updates weekly and allows you to view up to 6 months of history with 25 data cards spaced out over each week.</p>
+					<p>Explore the historical core web vitals trends for ${origin} from the last 6 months. This data is updated weekly and reflects the overall performance across all connection types.</p>
 					<div class="center container"> 
-						<a data-origin="${origin}" class="btn modal-trigger loadHistory" href="#${domainName}Chart"> Load Historical Chart </a> 
-						<a data-origin="${origin}" class="btn modal-trigger loadDeck" href="#${domainName}Modal"> Load Deck of Cards </a> 
+						<a data-origin="${origin}" class="btn modal-trigger loadHistory" href="#${domainName}Chart"> View Historical Chart </a>
+						<a data-origin="${origin}" class="btn modal-trigger loadDeck" href="#${domainName}Modal"> View Deck of Cards </a>
 					</div> 
 				</div>
 				<div class="periodDate">
-					<p>The aggregated data on this card is from</p>
-					<span class="firstDate">${dates.first.month}-${dates.first.day}-${dates.first.year}</span> to <span class="lastDate">${dates.last.month}-${dates.last.day}-${dates.last.year}</span>
+					<p>This card displays aggregated data from</p>
+					<span class="firstDate">${formatDate(dates.first)}</span> to <span class="lastDate">${formatDate(dates.last)}</span>
 				</div>
 			</div>
 		</div>
