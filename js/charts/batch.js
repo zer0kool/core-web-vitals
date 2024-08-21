@@ -1,13 +1,13 @@
-M.Tabs.init(chartTabs, {});
+// M.Tabs.init(chartTabs, {});
 
 
-const CrUXApiUtil = {};
-CrUXApiUtil.API_KEY = 'AIzaSyABFb0DrX8sAZ3867SAjpimUP-lxZ6yjuA';
-CrUXApiUtil.API_HOST = 'https://chromeuxreport.googleapis.com';
-CrUXApiUtil.API_ENDPOINT_PATH = `/v1/records:queryRecord?key=${CrUXApiUtil.API_KEY}`;
-CrUXApiUtil.API_ENDPOINT = `${CrUXApiUtil.API_HOST}${CrUXApiUtil.API_ENDPOINT_PATH}`;
-CrUXApiUtil.query = function (url) {
-    if (CrUXApiUtil.API_KEY === '[YOUR_API_KEY]') {
+const CrUXApiService = {};
+CrUXApiService.API_KEY = 'AIzaSyABFb0DrX8sAZ3867SAjpimUP-lxZ6yjuA';
+CrUXApiService.API_HOST = 'https://chromeuxreport.googleapis.com';
+CrUXApiService.API_ENDPOINT_PATH = `/v1/records:queryRecord?key=${CrUXApiService.API_KEY}`;
+CrUXApiService.API_ENDPOINT = `${CrUXApiService.API_HOST}${CrUXApiService.API_ENDPOINT_PATH}`;
+CrUXApiService.query = function (url) {
+    if (CrUXApiService.API_KEY === '[YOUR_API_KEY]') {
         throw 'Replace "YOUR_API_KEY" with your private CrUX API key. Get a key at https://goo.gle/crux-api-key.';
     }
     const requestBody = {
@@ -16,7 +16,7 @@ CrUXApiUtil.query = function (url) {
         metrics: ['first_contentful_paint', 'largest_contentful_paint', 'first_input_delay', 'cumulative_layout_shift', 'interaction_to_next_paint', 'experimental_time_to_first_byte'],
     };
 
-    return fetch(CrUXApiUtil.API_ENDPOINT, {
+    return fetch(CrUXApiService.API_ENDPOINT, {
             method: 'POST',
             body: JSON.stringify(requestBody),
         })
@@ -50,18 +50,19 @@ function processUrls() {
     const dataUrls = document.getElementById('dataUrls').value;
     const urls = dataUrls.split(/[,\n]/).map(url => url.trim());
     const filteredUrls = urls.filter(url => url.startsWith('https'));
-    const promises = filteredUrls.map(url => CrUXApiUtil.query(url));
+    const promises = filteredUrls.map(url => CrUXApiService.query(url));
 
     Promise.all(promises)
         .then(responses => {
             responses.forEach((response, index) => {
+                console.log(response)
                 const url = urls[index];
                 if (!response.record) {
                     queryBatch.noData.push(url);
                     return
                 };
                 queryBatch.cruxUrls.push(url)
-                response.record.metrics = labelMetricData(response.record.metrics);
+                response.record.metrics = labelMetricDatabatch(response.record.metrics);
                 queryBatch.metrics.push(response?.record)
 
                 // Store results in queryBatch.results object
@@ -86,7 +87,7 @@ function processUrls() {
             renderData(queryBatch.metrics)
         })
         .catch(error => {
-            console.error('Error:', error);
+            console.error('Error in Promise.all:', error);
         });
 
 };
@@ -211,7 +212,7 @@ function renderData(crux) {
           event.target.hidden = true
 
           // Call the function to load historical data using the dataId value as a scope for the charts
-          loadHistoricalData(dataId, pageURL);
+          loadHistoricalDataById(dataId, pageURL)
         });
 
 
@@ -220,7 +221,7 @@ function renderData(crux) {
 
 
 
-function labelMetricData(metrics) {
+function labelMetricDatabatch(metrics) {
     const nameToFullNameMap = {
         first_contentful_paint: 'First Contentful Paint (FCP)',
         largest_contentful_paint: 'Largest Contentful Paint (LCP)',

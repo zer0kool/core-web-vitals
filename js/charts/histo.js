@@ -1,11 +1,11 @@
 // Constants
-const CrUXApiHistory = {};
-CrUXApiHistory.KEY = 'AIzaSyABFb0DrX8sAZ3867SAjpimUP-lxZ6yjuA';
+const CrUXApiHistoryService = {}; // Renamed from CrUXApiHistory
+CrUXApiHistoryService.KEY = 'AIzaSyABFb0DrX8sAZ3867SAjpimUP-lxZ6yjuA';
 const endpointHistory = 'https://chromeuxreport.googleapis.com/v1/records:queryHistoryRecord';
-let endpointURL = `${endpointHistory}?key=${CrUXApiHistory.KEY}`;
+let endpointURL = `${endpointHistory}?key=${CrUXApiHistoryService.KEY}`;
 
 // Query function for CrUX API
-CrUXApiHistory.query = async function (requestBody, formFactor) {
+CrUXApiHistoryService.fetchHistoryData = async function (requestBody, formFactor) { // Updated method reference
     const resp = await fetch(endpointURL, {
         method: 'POST',
         body: JSON.stringify(requestBody)
@@ -22,10 +22,10 @@ CrUXApiHistory.query = async function (requestBody, formFactor) {
 };
 
 // Get historical data and build dashboard
-async function getHistoricalData(historyOrigin) {
+async function retrieveHistoricalData(historyOrigin) {
 
     const requests = [
-    CrUXApiHistory.query({
+    CrUXApiHistoryService.fetchHistoryData({ // Updated method reference
             url: historyOrigin,
             formFactor: 'Phone'
         }, {
@@ -36,7 +36,7 @@ async function getHistoricalData(historyOrigin) {
     const requestResults = await Promise.all(requests);
 
     const data = requestResults.filter(result => result !== undefined);
-    buildObjectData(data[0]);
+    processHistoricalData(data[0]);
 
 }
 
@@ -54,7 +54,7 @@ pageMetricData.index = {};
 
 
 // Build object data
-function buildObjectData(data) {
+function processHistoricalData(data) {
     // Implement your logic to process and store the historical data
     // Use the 'data' array containing the historical data
     // 'historyOrigin' represents the URL origin for which historical data is collected
@@ -86,7 +86,7 @@ function buildObjectData(data) {
 
     console.log("weeks",weeks);
 
-    let pageMetrics = labelMetricHData(data.record.metrics, weeks)
+    let pageMetrics = labelMetricsWithWeeks(data.record.metrics, weeks)
     console.log("pageMetric", pageMetrics)
 
     pageMetrics.forEach(data => {
@@ -113,7 +113,17 @@ function buildObjectData(data) {
 }
 
 
-function labelMetricHData(metrics, weeks) {
+function labelMetricsWithWeeks(metrics, weeks) {
+    const requestedMetrics = [
+        'first_contentful_paint',
+        'largest_contentful_paint',
+        'first_input_delay',
+        'cumulative_layout_shift',
+        'interaction_to_next_paint',
+        'experimental_time_to_first_byte',
+        'experimental_interaction_to_next_paint'
+    ];
+
     const metricLabels = {
         first_contentful_paint: 'First Contentful Paint (FCP)',
         largest_contentful_paint: 'Largest Contentful Paint (LCP)',
@@ -121,9 +131,9 @@ function labelMetricHData(metrics, weeks) {
         cumulative_layout_shift: 'Cumulative Layout Shift (CLS)',
         interaction_to_next_paint: 'Interaction to Next Paint (INP)',
         experimental_time_to_first_byte: 'Experimental Time to First Byte (TTFB)',
-        experimental_interaction_to_next_paint: 'Experiemental (INP)',
-        navigation_types: 'navigations',
+        experimental_interaction_to_next_paint: 'Experiemental (INP)'
     };
+
     const nameToAcronymMap = {
         first_contentful_paint: 'FCP',
         largest_contentful_paint: 'LCP',
@@ -131,42 +141,32 @@ function labelMetricHData(metrics, weeks) {
         cumulative_layout_shift: 'CLS',
         interaction_to_next_paint: 'INP',
         experimental_time_to_first_byte: 'TTFB',
-        experimental_interaction_to_next_paint: 'DEPRECATED',
-        navigation_types: 'navigations',
+        experimental_interaction_to_next_paint: 'DEPRECATED'
     };
-    return Object.entries(metrics).map(([metricName, metricData]) => {
 
-        const labeledBins = [];
+    return Object.entries(metrics)
+        .filter(([metricName]) => requestedMetrics.includes(metricName)) // Filter to only include requested metrics
+        .map(([metricName, metricData]) => {
+            const labeledBins = [];
 
+            for (let i = 0; i < metricData.histogramTimeseries[0].densities.length; i++) {
+                const labeledBin = {
+                    good: metricData.histogramTimeseries[0].densities[i],
+                    'needs improvement': metricData.histogramTimeseries[1].densities[i],
+                    poor: metricData.histogramTimeseries[2].densities[i],
+                };
 
-        if (metricName === "navigation_types") {
+                labeledBins.push(labeledBin);
+            }
+
             return {
                 acronym: nameToAcronymMap[metricName],
                 name: metricLabels[metricName],
-                metricData,
+                percentiles: metricData.percentilesTimeseries,
+                labeledBins,
                 weeks,
             };
-        }
-
-
-        for (let i = 0; i < metricData.histogramTimeseries[0].densities.length; i++) {
-            const labeledBin = {
-                good: metricData.histogramTimeseries[0].densities[i],
-                'needs improvement': metricData.histogramTimeseries[1].densities[i],
-                poor: metricData.histogramTimeseries[2].densities[i],
-            };
-
-            labeledBins.push(labeledBin);
-        }
-
-        return {
-            acronym: nameToAcronymMap[metricName],
-            name: metricLabels[metricName],
-            percentiles: metricData.percentilesTimeseries,
-            labeledBins,
-            weeks,
-        };
-    });
+        });
 }
 
 
@@ -382,11 +382,9 @@ function createSimpleColumnChart(data, containerId, index) {
 
 
 // Function to load historical data based on the dataId parameter
-function loadHistoricalData(dataId, pageURl) {
+function loadHistoricalDataById(dataId, pageURl) {
     pageMetricData.index = dataId;
     pageMetricData.id = "site"+dataId;
     pageMetricData.url = pageURl;
-    getHistoricalData(pageURl)
+    retrieveHistoricalData(pageURl)
 }
-
-
