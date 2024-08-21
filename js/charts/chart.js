@@ -25,14 +25,14 @@ getHistoricalData = async (historyOrigin) => {
       CrUXApiHistory.query({ origin: `https://${historyOrigin}/`, formFactor: "Phone" }, { formFactor: "Phone" }),
       CrUXApiHistory.query({ origin: `https://${historyOrigin}/`, formFactor: "Desktop" }, { formFactor: "Desktop" })
     ];
-  
+
     for (let i = 0; i < requests.length; i++) {
       const result = await requests[i];
       if (result !== undefined) {
         request.push(result);
       }
     }
-  
+
     await buildObjectData(request, historyOrigin);
     formChartData(request);
   };
@@ -252,7 +252,7 @@ function buildObjectData(entries, historyOrigin) {
                 }
             }
 
-        
+
 
 
             // console.log(cardObject)
@@ -261,21 +261,21 @@ function buildObjectData(entries, historyOrigin) {
 
     })
     // console.log(newRequestToProcess);
-    
+
     const groupCards = arr => {
         let result = {};
 
         for (let i = 0; i < arr.length; i++) {
             const cardIndexValue = arr[i].key.cardIndex;
 
-            if (result[cardIndexValue] === undefined) //if the key is not present in the object, create an array and add it to the object 
+            if (result[cardIndexValue] === undefined) //if the key is not present in the object, create an array and add it to the object
                 result[cardIndexValue] = [arr[i]];
-            else //else push the objects into existing subarray  
+            else //else push the objects into existing subarray
                 result[cardIndexValue].push(arr[i]);
 
         }
 
-        return Object.values(result); //return a new array with all values of the grouped objects 				  
+        return Object.values(result); //return a new array with all values of the grouped objects
     }
 
     let cards = groupCards(newRequestToProcess)
@@ -285,7 +285,7 @@ function buildObjectData(entries, historyOrigin) {
     cards.forEach(item => {
         processd(item, historyOrigin)
     })
-    
+
     // formChartData(entries);
 }
 
@@ -411,7 +411,7 @@ function labelMetricDatax(metrics, key, index) {
         experimental_time_to_first_byte: 'TTFB',
     };
     return Object.entries(metrics).map(([metricName, metricData]) => {
-        // debugger; 
+        // debugger;
         const standardBinLabels = ['good', 'needs improvement', 'poor'];
         const metricBins = metricData.histogram;
         const labeledBins = metricBins.map((bin, i) => {

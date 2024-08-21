@@ -179,12 +179,12 @@ function createDefaultCard(cardTitle, favicon, siteName, sumId, phoneId, desktop
 				<span class="card-title grey-text text-darken-4">CRUX Settings<i class="material-icons right">close</i></span>
 				<p>When the effective connection type is unspecified, aggregated data from all connection types will be displayed for a comprehensive overview.</p>
 				${createNetworkFilters()}
-				<div class="history"> 
+				<div class="history">
 					<p>Explore the historical core web vitals trends for ${origin} from the last 6 months. This data is updated weekly and reflects the overall performance across all connection types.</p>
-					<div class="center container"> 
+					<div class="center container">
 						<a data-origin="${origin}" class="btn modal-trigger loadHistory" href="#${domainName}Chart"> View Historical Chart </a>
 						<a data-origin="${origin}" class="btn modal-trigger loadDeck" href="#${domainName}Modal"> View Deck of Cards </a>
-					</div> 
+					</div>
 				</div>
 				<div class="periodDate">
 					<p>This card displays aggregated data from</p>

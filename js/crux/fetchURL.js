@@ -117,14 +117,14 @@ function buildUrlCardData(labeledMetrics, origin, pageType, network, dates) {
 					<span class="card-title grey-text text-darken-4">Crux settings<i class="material-icons right">close</i></span>
 					<p>If the effective connection type is unspecified, then aggregated data over all effective connection types
 						will be returned.</p>
-			
+
 					<div class="periodDate">
 						<p>
 							The aggregated data on this card is from </p>
 						<span class="firstDate">${dates.first.month}-${dates.first.day}-${dates.first.year}</span> to
 						<span class="lastDate">${dates.last.month}-${dates.last.day}-${dates.last.year}</span>
 					</div>
-			
+
 					<!-- 3G connectivity -->
 					<p>Filter 3G connection bucket</p>
 					<div class="switch n3g">
@@ -330,7 +330,7 @@ function labelMetricData(metrics, key) {
 	if ("navigation_types" in metrics ) {delete metrics["navigation_types"]};
 	if ("round_trip_time" in metrics ) {delete metrics["round_trip_time"]};
 	if (key === undefined) {key = "SUM"};
-	
+
 	const nameToFullNameMap = {
 		first_contentful_paint: 'First Contentful Paint (FCP)',
 		largest_contentful_paint: 'Largest Contentful Paint (LCP)',
