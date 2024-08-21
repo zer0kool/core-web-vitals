@@ -11,3 +11,8 @@ M.FloatingActionButton.init(mobileMenu, {})
 
 var slide = document.querySelectorAll('.modal');
 M.Modal.init(slide, {});
+
+
+document.getElementById('clear').addEventListener('click', function() {
+    document.getElementById('search').value = '';
+});
