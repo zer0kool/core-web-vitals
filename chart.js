@@ -490,7 +490,7 @@ function formChartData(apiResponse) {
             chart.data.push(teemo); // Add the teemo array to the data structure for the current metric
         }
 
-        console.log(dataStructure); // Log the data structure for debugging purposes
+        console.log("dataStructure",dataStructure); // Log the data structure for debugging purposes
         sortCartData(dataStructure); // Call the function to sort and display the chart data
     });
 }
