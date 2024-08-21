@@ -470,6 +470,7 @@ div[data-title]:focus::after {
   box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.4);
   font-size: 16px;
   padding: 7px 7px;
+  text-transform: lowercase;
 }
 
 
