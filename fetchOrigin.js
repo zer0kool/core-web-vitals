@@ -93,6 +93,10 @@ function process(formFactor, origin) {
 	const data = buildCard(labeledMetrics, origin, network, dates);
 }
 
+function extractDomainName(origin) {
+	return origin.replace(/^https?:\/\//, '').split('.')[1];
+}
+
 function buildCard(labeledMetrics, origin, network, dates) {
 	network = network ?? "default";
 	const favicon = `https://${origin}/favicon.ico`;
@@ -102,7 +106,7 @@ function buildCard(labeledMetrics, origin, network, dates) {
 	const domainName = extractDomainName(origin); // Ensure domainName is defined here
 
 	if (network === "default") {
-		const card = createDefaultCard(cardTitle, favicon, siteName, sumId, phoneId, desktopId, tabletId, dates, domainName);
+		const card = createDefaultCard(cardTitle, favicon, siteName, sumId, phoneId, desktopId, tabletId, dates, origin, domainName); // Pass domainName to createDefaultCard
 		document.querySelector('#cruxorigin #app').insertAdjacentHTML("afterbegin", card);
 		setupRemoveCardAction(siteName);
 		document.querySelector("#cruxorigin #loading").style.display = "none";
@@ -138,10 +142,6 @@ function generateIds(siteName, network) {
 		desktopId: `${siteName}DESKTOP${network}`,
 		tabletId: `${siteName}TABLET${network}`
 	};
-}
-
-function extractDomainName(origin) {
-	return origin.replace(/^https?:\/\//, '').split('.')[1];
 }
 
 function createDefaultCard(cardTitle, favicon, siteName, sumId, phoneId, desktopId, tabletId, dates, origin, domainName) {
