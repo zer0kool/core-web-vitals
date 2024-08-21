@@ -19,6 +19,9 @@
   border: transparent;
 }
 
+.chart p {
+  text-transform: capitalize;
+}
 /* fallback */
 @font-face {
   font-family: 'Material Icons';
@@ -61,6 +64,12 @@ input:-internal-autofill-selected {
   color: -internal-light-dark-color(black, white) !important;
 }
 
+.dark .card-reveal {
+  background-color: #1e2123;
+}
+.dark .grey-text.text-darken-4 {
+  color: white!important;
+}
 .info {
   background-color: #dceae9;
   border-bottom: 1px solid #e2e2e2;
@@ -136,10 +145,9 @@ button.btn-large {
 
 #search {
   height: 50px;
-  background: white;
-  border-radius: 30px;
+  background: transparent;
+  border-radius: 0;
   padding-left: 10px;
-  border: 1px solid #fbfbfb
 }
 
 #search:focus {
@@ -197,7 +205,10 @@ h2 {
   margin-right: 30px;
 }
 */
-
+.grey.lighten-5 {
+  background-color: rgb(48 61 68) !important;
+  color: white;
+}
 span {
   text-transform: capitalize;
 }

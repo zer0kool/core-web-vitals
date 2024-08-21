@@ -434,14 +434,16 @@ function labelMetricDatax(metrics, key, index) {
 
 
 function formChartData(apiResponse) {
-
+    // Iterate through each bucket in the API response
     apiResponse.forEach(bucket => {
-
-        let formFactor = bucket.record.key.formFactor ?? "SUM"
+        // Determine the form factor for the current bucket, defaulting to "SUM" if not specified
+        let formFactor = bucket.record.key.formFactor ?? "SUM";
+        // Initialize the data structure for the current bucket
         let dataStructure = {
             "site": bucket.record.key.origin,
             "formFactor": formFactor,
             "chart": [
+                // Define the metrics to be charted
                 {
                     "metric": "first_contentful_paint",
                     "data": []
@@ -468,134 +470,156 @@ function formChartData(apiResponse) {
                 }]
         }
 
+        // Iterate through each metric to be charted
         for (let chart of dataStructure.chart) {
-            let teemo = [];
+            let teemo = []; // Initialize an array to hold the data for the current metric
+            // Iterate through each week (0 to 24) to collect data
             for (let i = 0; i < 25; i++) {
+                // Extract the density values for each category (good, need improvement, bad) for the current week
                 let metricObj = {
                     "week": i,
                     "good": bucket.record.metrics[chart.metric].histogramTimeseries[0].densities[i] * 100,
                     "Need Improvement": bucket.record.metrics[chart.metric].histogramTimeseries[1].densities[i] * 100,
-                    "bad": bucket.record.metrics[chart.metric].histogramTimeseries[2].densities[i] * 100
+                    "bad": bucket.record.metrics[chart.metric].histogramTimeseries[2].densities[i] * 100,
+                    "firstDate": bucket.record.collectionPeriods[i].firstDate,
+                    "lastDate": bucket.record.collectionPeriods[i].lastDate
                 };
-                teemo.push(metricObj)
+                teemo.push(metricObj); // Add the metric data for the current week to the teemo array
             }
 
-            chart.data.push(teemo);
+            chart.data.push(teemo); // Add the teemo array to the data structure for the current metric
         }
 
-        console.log(dataStructure)
-        sortCartData(dataStructure)
-
-    })
+        console.log(dataStructure); // Log the data structure for debugging purposes
+        sortCartData(dataStructure); // Call the function to sort and display the chart data
+    });
 }
 
-
+// Function to sort and display the chart data
 async function sortCartData(chartData) {
     try {
-        // debugger
-    let domainName = chartData.site.replace(/^https?:\/\//, '').split('.')[1]
-      const chartDiv = document.querySelector(`#${domainName}Chart #chartdiv #${domainName}${chartData.formFactor}Chart`);
-      const charts = [];
-    
-    for (const metricData of chartData.chart) {
+        // Extract the domain name from the site URL
+        let domainName = chartData.site.replace(/^https?:\/\//, '').split('.')[1];
+        // Select the chart div for the current domain and form factor
+        const chartDiv = document.querySelector(`#${domainName}Chart #chartdiv #${domainName}${chartData.formFactor}Chart`);
+        const charts = []; // Initialize an array to hold the charts
 
-        let charttemplate = `
-        <div class="col s12 m6 l4 chart">
-            <p>${metricData.metric}-${chartData.formFactor}</p>
-            <div id="${metricData.metric}-${chartData.formFactor}" style="width: 100%; height: 500px"></div>
-        
-        </div>
-        `
-        chartDiv.insertAdjacentHTML("afterbegin", charttemplate);
-        
-        const root = am5.Root.new(`${metricData.metric}-${chartData.formFactor}`);
+        // Iterate through each metric in the chart data
+        for (const metricData of chartData.chart) {
+            // Create the HTML template for the chart
+            let charttemplate = `
+            <div class="col s12 m6 l4 chart">
+                <p>${metricData.metric.replace(/_/g, ' ')}</p>
+                <div id="${metricData.metric}-${chartData.formFactor}" style="width: 100%; height: 500px"></div>
+            </div>
+            `;
+            // Insert the chart template into the chart div
+            chartDiv.insertAdjacentHTML("afterbegin", charttemplate);
 
-        root.fps = 10;
-  
-        const chart = root.container.children.push(
-          am5xy.XYChart.new(root, {
-            layout: root.verticalLayout,
-            pinchZoomX: false,
-          })
-        );
-  
-        const cursor = chart.set("cursor", am5xy.XYCursor.new(root, { behavior: "none" }));
-        cursor.lineY.set("visible", false);
-  
-        const data = metricData.data[0];
-  
-        const xAxis = chart.xAxes.push(
-          am5xy.CategoryAxis.new(root, {
-            categoryField: "week",
-            startLocation: 0.5,
-            endLocation: 0.5,
-            renderer: am5xy.AxisRendererX.new(root, {}),
-            tooltip: am5.Tooltip.new(root, {}),
-          })
-        );
-        xAxis.data.setAll(data);
-  
-        const yAxis = chart.yAxes.push(
-          am5xy.ValueAxis.new(root, {
-            min: 0,
-            max: 100,
-            calculateTotals: true,
-            numberFormat: "#'%'",
-            renderer: am5xy.AxisRendererY.new(root, {}),
-          })
-        );
-  
-        function createSeries(name, field, color) {
-          const series = chart.series.push(
-            am5xy.LineSeries.new(root, {
-              name: name,
-              fill: am5.color(color),
-              stacked: true,
-              xAxis: xAxis,
-              yAxis: yAxis,
-              valueYField: field,
-              categoryXField: "week",
-              valueYShow: "valueYTotalPercent",
-              legendValueText: "{valueY}",
-              tooltip: am5.Tooltip.new(root, {
-                pointerOrientation: "horizontal",
-                labelText: "[bold]{name}[/]\nWeek {categoryX}: {valueYTotalPercent.formatNumber('#.0')}% ({valueY})",
-              }),
-            })
-          );
-  
-          series.fills.template.setAll({
-            fillOpacity: 0.5,
-            visible: true,
-          });
-  
-          series.data.setAll(data);
-          series.appear(1000);
+            // Initialize the root for the chart
+            const root = am5.Root.new(`${metricData.metric}-${chartData.formFactor}`);
+
+            // Set up the chart
+            root.fps = 10;
+            const chart = root.container.children.push(
+              am5xy.XYChart.new(root, {
+                layout: root.verticalLayout,
+                pinchZoomX: false,
+              })
+            );
+
+            // Set up the cursor
+            const cursor = chart.set("cursor", am5xy.XYCursor.new(root, { behavior: "none" }));
+            cursor.lineY.set("visible", false);
+
+            // Set up the data
+            const data = metricData.data[0].map(item => ({
+                ...item,
+                firstDateString: `${new Intl.DateTimeFormat('en-US', { month: 'long' }).format(new Date(item.firstDate.year, item.firstDate.month - 1, item.firstDate.day))} ${item.firstDate.day}, ${item.firstDate.year}`,
+                lastDateString: `${new Intl.DateTimeFormat('en-US', { month: 'long' }).format(new Date(item.lastDate.year, item.lastDate.month - 1, item.lastDate.day))} ${item.lastDate.day}, ${item.lastDate.year}`,
+            }));
+
+            const xAxis = chart.xAxes.push(
+              am5xy.CategoryAxis.new(root, {
+                categoryField: "week",
+                startLocation: 0.5,
+                endLocation: 0.5,
+                renderer: am5xy.AxisRendererX.new(root, {}),
+                tooltip: am5.Tooltip.new(root, {
+                    labelText: "{firstDateString} to {lastDateString}",
+                }),
+              })
+            );
+            xAxis.data.setAll(data);
+
+            const yAxis = chart.yAxes.push(
+              am5xy.ValueAxis.new(root, {
+                min: 0,
+                max: 100,
+                calculateTotals: true,
+                numberFormat: "#'%'",
+                renderer: am5xy.AxisRendererY.new(root, {}),
+              })
+            );
+
+            // Function to create a series for the chart
+            function createSeries(name, field, color) {
+              const series = chart.series.push(
+                am5xy.LineSeries.new(root, {
+                  name: name,
+                  fill: am5.color(color),
+                  stacked: true,
+                  xAxis: xAxis,
+                  yAxis: yAxis,
+                  valueYField: field,
+                  categoryXField: "week",
+                  valueYShow: "valueYTotalPercent",
+                  legendValueText: "{valueY}",
+                  tooltip: am5.Tooltip.new(root, {
+                    pointerOrientation: "horizontal",
+                    labelText: "[bold]{name}[/]\nWeek {categoryX}: {valueYTotalPercent.formatNumber('#.0')}% ({valueY})",
+                  }),
+                })
+              );
+
+              series.fills.template.setAll({
+                fillOpacity: 0.5,
+                visible: true,
+              });
+
+              // Set the data for the series
+              series.data.setAll(data);
+              series.appear(1000);
+            }
+
+            // Define colors for the series
+            let green = 0x10c180;
+            let yellow = 0xfddc77;
+            let red = 0xff0000;
+
+            // Create series for each category
+            createSeries("Good", "good", green);
+            createSeries("Need improvements", "Need Improvement", yellow);
+            createSeries("Bad", "bad", red);
+
+            // Add a scrollbar to the chart
+            chart.set("scrollbarX", am5.Scrollbar.new(root, { orientation: "horizontal" }));
+
+            // Add a legend to the chart
+            const legend = chart.children.push(am5.Legend.new(root, { centerX: am5.p50, x: am5.p50 }));
+            legend.data.setAll(chart.series.values);
+
+            charts.push(chart); // Add the chart to the charts array
         }
-        let green = 0x10c180;
-        let yellow = 0xfddc77;
-        let red = 0xff0000;
 
-        createSeries("Good", "good", green);
-        createSeries("Need improvements", "Need Improvement", yellow);
-        createSeries("Bad", "bad", red);
+        // Adjust the padding for each chart
+        charts.forEach((chart) => {
+            chart.paddingRight = 20;
+        });
 
-        chart.set("scrollbarX", am5.Scrollbar.new(root, { orientation: "horizontal" }));
-        
-        const legend = chart.children.push(am5.Legend.new(root, { centerX: am5.p50, x: am5.p50 }));
-        legend.data.setAll(chart.series.values);
-        
-        charts.push(chart);
-    }
-
-    charts.forEach((chart) => {
-        chart.paddingRight = 20;
-    });
-  
-    // root.dispose();
-      return charts;
+        // Return the charts array
+        return charts;
     } catch (error) {
-      console.error(error);
+        console.error(error);
     }
-  }
-
+}
