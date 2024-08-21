@@ -1,311 +1,349 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Google CWV - Query and visualize CrUX CLS, FCP, FID and LCP.</title><link rel="preconnect" href="//chromeuxreport.googleapis.com"><link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" fetchpriority="high"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&amp;display=swap"><link rel="stylesheet" type="text/css" href="./css/init.css" media="screen,projection"><link rel="stylesheet" type="text/css" href="./css/init2.css" media="screen,projection"><link rel="preload" href="https://fonts.gstatic.com/s/materialicons/v53/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2" as="font" type="font/woff2" crossorigin=""><link rel="dns-prefetch" href="//cdnjs.cloudflare.com"><link rel="dns-prefetch" href="//fonts.googleapis.com"><link rel="dns-prefetch" href="//fonts.gstatic.com"><meta name="author" content="Alejandro Loaiza"><meta name="description" content="The Crux tool is a web UI built on the CrUX API for comparing user experiences, querying and visualizing the CrUX API. All data metrics are aggregated together in a single card. Query the CrUX API for metric records: field data collected over the last 28 days"><meta name="keywords" content="Chrome UX Report API, Google CWV, Comparing user experiences, cls, lcp, fid, fcp, visualizing the CrUX API, Chrome UX Report, CrUX dataset, User Experience, Real User Metrics (RUM), Chrome User Experience Report, Crux field data"><meta name="description" content="The Crux tool is a web UI for querying and visualizing the CrUX API. All data metrics are aggregated together in a single card. Get your CLS, FID, LCP, and FCP."><meta property="og:url" content="https://core-web-vitals.now.sh/"><meta property="og:type" content="website"><meta property="og:title" content="Google CWV - Query and visualize CrUX CLS, FCP, FID and LCP."><meta property="og:description" content="The Crux tool is a web UI for querying and visualizing the CrUX API. All data metrics are aggregated together in a single card. Get your CLS, FID, LCP, and FCP."><meta property="og:image" content="https://core-web-vitals.now.sh/img/CruxTool.png"><meta name="twitter:card" content="summary_large_image"><meta property="twitter:domain" content="core-web-vitals.now.sh"><meta property="twitter:url" content="https://core-web-vitals.now.sh/"><meta name="twitter:title" content="Google CWV - Query and visualize CrUX CLS, FCP, FID and LCP."><meta name="twitter:image" content="https://core-web-vitals.now.sh/img/CruxTool.png"><meta name="twitter:description" content="The Crux tool is a web UI for querying and visualizing the CrUX API. All data metrics are aggregated together in a single card. Get your CLS, FID, LCP, and FCP."></head>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google CWV - Query and visualize CrUX CLS, FCP, FID and LCP.</title>
+    <link rel="preconnect" href="//chromeuxreport.googleapis.com">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" fetchpriority="high">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&amp;display=swap">
+    <link rel="stylesheet" type="text/css" href="./css/init.css" media="screen,projection">
+    <link rel="stylesheet" type="text/css" href="./css/init2.css" media="screen,projection">
+    <link rel="preload" href="https://fonts.gstatic.com/s/materialicons/v53/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <meta name="author" content="Alejandro Loaiza">
+    <meta name="description" content="The Crux tool is a web UI built on the CrUX API for comparing user experiences, querying and visualizing the CrUX API. All data metrics are aggregated together in a single card. Query the CrUX API for metric records: field data collected over the last 28 days">
+    <meta name="keywords" content="Chrome UX Report API, Google CWV, Comparing user experiences, cls, lcp, fid, fcp, visualizing the CrUX API, Chrome UX Report, CrUX dataset, User Experience, Real User Metrics (RUM), Chrome User Experience Report, Crux field data">
+    <meta name="description" content="The Crux tool is a web UI for querying and visualizing the CrUX API. All data metrics are aggregated together in a single card. Get your CLS, FID, LCP, and FCP.">
+    <meta property="og:url" content="https://core-web-vitals.now.sh/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Google CWV - Query and visualize CrUX CLS, FCP, FID and LCP.">
+    <meta property="og:description" content="The Crux tool is a web UI for querying and visualizing the CrUX API. All data metrics are aggregated together in a single card. Get your CLS, FID, LCP, and FCP.">
+    <meta property="og:image" content="https://core-web-vitals.now.sh/img/CruxTool.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:domain" content="core-web-vitals.now.sh">
+    <meta property="twitter:url" content="https://core-web-vitals.now.sh/">
+    <meta name="twitter:title" content="Google CWV - Query and visualize CrUX CLS, FCP, FID and LCP.">
+    <meta name="twitter:image" content="https://core-web-vitals.now.sh/img/CruxTool.png">
+    <meta name="twitter:description" content="The Crux tool is a web UI for querying and visualizing the CrUX API. All data metrics are aggregated together in a single card. Get your CLS, FID, LCP, and FCP.">
+</head>
 
 <body>
-  <header class="hide-on-small-only">
-    <nav class="topBar">
-      <div class="nav-wrapper valign-wrapper right">
-        <ul class="right">
-          <li><a href="https://web.dev/metrics/"><i class="material-icons left">developer_mode</i>More on CrUX
-              metrics</a></li>
-          <li><a href="https://github.com/zer0kool/core-web-vitals/issues"><i
-                class="material-icons right">bug_report</i>Notice an issue?</a></li>
+    <header class="hide-on-small-only">
+        <nav class="topBar">
+            <div class="nav-wrapper valign-wrapper right">
+                <ul class="right">
+                    <li><a href="https://web.dev/metrics/"><i class="material-icons left">developer_mode</i>More on CrUX
+                            metrics</a></li>
+                    <li><a href="https://github.com/zer0kool/core-web-vitals/issues"><i class="material-icons right">bug_report</i>Notice an issue?</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <nav class="navbar">
+        <ul class="navbar-nav">
+            <li class="logo hide-on-small-only">
+                <a href="#" class="nav-link">
+                    <span class="link-text logo-text">CrUX API Tool</span>
+                    <svg aria-hidden="true" focusable="false" data-prefix="fad" data-icon="angle-double-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-inline--fa fa-angle-double-right fa-w-14 fa-5x">
+                        <g class="fa-group">
+                            <path fill="currentColor" d="M224 273L88.37 409a23.78 23.78 0 0 1-33.8 0L32 386.36a23.94 23.94 0 0 1 0-33.89l96.13-96.37L32 159.73a23.94 23.94 0 0 1 0-33.89l22.44-22.79a23.78 23.78 0 0 1 33.8 0L223.88 239a23.94 23.94 0 0 1 .1 34z" class="fa-secondary"></path>
+                            <path fill="currentColor" d="M415.89 273L280.34 409a23.77 23.77 0 0 1-33.79 0L224 386.26a23.94 23.94 0 0 1 0-33.89L320.11 256l-96-96.47a23.94 23.94 0 0 1 0-33.89l22.52-22.59a23.77 23.77 0 0 1 33.79 0L416 239a24 24 0 0 1-.11 34z" class="fa-primary"></path>
+                        </g>
+                    </svg>
+                </a>
+            </li>
+            <ul id="tabs-swipe-demo" class="tabsx">
+                <li class="nav-item tab">
+                    <a href="#cruxorigin" class="nav-link">
+                        <i class="material-icons">important_devices</i>
+                        <span class="link-text">CrUX by origin</span>
+                    </a>
+                </li>
+
+                <li class="nav-item tab">
+                    <a href="#cruxurl" class="nav-link">
+                        <i class="material-icons">pageview</i>
+                        <span class="link-text">CrUX by url</span>
+                    </a>
+                </li>
+
+                <li class="nav-item tab">
+                    <a href="#about" class="nav-link">
+                        <i class="material-icons">eco</i>
+                        <span class="link-text">About</span>
+                    </a>
+                </li>
+
+                <li class="nav-item tab">
+                    <a href="#credits" class="nav-link">
+                        <i class="material-icons">face</i>
+                        <span class="link-text">Credits</span>
+                    </a>
+                </li>
+            </ul>
+
+            <li class="nav-item" id="themeButton">
+                <a href="#" class="nav-link">
+                    <i class="material-icons">opacity</i>
+                    <span class="link-text">Change Theme</span>
+                </a>
+            </li>
         </ul>
-      </div>
     </nav>
-  </header>
-  <nav class="navbar">
-    <ul class="navbar-nav">
-      <li class="logo hide-on-small-only">
-        <a href="#" class="nav-link">
-          <span class="link-text logo-text">CrUX API Tool</span>
-          <svg aria-hidden="true" focusable="false" data-prefix="fad" data-icon="angle-double-right" role="img"
-            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
-            class="svg-inline--fa fa-angle-double-right fa-w-14 fa-5x">
-            <g class="fa-group">
-              <path fill="currentColor"
-                d="M224 273L88.37 409a23.78 23.78 0 0 1-33.8 0L32 386.36a23.94 23.94 0 0 1 0-33.89l96.13-96.37L32 159.73a23.94 23.94 0 0 1 0-33.89l22.44-22.79a23.78 23.78 0 0 1 33.8 0L223.88 239a23.94 23.94 0 0 1 .1 34z"
-                class="fa-secondary"></path>
-              <path fill="currentColor"
-                d="M415.89 273L280.34 409a23.77 23.77 0 0 1-33.79 0L224 386.26a23.94 23.94 0 0 1 0-33.89L320.11 256l-96-96.47a23.94 23.94 0 0 1 0-33.89l22.52-22.59a23.77 23.77 0 0 1 33.79 0L416 239a24 24 0 0 1-.11 34z"
-                class="fa-primary"></path>
-            </g>
-          </svg>
-        </a>
-      </li>
-      <ul id="tabs-swipe-demo" class="tabsx">
-        <li class="nav-item tab">
-          <a href="#cruxorigin" class="nav-link">
-            <i class="material-icons">important_devices</i>
-            <span class="link-text">CrUX by origin</span>
-          </a>
-        </li>
 
-        <li class="nav-item tab">
-          <a href="#cruxurl" class="nav-link">
-            <i class="material-icons">pageview</i>
-            <span class="link-text">CrUX by url</span>
-          </a>
-        </li>
-
-        <li class="nav-item tab">
-          <a href="#about" class="nav-link">
-            <i class="material-icons">eco</i>
-            <span class="link-text">About</span>
-          </a>
-        </li>
-
-        <li class="nav-item tab">
-          <a href="#credits" class="nav-link">
-            <i class="material-icons">face</i>
-            <span class="link-text">Credits</span>
-          </a>
-        </li>
-      </ul>
-
-      <li class="nav-item" id="themeButton">
-        <a href="#" class="nav-link">
-          <i class="material-icons">opacity</i>
-          <span class="link-text">Change Theme</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
-
-  <main>
-    <div id="cruxorigin" class="col s12 active">
-      <div class="info">
-        <h1>CrUX by Origin</h1>
-        <h6>Visualize field data collected over the last 28 days</h6>
-        <div class="container">
-          <form class="row">
-            <div class="input-field col s12 m7 l9">
-              <input aria-label="Search origin" role="search" placeholder="www.example.com" id="search" type="search" required>
-              <label for="search">Search origin</label>
-              <i id="clear" class="material-icons prefix">close</i>
-            </div>
-            <div class="col s12 m5 l3">
-              <button class="waves-effect waves-light btn-large grey lighten-5" type="submit" name="action">Get CrUX Metrics</button>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="loadingWrap">
-        <div id="loading" class="progress">
-          <div class="indeterminate"></div>
-        </div>
-      </div>
-      <div class="container">
-        <div id="app"></div>
-      </div>
-    </div>
-    <div id="cruxurl" class="col s12" style="display: none;">
-      <div class="info">
-        <h1>CrUX by Url</h1>
-        <h6>Visualize field data collected over the last 28 days</h6>
-        <div class="container">
-          <form class="row">
-            <div class="input-field col s12 m5">
-              <i class="material-icons prefix">create</i>
-              <input id="icon_prefix" type="text" class="validate pagetype" required>
-              <label for="icon_prefix">Page Type</label>
-            </div>
-            <div class="input-field col s12 m7">
-              <i class="material-icons prefix">track_changes</i>
-              <input id="fetch" type="text" class="validate" required>
-              <label for="fetch">Url</label>
-            </div>
-            <div class="col s12 m2">
-              <button class="waves-effect waves-light btn-large grey lighten-5" type="submit"
-                name="action">Fetch</button>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="loadingWrap">
-        <div id="loading" class="progress">
-          <div class="indeterminate"></div>
-        </div>
-      </div>
-      <div class="container">
-        <div id="app"></div>
-      </div>
-    </div>
-    <div id="about" class="col s12" style="display: none;">
-      <div class="container">
-        <div class="section">
-          <div class="row">
-            <div class="col s12">
-              <h5 class="center">Querying and visualizing the CrUX API</h5>
-              <p class="light">The data in the Chrome UX Report API is a 28-day rolling average of aggregated metrics.
-                This means that the data presented in the CrUX tool at any given time is actually data for the past 28
-                days aggregated together.
-              </p>
-              <p class="light">This is similar to how the CrUX dataset on BigQuery aggregates monthly reports.</p>
-            </div>
-          </div>
-          <!--   Icon Section   -->
-          <div class="row">
-            <div class="col s12 m6">
-              <div class="icon-block">
-                <div class="center tool">
-                  <svg width="48" height="48" aria-hidden="true"><g fill="none" fill-rule="evenodd"><path d="M47.5 24A23.5 23.5 0 0 1 24 47.5 23.5 23.5 0 0 1 .5 24 23.5 23.5 0 0 1 24 .5 23.5 23.5 0 0 1 47.5 24Z" style="fill:#fff;fill-rule:nonzero;stroke-width:.25"></path><path d="M0 0h48v48H0Z"></path><path d="M16.5 24V13.2a3.8 3.8 0 0 0-7.5 0V24a15 15 0 0 0 8 13.3l6-5.9a7.5 7.5 0 0 1-6.5-7.4Z" fill="#34a853"></path><path d="M31.5 22.8V24a7.5 7.5 0 0 1-8.6 7.4l-5.8 5.9A15 15 0 0 0 39 24l-.1-8.7Z" fill="#fbbc04"></path><path d="M35.3 9.5c-2.1 0-3.8 1.7-3.8 3.8v9.5l7.5-7.5v-2c0-2.1-1.7-3.8-3.8-3.8Z" fill="#ea4335"></path><path d="M78 58a18 18 0 0 1-18 18 18 18 0 0 1-18-18 18 18 0 0 1 18-18 18 18 0 0 1 18 18Z" style="fill:#4285f4" transform="matrix(.25 0 0 .25 9 9.5)"></path></g></svg>
+    <main>
+        <div id="cruxorigin" class="col s12 active">
+            <div class="info">
+                <h1>CrUX by Origin</h1>
+                <h6>Visualize field data collected over the last 28 days</h6>
+                <div class="container">
+                    <form class="row">
+                        <div class="input-field col s12 m7 l9">
+                            <input aria-label="Search origin" role="search" placeholder="www.example.com" id="search" type="search" required>
+                            <label for="search">Search origin</label>
+                            <i id="clear" class="material-icons prefix">close</i>
+                        </div>
+                        <div class="col s12 m5 l3">
+                            <button class="waves-effect waves-light btn-large grey lighten-5" type="submit" name="action">Get CrUX Metrics</button>
+                        </div>
+                    </form>
                 </div>
-                <h5 class="center">CrUX API</h5>
-                <p class="light">The Chrome UX Report API gives low-latency access to aggregated Real User Metrics (RUM)
-                  from the Chrome User Experience Report.</p>
-              </div>
             </div>
-
-            <div class="col s12 m6">
-              <div class="icon-block">
-                <div class="center tool">
-                  <img decoding="async" loading="lazy" class="sample" src="./sample.png" fetchpriority="low">
+            <div class="loadingWrap">
+                <div id="loading" class="progress">
+                    <div class="indeterminate"></div>
                 </div>
-                <h5 class="center">CrUX Tool</h5>
-                <p class="light">The Crux tool is a web UI for querying and visualizing the CrUX API. All data metrics
-                  are aggregated together in a single card.</p>
-              </div>
             </div>
-          </div>
-          <br>
-          <div class="row">
-            <div class="col s12">
-              <div class="icon-block">
-                <h5 class="center">Learning Together</h5>
-                <p class="light">The code of this tool is available on <a
-                    href="https://github.com/zer0kool/core-web-vitals">github</a> with the purpose of giving
-                  transparency on how the information is obtained.</p>
-              </div>
+            <div class="container">
+                <div id="app"></div>
             </div>
-          </div>
-          <br>
-          <!-- QnA -->
-          <h5>Questions and Answers</h5>
-          <ul class="collapsible">
-            <li>
-              <div class="collapsible-header"><i class="material-icons">question_answer</i>I've noticed an issue</div>
-              <div class="collapsible-body">
-                <blockquote class="response">To report an issue or a question in regards to the <b>CrUX API</b>. <br>
-                  <a href="https://groups.google.com/a/chromium.org/g/chrome-ux-report">Please visit the Google CrUX
-                    Community</a>
-                </blockquote>
-                <blockquote class="response">To report an issue or question in regards the <b>CrUX Tool</b>. <br>
-                  <a href="https://github.com/zer0kool/core-web-vitals/issues">Please visit the GitHub project </a>
-                </blockquote>
-              </div>
-            </li>
-            <li class="active">
-              <div class="collapsible-header"><i class="material-icons">question_answer</i>Missing data</div>
-              <div class="collapsible-body">
-                <blockquote class="question">Sometimes I get noData displayed on the card</blockquote>
-                <blockquote class="response">Yes, that is intentional. When the CrUX API returns a 404 for the
-                  formfactor, then the tool will render no Data under the FormFactor tab name inside the card.
-                </blockquote>
-              </div>
-            </li>
-            <li>
-              <div class="collapsible-header"><i class="material-icons">question_answer</i>Data discrepancies</div>
-              <div class="collapsible-body">
-                <blockquote class="question">Discrepancies between CrUX API and LightHouse, why?</blockquote>
-                <blockquote class="response">CrUX API reflects field data, while Lighthouse reflects lab data<br>
-                  <a href="https://web.dev/how-to-measure-speed/#lab-data-vs-field-data">Read more on Lab data vs field
-                    data</a>
-                </blockquote>
-                <blockquote class="question">Discrepancies between CrUX API and PageSpeed Insights, why?</blockquote>
-                <blockquote class="response">This should be resolved as a result of the recent PSI migration to the CrUX
-                  API as its source of field data.<br>
-                  <a href="https://groups.google.com/g/pagespeed-insights-discuss/c/by9-TbqdlBM/m/Ovgg_o22AAAJ">Read
-                    More</a>
-                </blockquote>
-              </div>
-            </li>
-            <li>
-              <div class="collapsible-header"><i class="material-icons">question_answer</i>Daily updates</div>
-              <div class="collapsible-body">
-                <blockquote class="question">Data is not updating, why?</blockquote>
-                <blockquote class="response">Data is updated daily around 04:00 UTC. There is no SLO for update times;
-                  it is ran on a best effort basis everyday.</blockquote>
-                <blockquote class="question">Data is not changing, why?</blockquote>
-                <blockquote class="response">Data will not differ within the same day, repeated calls will yield the
-                  same results.</blockquote>
-              </div>
-            </li>
-            <li>
-              <div class="collapsible-header"><i class="material-icons">question_answer</i>CrUX by URL</div>
-              <div class="collapsible-body">
-                <blockquote class="question">My URL is not working on CrUX by URL, why?</blockquote>
-                <blockquote class="response">All aggregations (at either the origin or URL levels) must be publicly
-                  indexable and meet our popularity criteria. If site owners are sure that their URL is both public and
-                  popular, they should reach out to us on the<a
-                    href="https://groups.google.com/a/chromium.org/g/chrome-ux-report"> CrUX discussion forum</a> to
-                  raise a possible bug.</blockquote>
-                <blockquote class="question">How do I know what URL to query?</blockquote>
-                <blockquote class="response">We recommend that you get the list of links from your website that are most
-                  popular. Apart from being popular, they must have enough traffic so that google can obtain the metrics
-                  of your link. Another thing I'd recommend is using the Core Web Vitals report in Search Console. They
-                  highlight groups of pages with issues and list a few example URLs exhibiting those issues. Those URLs
-                  would be good to watch as improvements are made.</blockquote>
-              </div>
-            </li>
-          </ul>
         </div>
-        <br><br>
-      </div>
-    </div>
-    <div id="credits" class="col s12" style="display: none;"> <br><br>
-      <div class="section center">
-        <img decoding="async" loading="lazy" width="280" height="50" src="./wompmobile.png" fetchpriority="low">
-        <h5>CrUX Tool: Query and visualize the CrUX API</h5>
-        <p>Created by <a alt="Alex Github" href="https://github.com/zer0kool">Alejandro Loaiza</a> and maintained by the
-          Quality Lab Engineers at WompMobile. </p>
-
-        <div class="block">
-          <div class="center tool">
-						<svg width="48" height="48" aria-hidden="true"><g fill="none" fill-rule="evenodd"><path d="M47.5 24A23.5 23.5 0 0 1 24 47.5 23.5 23.5 0 0 1 .5 24 23.5 23.5 0 0 1 24 .5 23.5 23.5 0 0 1 47.5 24Z" style="fill:#fff;fill-rule:nonzero;stroke-width:.25"></path><path d="M0 0h48v48H0Z"></path><path d="M16.5 24V13.2a3.8 3.8 0 0 0-7.5 0V24a15 15 0 0 0 8 13.3l6-5.9a7.5 7.5 0 0 1-6.5-7.4Z" fill="#34a853"></path><path d="M31.5 22.8V24a7.5 7.5 0 0 1-8.6 7.4l-5.8 5.9A15 15 0 0 0 39 24l-.1-8.7Z" fill="#fbbc04"></path><path d="M35.3 9.5c-2.1 0-3.8 1.7-3.8 3.8v9.5l7.5-7.5v-2c0-2.1-1.7-3.8-3.8-3.8Z" fill="#ea4335"></path><path d="M78 58a18 18 0 0 1-18 18 18 18 0 0 1-18-18 18 18 0 0 1 18-18 18 18 0 0 1 18 18Z" style="fill:#4285f4" transform="matrix(.25 0 0 .25 9 9.5)"></path></g></svg>
-          </div>
-          <h5>Data source: Chrome UX Report API</h5>
-          <p>Check out <a alt="Crux API" href="https://web.dev/chrome-ux-report-api/">Rick Viscomi article</a> and learn
-            how to use the Chrome UX Report API to get easy, RESTful access to real-user experience data across millions
-            of websites. </p>
+        <div id="cruxurl" class="col s12" style="display: none;">
+            <div class="info">
+                <h1>CrUX by Url</h1>
+                <h6>Visualize field data collected over the last 28 days</h6>
+                <div class="container">
+                    <form class="row">
+                        <div class="input-field col s12 m5">
+                            <i class="material-icons prefix">create</i>
+                            <input id="icon_prefix" type="text" class="validate pagetype" required>
+                            <label for="icon_prefix">Page Type</label>
+                        </div>
+                        <div class="input-field col s12 m7">
+                            <i class="material-icons prefix">track_changes</i>
+                            <input id="fetch" type="text" class="validate" required>
+                            <label for="fetch">Url</label>
+                        </div>
+                        <div class="col s12 m2">
+                            <button class="waves-effect waves-light btn-large grey lighten-5" type="submit" name="action">Fetch</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="loadingWrap">
+                <div id="loading" class="progress">
+                    <div class="indeterminate"></div>
+                </div>
+            </div>
+            <div class="container">
+                <div id="app"></div>
+            </div>
         </div>
-        <div class="block">
-          <div class="center tool">
-            <img class="git circle" decoding="async" loading="lazy" hidden
-              src="https://githubuniverse.com/assets/img/GitHub-invertocat.svg" fetchpriority="low">
-          </div>
-          <h5>Github Community: Thank you!</h5>
-          <p>The CrUX tool serves the community and reporting bugs or providing constructive feedback is considered a
-            contribution. The CrUX tool gets better because of you.</p>
-          <p><a alt="Matt Klein" href="https://github.com/Mpk6997">Matt Klein</a> (@Mpk6997)</p>
-          <p><a alt="Rick Viscomi" href="https://github.com/rviscomi">Rick Viscomi</a> (@rviscomi)</p>
-          <p><a alt="Tim Hofman" href="https://github.com/timhofman">Tim Hofman</a> (@timhofman)</p>
-          <p><a alt="opusdei" href="https://github.com/opusdei">Opusdei</a> (@opusdei)</p>
-          <p><a alt="rockeynebhwani" href="https://github.com/rockeynebhwani">Rockeynebhwani</a> (@rockeynebhwani)</p>
-          <p><a alt="Victoria" href="https://github.com/VictoriaMaksimova">Victoria</a> (@VictoriaMaksimova)</p>
-          <p><a alt="comatheus" href="https://github.com/comatheus">comatheus</a> (@comatheus)</p>
+        <div id="about" class="col s12" style="display: none;">
+            <div class="container">
+                <div class="section">
+                    <div class="row">
+                        <div class="col s12">
+                            <h5 class="center">Querying and visualizing the CrUX API</h5>
+                            <p class="light">The data in the Chrome UX Report API is a 28-day rolling average of aggregated metrics.
+                                This means that the data presented in the CrUX tool at any given time is actually data for the past 28
+                                days aggregated together.
+                            </p>
+                            <p class="light">This is similar to how the CrUX dataset on BigQuery aggregates monthly reports.</p>
+                        </div>
+                    </div>
+                    <!--   Icon Section   -->
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <div class="icon-block">
+                                <div class="center tool">
+                                    <svg width="48" height="48" aria-hidden="true">
+                                        <g fill="none" fill-rule="evenodd">
+                                            <path d="M47.5 24A23.5 23.5 0 0 1 24 47.5 23.5 23.5 0 0 1 .5 24 23.5 23.5 0 0 1 24 .5 23.5 23.5 0 0 1 47.5 24Z" style="fill:#fff;fill-rule:nonzero;stroke-width:.25"></path>
+                                            <path d="M0 0h48v48H0Z"></path>
+                                            <path d="M16.5 24V13.2a3.8 3.8 0 0 0-7.5 0V24a15 15 0 0 0 8 13.3l6-5.9a7.5 7.5 0 0 1-6.5-7.4Z" fill="#34a853"></path>
+                                            <path d="M31.5 22.8V24a7.5 7.5 0 0 1-8.6 7.4l-5.8 5.9A15 15 0 0 0 39 24l-.1-8.7Z" fill="#fbbc04"></path>
+                                            <path d="M35.3 9.5c-2.1 0-3.8 1.7-3.8 3.8v9.5l7.5-7.5v-2c0-2.1-1.7-3.8-3.8-3.8Z" fill="#ea4335"></path>
+                                            <path d="M78 58a18 18 0 0 1-18 18 18 18 0 0 1-18-18 18 18 0 0 1 18-18 18 18 0 0 1 18 18Z" style="fill:#4285f4" transform="matrix(.25 0 0 .25 9 9.5)"></path>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <h5 class="center">CrUX API</h5>
+                                <p class="light">The Chrome UX Report API gives low-latency access to aggregated Real User Metrics (RUM)
+                                    from the Chrome User Experience Report.</p>
+                            </div>
+                        </div>
+
+                        <div class="col s12 m6">
+                            <div class="icon-block">
+                                <div class="center tool">
+                                    <img decoding="async" loading="lazy" class="sample" src="./sample.png" fetchpriority="low">
+                                </div>
+                                <h5 class="center">CrUX Tool</h5>
+                                <p class="light">The Crux tool is a web UI for querying and visualizing the CrUX API. All data metrics
+                                    are aggregated together in a single card.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="icon-block">
+                                <h5 class="center">Learning Together</h5>
+                                <p class="light">The code of this tool is available on <a href="https://github.com/zer0kool/core-web-vitals">github</a> with the purpose of giving
+                                    transparency on how the information is obtained.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <!-- QnA -->
+                    <h5>Questions and Answers</h5>
+                    <ul class="collapsible">
+                        <li>
+                            <div class="collapsible-header"><i class="material-icons">question_answer</i>I've noticed an issue</div>
+                            <div class="collapsible-body">
+                                <blockquote class="response">To report an issue or a question in regards to the <b>CrUX API</b>. <br>
+                                    <a href="https://groups.google.com/a/chromium.org/g/chrome-ux-report">Please visit the Google CrUX
+                                        Community</a>
+                                </blockquote>
+                                <blockquote class="response">To report an issue or question in regards the <b>CrUX Tool</b>. <br>
+                                    <a href="https://github.com/zer0kool/core-web-vitals/issues">Please visit the GitHub project </a>
+                                </blockquote>
+                            </div>
+                        </li>
+                        <li class="active">
+                            <div class="collapsible-header"><i class="material-icons">question_answer</i>Missing data</div>
+                            <div class="collapsible-body">
+                                <blockquote class="question">Sometimes I get noData displayed on the card</blockquote>
+                                <blockquote class="response">Yes, that is intentional. When the CrUX API returns a 404 for the
+                                    formfactor, then the tool will render no Data under the FormFactor tab name inside the card.
+                                </blockquote>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header"><i class="material-icons">question_answer</i>Data discrepancies</div>
+                            <div class="collapsible-body">
+                                <blockquote class="question">Discrepancies between CrUX API and LightHouse, why?</blockquote>
+                                <blockquote class="response">CrUX API reflects field data, while Lighthouse reflects lab data<br>
+                                    <a href="https://web.dev/how-to-measure-speed/#lab-data-vs-field-data">Read more on Lab data vs field
+                                        data</a>
+                                </blockquote>
+                                <blockquote class="question">Discrepancies between CrUX API and PageSpeed Insights, why?</blockquote>
+                                <blockquote class="response">This should be resolved as a result of the recent PSI migration to the CrUX
+                                    API as its source of field data.<br>
+                                    <a href="https://groups.google.com/g/pagespeed-insights-discuss/c/by9-TbqdlBM/m/Ovgg_o22AAAJ">Read
+                                        More</a>
+                                </blockquote>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header"><i class="material-icons">question_answer</i>Daily updates</div>
+                            <div class="collapsible-body">
+                                <blockquote class="question">Data is not updating, why?</blockquote>
+                                <blockquote class="response">Data is updated daily around 04:00 UTC. There is no SLO for update times;
+                                    it is ran on a best effort basis everyday.</blockquote>
+                                <blockquote class="question">Data is not changing, why?</blockquote>
+                                <blockquote class="response">Data will not differ within the same day, repeated calls will yield the
+                                    same results.</blockquote>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header"><i class="material-icons">question_answer</i>CrUX by URL</div>
+                            <div class="collapsible-body">
+                                <blockquote class="question">My URL is not working on CrUX by URL, why?</blockquote>
+                                <blockquote class="response">All aggregations (at either the origin or URL levels) must be publicly
+                                    indexable and meet our popularity criteria. If site owners are sure that their URL is both public and
+                                    popular, they should reach out to us on the<a href="https://groups.google.com/a/chromium.org/g/chrome-ux-report"> CrUX discussion forum</a> to
+                                    raise a possible bug.</blockquote>
+                                <blockquote class="question">How do I know what URL to query?</blockquote>
+                                <blockquote class="response">We recommend that you get the list of links from your website that are most
+                                    popular. Apart from being popular, they must have enough traffic so that google can obtain the metrics
+                                    of your link. Another thing I'd recommend is using the Core Web Vitals report in Search Console. They
+                                    highlight groups of pages with issues and list a few example URLs exhibiting those issues. Those URLs
+                                    would be good to watch as improvements are made.</blockquote>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <br><br>
+            </div>
         </div>
-      </div>
-    </div>
+        <div id="credits" class="col s12" style="display: none;"> <br><br>
+            <div class="section center">
+                <img decoding="async" loading="lazy" width="280" height="50" src="./wompmobile.png" fetchpriority="low">
+                <h5>CrUX Tool: Query and visualize the CrUX API</h5>
+                <p>Created by <a alt="Alex Github" href="https://github.com/zer0kool">Alejandro Loaiza</a> and maintained by the
+                    Quality Lab Engineers at WompMobile. </p>
 
-    <div id="cruxModals">
-    </div>
+                <div class="block">
+                    <div class="center tool">
+                        <svg width="48" height="48" aria-hidden="true">
+                            <g fill="none" fill-rule="evenodd">
+                                <path d="M47.5 24A23.5 23.5 0 0 1 24 47.5 23.5 23.5 0 0 1 .5 24 23.5 23.5 0 0 1 24 .5 23.5 23.5 0 0 1 47.5 24Z" style="fill:#fff;fill-rule:nonzero;stroke-width:.25"></path>
+                                <path d="M0 0h48v48H0Z"></path>
+                                <path d="M16.5 24V13.2a3.8 3.8 0 0 0-7.5 0V24a15 15 0 0 0 8 13.3l6-5.9a7.5 7.5 0 0 1-6.5-7.4Z" fill="#34a853"></path>
+                                <path d="M31.5 22.8V24a7.5 7.5 0 0 1-8.6 7.4l-5.8 5.9A15 15 0 0 0 39 24l-.1-8.7Z" fill="#fbbc04"></path>
+                                <path d="M35.3 9.5c-2.1 0-3.8 1.7-3.8 3.8v9.5l7.5-7.5v-2c0-2.1-1.7-3.8-3.8-3.8Z" fill="#ea4335"></path>
+                                <path d="M78 58a18 18 0 0 1-18 18 18 18 0 0 1-18-18 18 18 0 0 1 18-18 18 18 0 0 1 18 18Z" style="fill:#4285f4" transform="matrix(.25 0 0 .25 9 9.5)"></path>
+                            </g>
+                        </svg>
+                    </div>
+                    <h5>Data source: Chrome UX Report API</h5>
+                    <p>Check out <a alt="Crux API" href="https://web.dev/chrome-ux-report-api/">Rick Viscomi article</a> and learn
+                        how to use the Chrome UX Report API to get easy, RESTful access to real-user experience data across millions
+                        of websites. </p>
+                </div>
+                <div class="block">
+                    <div class="center tool">
+                        <img class="git circle" decoding="async" loading="lazy" hidden src="https://githubuniverse.com/assets/img/GitHub-invertocat.svg" fetchpriority="low">
+                    </div>
+                    <h5>Github Community: Thank you!</h5>
+                    <p>The CrUX tool serves the community and reporting bugs or providing constructive feedback is considered a
+                        contribution. The CrUX tool gets better because of you.</p>
+                    <p><a alt="Matt Klein" href="https://github.com/Mpk6997">Matt Klein</a> (@Mpk6997)</p>
+                    <p><a alt="Rick Viscomi" href="https://github.com/rviscomi">Rick Viscomi</a> (@rviscomi)</p>
+                    <p><a alt="Tim Hofman" href="https://github.com/timhofman">Tim Hofman</a> (@timhofman)</p>
+                    <p><a alt="opusdei" href="https://github.com/opusdei">Opusdei</a> (@opusdei)</p>
+                    <p><a alt="rockeynebhwani" href="https://github.com/rockeynebhwani">Rockeynebhwani</a> (@rockeynebhwani)</p>
+                    <p><a alt="Victoria" href="https://github.com/VictoriaMaksimova">Victoria</a> (@VictoriaMaksimova)</p>
+                    <p><a alt="comatheus" href="https://github.com/comatheus">comatheus</a> (@comatheus)</p>
+                </div>
+            </div>
+        </div>
 
-    <div id="chartModals">
-    </div> 
+        <div id="cruxModals">
+        </div>
 
-  </main>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js" defer></script>
-  <script defer type="text/javascript" src="./js/theme.js"></script>
-  <script defer type="text/javascript" src="./js/init.js"></script>
-  <!-- AMCharts Resources -->
-  <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-  <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
-  <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
-  <script defer type="text/javascript" src="./js/charts/chart.js"></script>
-  <script defer type="text/javascript" src="./js/crux/fetchOrigin.js"></script>
-  <script defer type="text/javascript" src="./js/crux/fetchURL.js"></script>
-<!--  <script async type="text/javascript" src="./batch.js" fetchpriority="low"></script>-->
+        <div id="chartModals">
+        </div>
+
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js" defer></script>
+    <script defer type="text/javascript" src="./js/theme.js"></script>
+    <script defer type="text/javascript" src="./js/init.js"></script>
+    <!-- AMCharts Resources -->
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script defer type="text/javascript" src="./js/charts/chart.js"></script>
+    <script defer type="text/javascript" src="./js/crux/fetchOrigin.js"></script>
+    <script defer type="text/javascript" src="./js/crux/fetchURL.js"></script>
+    <script type="text/javascript" src="js/init.js"></script>
+    <script type="text/javascript" src="js/histo.js"></script>
 
 </body>
