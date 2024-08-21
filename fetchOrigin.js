@@ -12,7 +12,6 @@ var networks = ['3G', '4G'];
 document.querySelector('#cruxorigin form').addEventListener('submit', function (e) {
 	e.preventDefault();
 	let origin = document.querySelector('#cruxorigin #search').value.toLowerCase().replace(/^(?:https?:\/\/)/i, "").split('/')[0];;
-	//  let siteName = origin.replace(/^www\./, '').split('.').slice(0, -1).join('.');
 	let siteName = origin.replace(/^www\./, '').split('.').join('-');
 	if (!siteName) { return }
 	if (siteName.match(/^\d/)) { siteName = `N${siteName}` }
@@ -25,7 +24,7 @@ document.querySelector('#cruxorigin form').addEventListener('submit', function (
 			classes: 'green',
 			displayLength: 600
 		});
-		getOriginData(origin).then( results => {
+		getOriginData(origin).then(results => {
 			getHistoricalData(origin);
 		})
 	}
@@ -34,7 +33,7 @@ document.querySelector('#cruxorigin form').addEventListener('submit', function (
 CrUXApiOrigin.query = async function (requestBody, formFactor) {
 	const resp = await fetch(url, { method: 'POST', body: JSON.stringify(requestBody) });
 	const json = await resp.json();
-	 console.log("origin \n" +json);
+	console.log("origin \n" + json);
 	if (resp.ok) { return json; };
 	M.toast({
 		html: `${formFactor.formFactor}: ${json.error.message}`,
@@ -53,10 +52,10 @@ getOriginData = async (origin, network) => {
 	const tablet = await CrUXApiOrigin.query({ origin: `https://${origin}/`, formFactor: "TABLET", effectiveConnectionType: `${network}` }, { formFactor: "Tablet" });
 
 	// check if data is undefined
-	if (sum !== undefined) { request.push(sum) };
-	if (phone !== undefined) { request.push(phone) };
-	if (desktop !== undefined) { request.push(desktop) };
-	if (tablet !== undefined) { request.push(tablet) };
+	if (sum !== undefined) { request.push({ ...sum, formFactor: "Sum" }) };
+	if (phone !== undefined) { request.push({ ...phone, formFactor: "Phone" }) };
+	if (desktop !== undefined) { request.push({ ...desktop, formFactor: "Desktop" }) };
+	if (tablet !== undefined) { request.push({ ...tablet, formFactor: "Tablet" }) };
 	if (!request.length) {
 		document.querySelector("#cruxorigin #loading").style.display = "none";
 		throw new Error(`no crux data for ${origin}`);
@@ -222,11 +221,8 @@ function buildCard(labeledMetrics, origin, network, dates) {
 	checkMetrics.forEach(metrics => {
 		let scopeId = metrics.parentNode.id;
 		if (metrics.hasChildNodes()) { return };
-		// This can return a null we need a safety net here. rv9.5.2022 @alex
-		//		debugger;
 		document.querySelector(`#cruxorigin #${scopeId} .metrics`).insertAdjacentHTML("beforeend", noData);
 	})
-
 
 	const network_settings = {
 		networkRows: document.querySelectorAll(`#cruxorigin #${siteName} #network`),
@@ -239,7 +235,6 @@ function buildCard(labeledMetrics, origin, network, dates) {
 			let el = document.querySelector(`#cruxorigin #${siteName} div[data-type="${network}"]`);
 			el.classList.add('active');
 			if (el.classList.contains('hide')) { el.classList.remove('hide') }
-
 		},
 		networkToggleDisable: function (network) {
 			document.querySelector(`#cruxorigin #${siteName} div[data-type="${network}"]`).classList.remove('active');
@@ -254,7 +249,6 @@ function buildCard(labeledMetrics, origin, network, dates) {
 			document.querySelector(`#cruxorigin #${siteName} div[data-type="${network}"]`).classList.remove('hide');
 		}
 	}
-
 
 	//Action: fetch 3g stats
 	document.querySelector(`#cruxorigin #${siteName} .n3g input`).onclick = function () { n3g() };
@@ -273,8 +267,6 @@ function buildCard(labeledMetrics, origin, network, dates) {
 			network_settings.networkToggleEnable('3G');
 		}
 	}
-
-
 
 	//Action: fetch 4g stats
 	document.querySelector(`#cruxorigin #${siteName} .n4g input`).onclick = function () { n4g() };
@@ -295,7 +287,6 @@ function buildCard(labeledMetrics, origin, network, dates) {
 			status_3g = false;
 		}
 	}
-
 
 	// toggles and other func
 	document.querySelector("#cruxorigin #loading").style.display = "none";
@@ -349,10 +340,10 @@ function buildData(labeledMetrics, siteName, network) {
 }
 
 function labelMetricData(metrics, key) {
-    	if ("form_factors" in metrics ) {delete metrics["form_factors"]};
-	if ("navigation_types" in metrics ) {delete metrics["navigation_types"]};
-	if ("round_trip_time" in metrics ) {delete metrics["round_trip_time"]};
-	if (key === undefined) {key = "SUM"};
+	if ("form_factors" in metrics) { delete metrics["form_factors"] };
+	if ("navigation_types" in metrics) { delete metrics["navigation_types"] };
+	if ("round_trip_time" in metrics) { delete metrics["round_trip_time"] };
+	if (key === undefined) { key = "SUM" };
 
 	const nameToFullNameMap = {
 		first_contentful_paint: 'First Contentful Paint (FCP)',
@@ -373,27 +364,26 @@ function labelMetricData(metrics, key) {
 	return Object.entries(metrics).map(([metricName, metricData]) => {
 		const standardBinLabels = ['good', 'needs improvement', 'poor'];
 		const metricBins = metricData.histogram;
-	  
+
 		// Check if metricBins is defined before using map
 		const labeledBins = metricBins ? metricBins.map((bin, i) => {
-		  return {
-			label: standardBinLabels[i],
-			percentage: bin.density ? bin.density * 100 : 0,
-			...bin,
-		  };
+			return {
+				label: standardBinLabels[i],
+				percentage: bin.density ? bin.density * 100 : 0,
+				...bin,
+			};
 		}) : [];
-	  
+
 		return {
-		  key: key,
-		  acronym: nameToAcronymMap[metricName],
-		  name: nameToFullNameMap[metricName],
-		  labeledBins,
+			key: key,
+			acronym: nameToAcronymMap[metricName],
+			name: nameToFullNameMap[metricName],
+			labeledBins,
 		};
-	  });
-	  
+	});
 }
 
 // on page load, load google site metrics as an example.
 getOriginData('www.google.com').then(results => {
-		getHistoricalData('www.google.com');
+	getHistoricalData('www.google.com');
 })
