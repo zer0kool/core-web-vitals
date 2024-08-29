@@ -24,7 +24,7 @@ async function handleFormSubmit(event) {
             displayLength: 600
         });
         await getOriginData(origin);
-        getHistoricalData(origin);
+        // Removed the call to getHistoricalData here
     }
 }
 
@@ -80,7 +80,6 @@ async function getOriginData(origin, network = "") {
     process(validRequests, origin);
 }
 
-
 function process(formFactor, origin) {
 	const labeledMetrics = [];
 	formFactor.forEach(formFactor => {
@@ -120,6 +119,14 @@ function buildCard(labeledMetrics, origin, network, dates) {
 	initializeTabs(siteName);
 	handleNoDataMetrics(siteName);
 	setupNetworkSettings(siteName, origin);
+	buildModal(origin);
+
+	// Add event listener for the historical data button
+	document.querySelector(`#cruxorigin #${siteName} .loadHistory`).addEventListener('click', function() {
+		setTimeout(() => {
+			getHistoricalData(origin);
+		}, 300); // Delay the call to getHistoricalData by 300 milliseconds
+	});
 }
 
 // Helper Functions
@@ -149,6 +156,7 @@ function formatDate(date) {
 }
 
 function createDefaultCard(cardTitle, favicon, siteName, sumId, phoneId, desktopId, tabletId, dates, origin, domainName) {
+	let idchart = origin.replace(/^https?:\/\//, '').replace(/\./g, '').replace(/^www/, 'www').replace(/^amp/, 'amp');
 	return `
 		<div class="card originData" id="${siteName}">
 			<i class="activator material-icons right">call_to_action</i>
@@ -182,8 +190,8 @@ function createDefaultCard(cardTitle, favicon, siteName, sumId, phoneId, desktop
 				<div class="history">
 					<p>Explore the historical core web vitals trends for ${origin} from the last 6 months. This data is updated weekly and reflects the overall performance across all connection types.</p>
 					<div class="center container">
-						<a data-origin="${origin}" class="btn modal-trigger loadHistory" href="#${domainName}Chart"> View Historical Chart </a>
-						<a data-origin="${origin}" class="btn modal-trigger loadDeck" href="#${domainName}Modal"> View Deck of Cards </a>
+						<a data-origin="${origin}" class="btn modal-trigger loadHistory" href="#${idchart}Chart"> View Historical Chart </a>
+						<a data-origin="${origin}" class="btn modal-trigger loadDeck" href="#${idchart}Modal"> View Deck of Cards </a>
 					</div>
 				</div>
 				<div class="periodDate">
@@ -411,5 +419,5 @@ function labelMetricData(metrics, key) {
 
 // on page load, load google site metrics as an example.
 getOriginData('www.google.com').then(results => {
-	getHistoricalData('www.google.com');
+	// Removed the call to getHistoricalData here
 })
