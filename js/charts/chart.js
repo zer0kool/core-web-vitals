@@ -15,7 +15,15 @@ CrUXApiHistory.query = async function (requestBody, formFactor) {
 
 
 getHistoricalData = async (historyOrigin) => {
-    buildModal(historyOrigin);
+
+    let domainName = historyOrigin.replace(/^https?:\/\//, '').split('.')[1];
+    let idchart = historyOrigin.replace(/^https?:\/\//, '').replace(/\./g, '').replace(/^www/, 'www').replace(/^amp/, 'amp');
+
+    // Check if the chart already has child elements
+    const chartDiv = document.querySelector(`#${idchart}Chart #${domainName}SUMChart`);
+    if (chartDiv && chartDiv.children.length > 0) {
+        return; // Exit the function if the chart already has child elements
+    }
 
     const request = await [];
 
@@ -35,16 +43,22 @@ getHistoricalData = async (historyOrigin) => {
 
     await buildObjectData(request, historyOrigin);
     formChartData(request);
-  };
+};
 
 
 function buildModal(historyOrigin){
     // need to clean historyOrigin
     // debugger;
-    let domainName = historyOrigin.replace(/^https?:\/\//, '').split('.')[1]
+    let domainName = historyOrigin.replace(/^https?:\/\//, '').split('.')[1];
+    let idchart = historyOrigin.replace(/^https?:\/\//, '').replace(/\./g, '').replace(/^www/, 'www').replace(/^amp/, 'amp');
+
+    // Check if the idchart is already in the DOM
+    if (document.getElementById(`${idchart}Modal`) || document.getElementById(`${idchart}Chart`)) {
+        return; // Exit the function if the modal already exists
+    }
 
     let modalHTML = `
-    <div id="${domainName}Modal" class="modal bottom-sheet">
+    <div id="${idchart}Modal" class="modal bottom-sheet">
     <div class="modal-content">
     <h4>${domainName} Deck of Cards</h4>
     <p>This data for ${domainName} is updated on a weekly basis, allowing you to view up to 6 months of history in 25 data cards that are spaced out over the course of a week.</p>
@@ -58,12 +72,23 @@ function buildModal(historyOrigin){
     `;
 
     let chartHTML = `
-    <div id="${domainName}Chart" class="modal bottom-sheet">
+    <div id="${idchart}Chart" class="modal bottom-sheet">
     <div class="modal-content">
         <h4>${domainName} Charts</h4>
         <p>This datasets for ${domainName} is updated weekly, providing up to 6 months of historical data that can be broken down by phone, desktop, and total metrics.</p>
         <!-- HTML -->
-        <div id="chartdiv" class="row">
+        <div class="loader-container">
+            <div class="loader center">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div id="chartdiv" class="row" hidden>
             <div class="col s12">
                 <ul class="tabs">
                     <li class="tab col s4"><a href="#${domainName}SUMChart">Sum</a></li>
@@ -80,8 +105,7 @@ function buildModal(historyOrigin){
         <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close Deck</a>
     </div>
 </div>
-    `
-
+    `;
 
     document.getElementById('cruxModals').insertAdjacentHTML("afterbegin", modalHTML);
     var modalTrigger = document.querySelectorAll('#cruxModals .modal');
@@ -94,7 +118,6 @@ function buildModal(historyOrigin){
     var chartTabs = document.querySelectorAll('#chartModals .tabs');
     // M.Tabs.init(chartTabs, {});
     let instance = M.Tabs.init(chartTabs, {});
-
 }
 
 function buildObjectData(entries, historyOrigin) {
@@ -500,8 +523,9 @@ async function sortCartData(chartData) {
     try {
         // Extract the domain name from the site URL
         let domainName = chartData.site.replace(/^https?:\/\//, '').split('.')[1];
+        let idchart = chartData.site.replace(/^https?:\/\//, '').replace(/\./g, '').replace(/^www/, 'www').replace(/^amp/, 'amp');
         // Select the chart div for the current domain and form factor
-        const chartDiv = document.querySelector(`#${domainName}Chart #chartdiv #${domainName}${chartData.formFactor}Chart`);
+        const chartDiv = document.querySelector(`#${idchart}Chart #chartdiv #${domainName}${chartData.formFactor}Chart`);
         const charts = []; // Initialize an array to hold the charts
 
         // Iterate through each metric in the chart data
@@ -616,6 +640,10 @@ async function sortCartData(chartData) {
         charts.forEach((chart) => {
             chart.paddingRight = 20;
         });
+
+        // Remove the loader and unhide the chart div
+        document.querySelector(`#chartModals #${idchart}Chart .loader-container`).remove();
+        document.querySelector(`#chartModals #${idchart}Chart #chartdiv`).removeAttribute('hidden');
 
         // Return the charts array
         return charts;
