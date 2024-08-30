@@ -166,31 +166,26 @@
 
         <div id="cruxbatch" class="col s12" style="display: none;">
             <div id="batch" class="container">
+
                 <div class="hero">
                     <h1>CrUX Batch Tool</h1>
-                    <p>Discover and optimize your Core Web Vitals</p>
-                    <a class="waves-effect waves-light btn black modal-trigger" href="#batchModal">Get Started</a>
-                </div>
-                <i class="material-icons menu">settings</i>
-
-                <!-- Modal Structure -->
-                <div id="batchModal" class="modal bottom-sheet">
-                    <div class="modal-content">
-                        <h4>CrUX Batch</h4>
-                        <p>A bunch of ulrs..</p>
-                        <div class="form">
-                            <div class="col s10 center">
-                                <div class="input-field col s12">
-                                    <textarea id="dataUrls" class="materialize-textarea prompt-box" data-length="1020"></textarea>
-                                </div>
+                    <p>The CrUX Batch Tool enables users to analyze multiple URLs at once, providing insights into Core Web Vitals metrics and helping identify performance issues to enhance user experience.</p>
+                    <br><br>
+                    <span class="batchToggle right"></span>
+                    <div class="row batch">
+                        <div class="col s12 center">
+                            <div class="input-field col s12">
+                                <label for="dataUrls">Enter one or more URLs (separate by commas or new lines):</label>
+                                <textarea id="dataUrls" class="materialize-textarea prompt-box" placeholder="https://example.com, https://example2.com" data-length="1020"></textarea>
+                                <span class="helper-text">You can input multiple URLs by separating them with commas or placing each on a new line.</span>
                             </div>
-                            <div class="feedback center"></div>
                         </div>
+                        <button onclick="processUrls()" class="waves-effect waves-light btn grey lighten-5 right fbutton">Fetch URLs</button>
                     </div>
-                    <div class="modal-footer">
-                        <div class="sticky"><button onclick="processUrls()" class="btn"> Fetch Urls </button></div>
-                    </div>
+                    <div class="feedback center"></div>
                 </div>
+
+
                 <div class="container dataUrls"></div>
                 <ul class="collapsible popout" id="data"></ul>
             </div>
