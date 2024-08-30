@@ -112,6 +112,21 @@ input:-internal-autofill-selected {
     text-align: center;
 }
 
+span.batchToggle {
+  cursor: pointer;
+  position: sticky;
+  top: 50px;
+}
+
+.metric-label, .metric-percentage {
+  font-family: sans-serif;
+}
+
+.fbutton {
+  position: sticky;
+  bottom: 20px;
+}
+
 form.row {
   display: -webkit-box;
   display: -ms-flexbox;
