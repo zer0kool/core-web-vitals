@@ -642,8 +642,12 @@ async function sortCartData(chartData) {
         });
 
         // Remove the loader and unhide the chart div
-        document.querySelector(`#chartModals #${idchart}Chart .loader-container`).remove();
-        document.querySelector(`#chartModals #${idchart}Chart #chartdiv`).removeAttribute('hidden');
+        const loaderContainer = document.querySelector(`#chartModals #${idchart}Chart .loader-container`);
+        const chartContainer = document.querySelector(`#chartModals #${idchart}Chart #chartdiv`);
+        if (loaderContainer && chartContainer) {
+            loaderContainer.remove();
+            chartContainer.removeAttribute('hidden');
+        }
 
         // Return the charts array
         return charts;
