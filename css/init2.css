@@ -109,9 +109,9 @@ blockquote.question {
 .navbar {
   position: fixed;
   background-color: var(--bg-primary);
-  -webkit-transition: width 600ms ease;
+  /* -webkit-transition: width 600ms ease;
   transition: width 600ms ease;
-  overflow: scroll;
+  overflow: scroll; */
   z-index: 999;
 }
 .navbar-nav {
