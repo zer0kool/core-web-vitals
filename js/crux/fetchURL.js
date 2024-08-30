@@ -367,5 +367,6 @@ function labelMetricData(metrics, key) {
 }
 
 // on page load, load google site metrics as an example.
-getURLData('www.google.com', 'Google');
+// Using setTimeout to defer the execution of getURLData, allowing the page to load other resources first
+setTimeout(() => getURLData('www.google.com', 'Google'), 500);
 //scheduler.postTask(getURLData('www.google.com', 'Google'), {priority: 'background'});
