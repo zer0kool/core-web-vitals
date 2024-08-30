@@ -1,0 +1,208 @@
+/*sitename*/
+#cruxbatch td.site {
+    font-size: 10px;
+    width: 100%;
+}
+
+#cruxbatch span.good {
+    border-bottom: 1px solid green;
+    /*    width: 50px;*/
+    display: inline-block;
+}
+#cruxbatch span.needs.improvement {
+    border-bottom: 1px solid yellow;
+    /*    width: 50px;*/
+    display: inline-block;
+}
+#cruxbatch span.poor {
+    border-bottom: 1px solid red;
+    /*    width: 50px;*/
+    display: inline-block;
+}
+
+#cruxbatch tr {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+#cruxbatch .cwvmetrics {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    gap: 1rem;
+}
+#cruxbatch .metric-label.Passed {
+    background-color: #ffffff;
+    border-radius: 2px;
+    padding: 2px 5px;
+    border-left: 2px solid #68ad5c;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+}
+#cruxbatch .metric-label.Failed {
+    background-color: #f8f8f8;
+    border-radius: 2px;
+    padding: 2px 5px;
+    border-left: 2px solid #f44336;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+}
+#cruxbatch .CLS {
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    order: 1;
+}
+
+#cruxbatch .FCP {
+    -webkit-box-ordinal-group: 3;
+    -ms-flex-order: 2;
+    order: 2;
+}
+
+#cruxbatch .FID {
+    -webkit-box-ordinal-group: 4;
+    -ms-flex-order: 3;
+    order: 3;
+}
+
+#cruxbatch .LCP {
+    -webkit-box-ordinal-group: 5;
+    -ms-flex-order: 4;
+    order: 4;
+}
+#cruxbatch .INP {
+    -webkit-box-ordinal-group: 6;
+    -ms-flex-order: 5;
+    order: 5;
+}
+#cruxbatch .TTFB {
+    -webkit-box-ordinal-group: 7;
+    -ms-flex-order: 6;
+    order: 6;
+}
+#cruxbatch .p75Chart {
+    background-color: white;
+    margin-bottom: 30px;
+    -webkit-box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px inset;
+    box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px inset;
+}
+#cruxbatch .metric {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+#cruxbatch .metric-title {
+    width: 100%;
+}
+#cruxbatch .metric-labels {
+    font-size: 11px;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    gap: .3rem;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+}
+#cruxbatch .collapsible-header {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    line-height: 1.5;
+    padding: 1rem;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+#cruxbatch .collapsible-body {
+    background-color: rgb(250, 250, 250);
+}
+
+/*bypass*/
+#cruxbatch .collapsible.popout>li {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+#cruxbatch .collapsible.popout>li.active {
+    -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+/*tabs*/
+#cruxbatch .tabs {
+    background-color: transparent;
+}
+#cruxbatch .tabs .tab a:hover {
+    color: hsl(200, 17%, 28%);
+}
+#cruxbatch .tabs .tab a:focus,
+#cruxbatch .tabs .tab a:focus.active {
+    background-color: #bbdefb14;
+    outline: none;
+}
+#cruxbatch .tabs .tab a {
+    background-color: transparent;
+    color: hsl(200, 17%, 28%);
+}
+#cruxbatch .tabs .tab a.active {
+    background-color: transparent;
+    color: #006cc2;
+}
+#cruxbatch .tabs .indicator {
+    background-color: #42a5f5;
+}
+
+#cruxbatch #page:has(.active:empty),
+#cruxbatch #results:has(#LCP:empty),
+#cruxbatch .dataUrls:has(#data:empty) {
+    display: none;
+}
+#cruxbatch .cwvmetrics .metric-label {
+    font-size: .75em;
+}
+#cruxbatch .title {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: -webkit-fill-available;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+#cruxbatch div#page {
+    border: 1px dashed;
+    -webkit-box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+}
+
+#cruxbatch .drill.spi {
+    text-align: right;
+    margin-top: -20px;
+    margin-bottom: 20px;
+}
