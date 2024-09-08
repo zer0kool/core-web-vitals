@@ -1,0 +1,21 @@
+{
+    "name": "CrUX Tool: Analyze and Compare Core Web Vitals",
+    "short_name": "CrUX Tool",
+    "description": "Use the CrUX Tool to analyze and compare Core Web Vitals metrics across multiple origins or URLs. Improve your website's performance with Chrome UX Report data.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
