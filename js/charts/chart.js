@@ -66,7 +66,7 @@ function buildModal(historyOrigin){
     <div id="HistoryApp"></div>
     </div>
     <div class="modal-footer">
-    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close Deck</a>
+    <a href="#!" class="modal-close btn-flat grey lighten-5">Close Deck</a>
     </div>
     </div>
     `;
@@ -75,7 +75,7 @@ function buildModal(historyOrigin){
     <div id="${idchart}Chart" class="modal bottom-sheet">
     <div class="modal-content">
         <h4>${domainName} Charts</h4>
-        <p>This datasets for ${domainName} is updated weekly, providing up to 6 months of historical data that can be broken down by phone, desktop, and total metrics.</p>
+        <p>This datasets for ${domainName} is updated weekly, providing up to 6 months of historical data that can be broken down by phone, desktop, and total metrics.  <a data-origin="${origin}" class="modal-trigger loadDeck" href="#${idchart}Modal"> View Deck of Cards </a></p>
         <!-- HTML -->
         <div class="loader-container">
             <div class="loader center">
@@ -102,7 +102,7 @@ function buildModal(historyOrigin){
         </div>
     </div>
     <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close Deck</a>
+        <a href="#!" class="modal-close btn-flat grey lighten-5">Close Deck</a>
     </div>
 </div>
     `;
