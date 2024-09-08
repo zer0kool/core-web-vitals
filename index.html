@@ -3,34 +3,60 @@
 
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google CWV - Query and visualize CrUX CLS, FCP, FID and LCP.</title>
+    <title>CrUX Tool: Analyze and Compare Core Web Vitals | Chrome UX Report</title>
     <link rel="preconnect" href="//chromeuxreport.googleapis.com">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" fetchpriority="high">
+    <link rel="preconnect" href="//cdnjs.cloudflare.com">
+    <link rel="preconnect" href="//fonts.googleapis.com">
+    <link rel="preconnect" href="//fonts.gstatic.com" crossorigin="">
+    <style>
+        body{font-family: 'Open Sans', sans-serif;margin: 0;}.navbar-nav {display: flex;list-style: none;margin: 0;padding: 0;}main {padding: 20px;}
+        h1 {font-size: 2.5em;margin-bottom: 20px;}.container {max-width: 1200px;margin: 0 auto;}.light .info {border: black;border-style: dashed;}.light header nav {background-color: #ffffff !important;}
+    </style>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&amp;display=swap">
     <link rel="stylesheet" type="text/css" href="./css/init.css" media="screen,projection">
     <link rel="stylesheet" type="text/css" href="./css/init2.css" media="screen,projection">
     <link rel="stylesheet" type="text/css" href="./css/histo.css" media="screen,projection">
-    <link rel="preload" href="https://fonts.gstatic.com/s/materialicons/v53/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2" as="font" type="font/woff2" crossorigin="">
-    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
-    <link rel="dns-prefetch" href="//fonts.googleapis.com">
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" as="style">
+    <link rel="preload" href="./css/init.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&amp;display=swap" as="style">
+    <meta name="description" content="Use the CrUX Tool to analyze and compare Core Web Vitals metrics (CLS, LCP, FID, FCP) across multiple origins or URLs. Leverage Chrome UX Report data to improve your website's performance and user experience.">
     <meta name="author" content="Alejandro Loaiza">
-    <meta name="description" content="The Crux tool is a web UI built on the CrUX API for comparing user experiences, querying and visualizing the CrUX API. All data metrics are aggregated together in a single card. Query the CrUX API for metric records: field data collected over the last 28 days">
-    <meta name="keywords" content="Chrome UX Report API, Google CWV, Comparing user experiences, cls, lcp, fid, fcp, visualizing the CrUX API, Chrome UX Report, CrUX dataset, User Experience, Real User Metrics (RUM), Chrome User Experience Report, Crux field data">
-    <meta name="description" content="The Crux tool is a web UI for querying and visualizing the CrUX API. All data metrics are aggregated together in a single card. Get your CLS, FID, LCP, and FCP.">
-    <meta property="og:url" content="https://core-web-vitals.now.sh/">
+    <meta name="keywords" content="Core Web Vitals, CrUX API, Google CWV, CLS, LCP, FID, FCP, web performance, user experience, SEO, Chrome User Experience Report, real user metrics, website speed optimization">
+    <link rel="canonical" href="https://core-web-vitals.now.sh/">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Google CWV - Query and visualize CrUX CLS, FCP, FID and LCP.">
-    <meta property="og:description" content="The Crux tool is a web UI for querying and visualizing the CrUX API. All data metrics are aggregated together in a single card. Get your CLS, FID, LCP, and FCP.">
+    <meta property="og:url" content="https://core-web-vitals.now.sh/">
+    <meta property="og:title" content="CrUX Tool: Analyze and Compare Core Web Vitals">
+    <meta property="og:description" content="Use the CrUX Tool to analyze and compare Core Web Vitals metrics across multiple origins or URLs. Improve your website's performance with Chrome UX Report data.">
     <meta property="og:image" content="https://core-web-vitals.now.sh/img/CruxTool.png">
     <meta name="twitter:card" content="summary_large_image">
-    <meta property="twitter:domain" content="core-web-vitals.now.sh">
-    <meta property="twitter:url" content="https://core-web-vitals.now.sh/">
-    <meta name="twitter:title" content="Google CWV - Query and visualize CrUX CLS, FCP, FID and LCP.">
+    <meta name="twitter:url" content="https://core-web-vitals.now.sh/">
+    <meta name="twitter:title" content="CrUX Tool: Analyze and Compare Core Web Vitals">
+    <meta name="twitter:description" content="Use the CrUX Tool to analyze and compare Core Web Vitals metrics across multiple origins or URLs. Improve your website's performance with Chrome UX Report data.">
     <meta name="twitter:image" content="https://core-web-vitals.now.sh/img/CruxTool.png">
-    <meta name="twitter:description" content="The Crux tool is a web UI for querying and visualizing the CrUX API. All data metrics are aggregated together in a single card. Get your CLS, FID, LCP, and FCP.">
+    <link rel="icon" href="img/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/icon512_rounded.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="msapplication-starturl" content="/">
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "CrUX Tool",
+            "description": "Analyze and compare Core Web Vitals metrics across multiple origins or URLs using the Chrome UX Report API",
+            "url": "https://core-web-vitals.now.sh/",
+            "applicationCategory": "WebDevelopmentTool",
+            "operatingSystem": "Any",
+            "offers": {
+                "@type": "Offer",
+                "price": "0"
+            }
+        }
+
+    </script>
 </head>
 
 <body>
@@ -372,16 +398,16 @@
 
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js" defer></script>
-    <script defer type="text/javascript" src="./js/theme.js"></script>
-    <script defer type="text/javascript" src="./js/init.js"></script>
-    <!-- AMCharts Resources -->
-    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
-    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
-    <script defer type="text/javascript" src="./js/charts/chart.js"></script>
-    <script defer type="text/javascript" src="./js/crux/fetchOrigin.js"></script>
-    <script defer type="text/javascript" src="./js/crux/fetchURL.js"></script>
-    <script type="text/javascript" src="js/charts/batch.js"></script>
-    <script type="text/javascript" src="js/charts/histo.js"></script>
-
+    <script src="./js/theme.js" defer></script>
+    <script src="./js/init.js" defer></script>
+    <script src="https://cdn.amcharts.com/lib/5/index.js" defer></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js" defer></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js" defer></script>
+    <script src="./js/charts/chart.js" defer></script>
+    <script src="./js/crux/fetchOrigin.js" defer></script>
+    <script src="./js/crux/fetchURL.js" defer></script>
+    <script src="./js/charts/batch.js" defer></script>
+    <script src="./js/charts/histo.js" defer></script>
 </body>
+
+</html>
