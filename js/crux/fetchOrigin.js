@@ -191,7 +191,6 @@ function createDefaultCard(cardTitle, favicon, siteName, sumId, phoneId, desktop
 					<p>Explore the historical core web vitals trends for ${origin} from the last 6 months. This data is updated weekly and reflects the overall performance across all connection types.</p>
 					<div class="center container">
 						<a data-origin="${origin}" class="btn modal-trigger loadHistory" href="#${idchart}Chart"> View Historical Chart </a>
-						<a data-origin="${origin}" class="btn modal-trigger loadDeck" href="#${idchart}Modal"> View Deck of Cards </a>
 					</div>
 				</div>
 				<div class="periodDate">
