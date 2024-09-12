@@ -370,7 +370,7 @@ span.close:hover {
 #cardBody {
   margin: 0;
   width: 100%;
-  min-height: 650px;
+  min-height: 600px;
 }
 .git.circle {
     background-color: #161818;
@@ -382,7 +382,7 @@ span.close:hover {
     background-clip: border-box;
 }
 .metrics {
-  height: 550px;
+  height: 480px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
