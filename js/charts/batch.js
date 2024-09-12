@@ -13,7 +13,7 @@ CrUXApiService.query = function (url) {
     const requestBody = {
         url: url,
         formFactor: 'PHONE',
-        metrics: ['first_contentful_paint', 'largest_contentful_paint', 'first_input_delay', 'cumulative_layout_shift', 'interaction_to_next_paint', 'experimental_time_to_first_byte'],
+        metrics: ['first_contentful_paint', 'largest_contentful_paint', 'cumulative_layout_shift', 'interaction_to_next_paint', 'experimental_time_to_first_byte'],
     };
 
     return fetch(CrUXApiService.API_ENDPOINT, {
@@ -177,14 +177,12 @@ function renderData(crux) {
                 <ul id="chartPageTabs${index}" class="tabs">
                     <li class="tab col s3"><a href="#LCP${index}">LCP</a></li>
                     <li class="tab col s3"><a href="#CLS${index}">CLS</a></li>
-                    <li class="tab col s3"><a href="#FID${index}">FID</a></li>
                     <li class="tab col s3"><a href="#FCP${index}">FCP</a></li>
                     <li class="tab col s3"><a href="#INP${index}">INP</a></li>
                     <li class="tab col s3"><a href="#TTFB${index}">TTFB</a></li>
                 </ul>
                 <div id="LCP${index}" class="col s12"></div>
                 <div id="CLS${index}" class="col s12"></div>
-                <div id="FID${index}" class="col s12"></div>
                 <div id="FCP${index}" class="col s12"></div>
                 <div id="INP${index}" class="col s12"></div>
                 <div id="TTFB${index}" class="col s12"></div>

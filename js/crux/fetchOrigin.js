@@ -118,7 +118,7 @@ function buildCard(labeledMetrics, origin, network, dates) {
 	labeledMetrics.forEach(formFactor => { buildData(formFactor, siteName, network); });
 	initializeTabs(siteName);
 	handleNoDataMetrics(siteName);
-	setupNetworkSettings(siteName, origin);
+	// setupNetworkSettings(siteName, origin);
 	buildModal(origin);
 
 	// Add event listener for the historical data button
@@ -186,7 +186,7 @@ function createDefaultCard(cardTitle, favicon, siteName, sumId, phoneId, desktop
 				<span class="close">Remove this card</span>
 				<span class="card-title grey-text text-darken-4">CRUX Settings<i class="material-icons right">close</i></span>
 				<p>When the effective connection type is unspecified, aggregated data from all connection types will be displayed for a comprehensive overview.</p>
-				${createNetworkFilters()}
+
 				<div class="history">
 					<p>Explore the historical core web vitals trends for ${origin} from the last 6 months. This data is updated weekly and reflects the overall performance across all connection types.</p>
 					<div class="center container">

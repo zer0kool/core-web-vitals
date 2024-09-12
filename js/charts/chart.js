@@ -156,27 +156,6 @@ function buildObjectData(entries, historyOrigin) {
                             "p75": item.record.metrics.first_contentful_paint.percentilesTimeseries.p75s[i]
                         }
                     },
-                    "first_input_delay": {
-                        "histogram": [
-                            {
-                                "start": 0,
-                                "end": 100,
-                                "density": item.record.metrics.first_input_delay.histogramTimeseries[0].densities[i]
-                            },
-                            {
-                                "start": 100,
-                                "end": 300,
-                                "density": item.record.metrics.first_input_delay.histogramTimeseries[1].densities[i]
-                            },
-                            {
-                                "start": 300,
-                                "density": item.record.metrics.first_input_delay.histogramTimeseries[2].densities[i]
-                            }
-                        ],
-                        "percentiles": {
-                            "p75": item.record.metrics.first_input_delay.percentilesTimeseries.p75s[i]
-                        }
-                    },
                     "largest_contentful_paint": {
                         "histogram": [
                             {
@@ -420,7 +399,6 @@ function labelMetricDatax(metrics, key, index) {
     const nameToFullNameMap = {
         first_contentful_paint: 'First Contentful Paint (FCP)',
         largest_contentful_paint: 'Largest Contentful Paint (LCP)',
-        first_input_delay: 'First Input Delay (FID)',
         cumulative_layout_shift: 'Cumulative Layout Shift (CLS)',
         interaction_to_next_paint: 'experimental Interaction to Next Paint (INP)',
         experimental_time_to_first_byte: 'experimental Time to First Byte (TTFB)',
@@ -428,7 +406,6 @@ function labelMetricDatax(metrics, key, index) {
     const nameToAcronymMap = {
         first_contentful_paint: 'FCP',
         largest_contentful_paint: 'LCP',
-        first_input_delay: 'FID',
         cumulative_layout_shift: 'CLS',
         interaction_to_next_paint: 'INP',
         experimental_time_to_first_byte: 'TTFB',
@@ -469,10 +446,6 @@ function formChartData(apiResponse) {
                 // Define the metrics to be charted
                 {
                     "metric": "first_contentful_paint",
-                    "data": []
-                },
-                {
-                    "metric": "first_input_delay",
                     "data": []
                 },
                 {

@@ -42,7 +42,6 @@ async function retrieveHistoricalData(historyOrigin) {
 
 let pageMetricData = {};
 pageMetricData.CLS = {};
-pageMetricData.FID = {};
 pageMetricData.TTFB = {};
 pageMetricData.FCP = {};
 pageMetricData.INP = {};
@@ -96,7 +95,6 @@ function processHistoricalData(data) {
 
     createStackedAreaChart(pageMetricData.LCP, pageMetricData.id, pageMetricData.index);
     createStackedAreaChart(pageMetricData.CLS, pageMetricData.id, pageMetricData.index);
-    createStackedAreaChart(pageMetricData.FID, pageMetricData.id, pageMetricData.index);
     createStackedAreaChart(pageMetricData.FCP, pageMetricData.id, pageMetricData.index);
     createStackedAreaChart(pageMetricData.INP, pageMetricData.id, pageMetricData.index);
     createStackedAreaChart(pageMetricData.TTFB, pageMetricData.id, pageMetricData.index);
@@ -105,7 +103,6 @@ function processHistoricalData(data) {
 
     createSimpleColumnChart(pageMetricData.LCP, pageMetricData.id, pageMetricData.index);
     createSimpleColumnChart(pageMetricData.CLS, pageMetricData.id, pageMetricData.index);
-    createSimpleColumnChart(pageMetricData.FID, pageMetricData.id, pageMetricData.index);
     createSimpleColumnChart(pageMetricData.FCP, pageMetricData.id, pageMetricData.index);
     createSimpleColumnChart(pageMetricData.INP, pageMetricData.id, pageMetricData.index);
     createSimpleColumnChart(pageMetricData.TTFB, pageMetricData.id, pageMetricData.index);
@@ -117,7 +114,6 @@ function labelMetricsWithWeeks(metrics, weeks) {
     const requestedMetrics = [
         'first_contentful_paint',
         'largest_contentful_paint',
-        'first_input_delay',
         'cumulative_layout_shift',
         'interaction_to_next_paint',
         'experimental_time_to_first_byte',
@@ -127,7 +123,6 @@ function labelMetricsWithWeeks(metrics, weeks) {
     const metricLabels = {
         first_contentful_paint: 'First Contentful Paint (FCP)',
         largest_contentful_paint: 'Largest Contentful Paint (LCP)',
-        first_input_delay: 'First Input Delay (FID)',
         cumulative_layout_shift: 'Cumulative Layout Shift (CLS)',
         interaction_to_next_paint: 'Interaction to Next Paint (INP)',
         experimental_time_to_first_byte: 'Experimental Time to First Byte (TTFB)',
@@ -137,7 +132,6 @@ function labelMetricsWithWeeks(metrics, weeks) {
     const nameToAcronymMap = {
         first_contentful_paint: 'FCP',
         largest_contentful_paint: 'LCP',
-        first_input_delay: 'FID',
         cumulative_layout_shift: 'CLS',
         interaction_to_next_paint: 'INP',
         experimental_time_to_first_byte: 'TTFB',
