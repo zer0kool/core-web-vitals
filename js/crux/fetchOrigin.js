@@ -1,3 +1,4 @@
+
 const CrUXApiOrigin = {
     KEY: 'AIzaSyABFb0DrX8sAZ3867SAjpimUP-lxZ6yjuA',
 };
@@ -82,19 +83,10 @@ async function getOriginData(origin, network = "") {
 function process(formFactor, origin) {
 	const labeledMetrics = [];
 	formFactor.forEach(formFactor => {
-		if (formFactor?.record?.metrics) {
-			const validData = labelMetricData(formFactor.record.metrics, formFactor.record.key.formFactor);
-			if (validData.length) {
-				labeledMetrics.push(validData);
-			}
-		}
-	});
-
-	if (!formFactor.length || !formFactor[0]?.record) {
-		console.warn('Invalid form factor data');
-		return;
-	}
-
+		const validData = labelMetricData(formFactor.record.metrics, formFactor.record.key.formFactor);
+		labeledMetrics.push(validData);
+	})
+	console.log(labeledMetrics)
 	let network = formFactor[0].record.key.effectiveConnectionType;
 	let dates = { first: formFactor[0].record.collectionPeriod.firstDate, last: formFactor[0].record.collectionPeriod.lastDate };
 	const data = buildCard(labeledMetrics, origin, network, dates);
@@ -344,29 +336,14 @@ function handleNetworkToggle(network, network_settings, siteName, origin) {
 }
 
 function buildData(labeledMetrics, siteName, network) {
-	if (!Array.isArray(labeledMetrics)) {
-		console.warn('Invalid metrics data');
-		return;
-	}
-
 	labeledMetrics.forEach(metric => {
 		const finalData = createFinalData(metric, siteName, network);
-		if (finalData) {
-			const htmlBar = generateHtmlBar(finalData);
-			const metricsElement = document.querySelector(`#cruxorigin #${finalData.key} .metrics`);
-			if (metricsElement) {
-				metricsElement.insertAdjacentHTML("beforeend", htmlBar);
-			}
-		}
+		const htmlBar = generateHtmlBar(finalData);
+		document.querySelector(`#cruxorigin #${finalData.key} .metrics`).insertAdjacentHTML("beforeend", htmlBar);
 	});
 }
 
 function createFinalData(metric, siteName, network) {
-	if (!metric || !Array.isArray(metric.labeledBins) || metric.labeledBins.length < 3) {
-		console.warn('Invalid metric data structure');
-		return null;
-	}
-
 	return {
 		key: `${siteName}${metric.key}${network}`,
 		acronym: metric.acronym,
@@ -398,11 +375,6 @@ function generateHtmlBar(finalData) {
 }
 
 function labelMetricData(metrics, key) {
-	if (!metrics) {
-		console.warn('No metrics data provided');
-		return [];
-	}
-
 	if (key === undefined) { key = "SUM" };
 
 	const nameToFullNameMap = {
@@ -422,25 +394,18 @@ function labelMetricData(metrics, key) {
 		experimental_time_to_first_byte: 'TTFB',
 	};
 
-	const entries = Object.entries(metrics);
-	if (!entries.length) {
-		console.warn('No metric entries found');
-		return [];
-	}
-
-	return entries.map(([metricName, metricData]) => {
-		if (!metricData || !metricData.histogram) {
-			// console.warn(`Invalid metric data for ${metricName}`);
-			return null;
-		}
-
+	return Object.entries(metrics).map(([metricName, metricData]) => {
 		const standardBinLabels = ['good', 'needs improvement', 'poor'];
 		const metricBins = metricData.histogram;
-		const labeledBins = metricBins.map((bin, i) => ({
-			label: standardBinLabels[i],
-			percentage: bin.density ? bin.density * 100 : 0,
-			...bin,
-		}));
+
+		// Check if metricBins is defined before using map
+		const labeledBins = metricBins ? metricBins.map((bin, i) => {
+			return {
+				label: standardBinLabels[i],
+				percentage: bin.density ? bin.density * 100 : 0,
+				...bin,
+			};
+		}) : [];
 
 		return {
 			key: key,
@@ -448,7 +413,7 @@ function labelMetricData(metrics, key) {
 			name: nameToFullNameMap[metricName],
 			labeledBins,
 		};
-	}).filter(Boolean);
+	}).filter(metric => metric.acronym !== undefined && metric.name !== undefined); // Ensure only valid metrics are returned
 }
 
 // on page load, load google site metrics as an example.
