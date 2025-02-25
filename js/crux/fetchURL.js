@@ -326,66 +326,44 @@ function buildURLData(labeledMetrics, siteName, network) {
 }
 
 function labelMetricData(metrics, key) {
-    // Add null check at the start
-    if (!metrics) {
-        console.warn('No metrics data provided');
-        return [];
-    }
+    	if ("form_factors" in metrics ) {delete metrics["form_factors"]};
+	if ("navigation_types" in metrics ) {delete metrics["navigation_types"]};
+	if ("round_trip_time" in metrics ) {delete metrics["round_trip_time"]};
+	if (key === undefined) {key = "SUM"};
 
-    // Remove form_factors and navigation_types if they exist
-    if ("form_factors" in metrics) { delete metrics["form_factors"] };
-    if ("navigation_types" in metrics) { delete metrics["navigation_types"] };
-    if ("round_trip_time" in metrics) { delete metrics["round_trip_time"] };
-    if (key === undefined) { key = "SUM" };
-
-    const nameToFullNameMap = {
-        first_contentful_paint: 'First Contentful Paint (FCP)',
-        largest_contentful_paint: 'Largest Contentful Paint (LCP)',
-        first_input_delay: 'First Input Delay (FID)',
-        cumulative_layout_shift: 'Cumulative Layout Shift (CLS)',
-        interaction_to_next_paint: 'Interaction to Next Paint (INP)',
-        experimental_time_to_first_byte: 'experimental Time to First Byte (TTFB)',
-    };
-    const nameToAcronymMap = {
-        first_contentful_paint: 'FCP',
-        largest_contentful_paint: 'LCP',
-        first_input_delay: 'FID',
-        cumulative_layout_shift: 'CLS',
-        interaction_to_next_paint: 'INP',
-        experimental_time_to_first_byte: 'TTFB',
-    };
-
-    // Add safety check before mapping
-    const entries = Object.entries(metrics);
-    if (!entries.length) {
-        console.warn('No metric entries found');
-        return [];
-    }
-
-    return entries.map(([metricName, metricData]) => {
-        // Add null check for metricData
-        if (!metricData || !metricData.histogram) {
-            // console.warn(`Invalid metric data for ${metricName}`);
-            return null;
-        }
-
-        const standardBinLabels = ['good', 'needs improvement', 'poor'];
-        const metricBins = metricData.histogram;
-        const labeledBins = metricBins.map((bin, i) => {
-            return {
-                label: standardBinLabels[i],
-                percentage: bin.density ? bin.density * 100 : 0,
-                ...bin,
-            };
-        });
-
-        return {
-            key: key,
-            acronym: nameToAcronymMap[metricName],
-            name: nameToFullNameMap[metricName],
-            labeledBins,
-        };
-    }).filter(Boolean); // Remove any null entries
+	const nameToFullNameMap = {
+		first_contentful_paint: 'First Contentful Paint (FCP)',
+		largest_contentful_paint: 'Largest Contentful Paint (LCP)',
+		first_input_delay: 'First Input Delay (FID)',
+		cumulative_layout_shift: 'Cumulative Layout Shift (CLS)',
+		interaction_to_next_paint: 'Interaction to Next Paint (INP)',
+		experimental_time_to_first_byte: 'experimental Time to First Byte (TTFB)',
+	};
+	const nameToAcronymMap = {
+		first_contentful_paint: 'FCP',
+		largest_contentful_paint: 'LCP',
+		first_input_delay: 'FID',
+		cumulative_layout_shift: 'CLS',
+		interaction_to_next_paint: 'INP',
+		experimental_time_to_first_byte: 'TTFB',
+	};
+	return Object.entries(metrics).map(([metricName, metricData]) => {
+		const standardBinLabels = ['good', 'needs improvement', 'poor'];
+		const metricBins = metricData.histogram;
+		const labeledBins = metricBins.map((bin, i) => {
+			return {
+				label: standardBinLabels[i],
+				percentage: bin.density ? bin.density * 100 : 0,
+				...bin,
+			};
+		});
+		return {
+			key: key,
+			acronym: nameToAcronymMap[metricName],
+			name: nameToFullNameMap[metricName],
+			labeledBins,
+		};
+	});
 }
 
 // on page load, load google site metrics as an example.
