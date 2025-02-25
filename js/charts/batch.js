@@ -310,9 +310,13 @@ function convertToCSV(data) {
     return rows.map(row => row.join(",")).join("\n");
 }
 
-const exportButton = document.getElementById("exportButton");
-exportButton.addEventListener("click", () => {
-    exportToCSV(queryBatch.metrics, "crux_data.csv");
+document.addEventListener('DOMContentLoaded', () => {
+    const exportButton = document.getElementById("exportButton");
+    if (exportButton) {
+        exportButton.addEventListener("click", () => {
+            exportToCSV(queryBatch.metrics, "crux_data.csv");
+        });
+    }
 });
 
 
